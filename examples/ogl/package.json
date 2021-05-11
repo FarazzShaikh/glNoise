@@ -1,0 +1,63 @@
+{
+  "_from": "ogl",
+  "_id": "ogl@0.0.73",
+  "_inBundle": false,
+  "_integrity": "sha512-0J3oycwHplvpBRDELODURGVBzb0SrEK6rpEl3l7EU6XDaeqB0+vUbTrGZ65tdgQYnl5HONKZDYoqKZy2kISprg==",
+  "_location": "/ogl",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ogl",
+    "name": "ogl",
+    "escapedName": "ogl",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/ogl/-/ogl-0.0.73.tgz",
+  "_shasum": "0ff3ecee79192540aacb1eb10bd9dd0b7d8192b6",
+  "_spec": "ogl",
+  "_where": "/Users/farazshaikh/Documents/CSProjs/glNoise",
+  "author": {
+    "name": "Nathan Gordon",
+    "email": "gordonnl@gmail.com",
+    "url": "https://twitter.com/gordonnl"
+  },
+  "bugs": {
+    "url": "https://github.com/oframe/ogl/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "WebGL Library",
+  "directories": {
+    "example": "examples"
+  },
+  "homepage": "https://github.com/oframe/ogl#readme",
+  "license": "Unlicense",
+  "main": "src/index.mjs",
+  "name": "ogl",
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "htmlWhitespaceSensitivity": "css",
+    "printWidth": 150,
+    "quoteProps": "as-needed",
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gordonnl@github.com/oframe/ogl.git"
+  },
+  "sideEffects": false,
+  "version": "0.0.73"
+}

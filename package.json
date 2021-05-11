@@ -1,0 +1,28 @@
+{
+    "name": "glnoise",
+    "version": "1.0.0",
+    "description": "",
+    "main": "build/glNoise",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "files": [
+        "build/glNoise",
+        "README.md",
+        "package.json"
+    ],
+    "devDependencies": {
+        "ogl": "0.0.73",
+        "rollup": "^2.46.0",
+        "rollup-plugin-glslify": "^1.2.0"
+    },
+    "ava": {
+        "files": [
+            "tests/**/*"
+        ]
+    }
+}
