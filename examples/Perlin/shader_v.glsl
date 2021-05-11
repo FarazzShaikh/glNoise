@@ -11,7 +11,7 @@ void main() {
   float f = gln_fbm2D(p.xy * 0.5, fbmOpts) * 3.0;
   f = f * 0.5 + 0.5;
 
-  p.z += f;
+  //   p.z += f;
 
   vec4 modelViewPosition = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * modelViewPosition;

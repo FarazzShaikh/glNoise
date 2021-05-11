@@ -6,21 +6,18 @@ var _Utils = "#define GLSLIFY 1\nfloat gln_map(float value, float min1, float ma
 
 const Perlin2D = _Perlin2D;
 const Utils = _Utils;
-
 async function loadShaders(frag, vert, chunks) {
-  const shaders = [frag, vert];
-  let [_frag, _vert] = await Promise.all(
-    shaders.map(async (s) => {
-      return (await fetch(s)).text();
-    })
-  );
-
-  if (chunks) {
-    if (chunks.frag) _frag = _Head + chunks.frag.join("\n") + _frag;
-    if (chunks.vert) _vert = _Head + chunks.vert.join("\n") + _vert;
-  }
-
-  return [_frag, _vert];
+    const shaders = [frag, vert];
+    let [_frag, _vert] = await Promise.all(shaders.map(async (s) => {
+        return (await fetch(s)).text();
+    }));
+    if (chunks) {
+        if (chunks.frag)
+            _frag = _Head + chunks.frag.join("\n") + _frag;
+        if (chunks.vert)
+            _vert = _Head + chunks.vert.join("\n") + _vert;
+    }
+    return [_frag, _vert];
 }
 
 export { Perlin2D, Utils, loadShaders };

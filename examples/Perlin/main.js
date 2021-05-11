@@ -35,7 +35,7 @@ loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(
     cube.rotateX(-Math.PI / 2);
     scene.add(cube);
 
-    camera.position.set(5, 5, 5);
+    camera.position.set(0, 4, 0);
 
     const controls = new OrbitControls(camera, renderer.domElement);
 

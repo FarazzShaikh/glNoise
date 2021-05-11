@@ -16,9 +16,12 @@
         "package.json"
     ],
     "devDependencies": {
+        "@rollup/plugin-typescript": "^8.2.1",
         "ogl": "0.0.73",
         "rollup": "^2.46.0",
-        "rollup-plugin-glslify": "^1.2.0"
+        "rollup-plugin-glslify": "^1.2.0",
+        "tslib": "^2.2.0",
+        "typescript": "^4.2.4"
     },
     "ava": {
         "files": [

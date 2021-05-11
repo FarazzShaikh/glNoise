@@ -1,4 +1,5 @@
 import glslify from "rollup-plugin-glslify";
+import typescript from "@rollup/plugin-typescript";
 
 const glslOpts = {
   // Default
@@ -11,22 +12,29 @@ const glslOpts = {
   compress: false,
 };
 
+const tscOpts = {
+  lib: ["es5", "es6", "dom"],
+  target: "ESNext",
+  tsconfig: false,
+  moduleResolution: "node",
+};
+
 export default [
   {
-    input: "index.js",
+    input: "index.ts",
     output: {
       file: "build/glNoise.m.js",
       format: "es",
     },
-    plugins: [glslify(glslOpts)],
+    plugins: [glslify(glslOpts), typescript(tscOpts)],
   },
   {
-    input: "index.js",
+    input: "index.ts",
     output: {
       file: "build/glNoise.js",
       format: "iife",
       name: "glNoise",
     },
-    plugins: [glslify(glslOpts)],
+    plugins: [glslify(glslOpts), typescript(tscOpts)],
   },
 ];
