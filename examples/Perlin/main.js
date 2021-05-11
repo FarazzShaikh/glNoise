@@ -1,10 +1,17 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
-import { loadShaders, Perlin2D, Utils } from "../../build/glNoise.m.js";
+import {
+  loadShaders,
+  Perlin,
+  Utils,
+  Noise,
+  Simplex,
+  Voronoi,
+} from "../../build/glNoise.m.js";
 
 const chunks = {
-  frag: [Perlin2D, Utils],
-  vert: [Perlin2D, Utils],
+  frag: [Perlin, Utils, Noise, Simplex, Voronoi],
+  vert: [Perlin, Utils],
 };
 
 loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(

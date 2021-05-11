@@ -7,7 +7,7 @@ vec4 permute(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
 vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
 vec2 fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
-float gln_perlin2D(vec2 P) {
+float gln_perlin(vec2 P) {
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
   vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
   Pi = mod(Pi, 289.0); // To avoid truncation effects in permutation
@@ -41,7 +41,7 @@ float gln_perlin2D(vec2 P) {
   return 2.3 * n_xy;
 }
 
-float gln_fbm2D(vec2 pos, vec4 props) {
+float gln_pfbm(vec2 pos, vec4 props) {
   float persistance = props.x;
   float lacunarity = props.y;
   float redistribution = props.z;
@@ -58,7 +58,7 @@ float gln_fbm2D(vec2 pos, vec4 props) {
 
     vec2 p = pos.xy * frequency;
 
-    float noiseVal = gln_perlin2D(p);
+    float noiseVal = gln_perlin(p);
     result += noiseVal * amplitude;
 
     frequency *= lacunarity;

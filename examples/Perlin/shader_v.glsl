@@ -8,7 +8,7 @@ void main() {
   vUv = position;
   vec3 p = position;
 
-  float f = gln_fbm2D(p.xy * 0.5, fbmOpts) * 3.0;
+  float f = gln_pfbm(p.xy * 0.5, fbmOpts) * 3.0;
   f = f * 0.5 + 0.5;
 
   //   p.z += f;
