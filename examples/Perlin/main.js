@@ -9,12 +9,14 @@ import {
   Voronoi,
 } from "../../build/glNoise.m.js";
 
+import { CustomShaderMaterial, TYPES } from "../lib/three-csm.module.js";
+
 const chunks = {
   frag: [Perlin, Utils, Noise, Simplex, Voronoi],
-  vert: [Perlin, Utils],
+  vert: [Perlin, Utils, Noise, Simplex, Voronoi],
 };
 
-loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(
+loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks, true).then(
   ([fragment, vertex]) => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -28,15 +30,27 @@ loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    const geometry = new THREE.PlaneGeometry(5, 5, 128, 128);
-    const material = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 1.0 },
-        uColor: { value: new THREE.Color(1, 1, 1) },
-        uResolution: { value: new THREE.Vector3() },
+    const geometry = new THREE.PlaneGeometry(5, 5, 256, 256);
+    const type = TYPES.NORMAL;
+    const material = new CustomShaderMaterial({
+      uniforms: [
+        {
+          uTime: { value: 1.0 },
+          uColor: { value: new THREE.Color(1, 1, 1) },
+          uResolution: { value: new THREE.Vector3() },
+          seed: { value: Math.random() },
+        },
+      ],
+      baseMaterial: type,
+      vShader: {
+        defines: vertex.defines,
+        header: vertex.header,
+        main: vertex.main,
       },
-      vertexShader: vertex,
-      fragmentShader: fragment,
+      passthrough: {
+        wireframe: false,
+        // lights: true,
+      },
     });
     const cube = new THREE.Mesh(geometry, material);
     cube.rotateX(-Math.PI / 2);

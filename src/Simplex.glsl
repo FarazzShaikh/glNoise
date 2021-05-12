@@ -103,11 +103,13 @@ float gln_simplex(vec3 v) {
          dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
 
-float gln_sfbm(vec2 pos, vec4 props) {
-  float persistance = props.x;
-  float lacunarity = props.y;
-  float redistribution = props.z;
-  int octaves = int(props.w);
+float gln_sfbm(vec2 pos, gln_tFBMOpts props) {
+  float persistance = props.persistance;
+  float lacunarity = props.lacunarity;
+  float redistribution = props.redistribution;
+  int octaves = props.octaves;
+  bool terbulance = props.terbulance;
+  bool ridge = props.terbulance && props.ridge;
 
   float result = 0.0;
   float amplitude = 1.0;
@@ -118,9 +120,16 @@ float gln_sfbm(vec2 pos, vec4 props) {
     if (i >= octaves)
       break;
 
-    vec2 p = pos.xy * frequency;
+    vec2 p = pos.xy * frequency * props.scale;
 
     float noiseVal = gln_simplex(p);
+
+    if (terbulance)
+      noiseVal = abs(noiseVal);
+
+    if (ridge)
+      noiseVal = -1.0 * noiseVal;
+
     result += noiseVal * amplitude;
 
     frequency *= lacunarity;

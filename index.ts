@@ -16,7 +16,12 @@ interface Chunks {
   frag: string[];
 }
 
-export async function loadShaders(frag: string, vert: string, chunks: Chunks) {
+export async function loadShaders(
+  frag: string,
+  vert: string,
+  chunks: Chunks,
+  splitUp?: boolean
+) {
   const shaders: string[] = [frag, vert];
 
   let [_frag, _vert] = await Promise.all(
@@ -24,6 +29,21 @@ export async function loadShaders(frag: string, vert: string, chunks: Chunks) {
       return (await fetch(s)).text();
     })
   );
+
+  if (splitUp) {
+    return [
+      {
+        defines: _Head,
+        header: chunks.frag.join("\n"),
+        main: _frag,
+      },
+      {
+        defines: _Head,
+        header: chunks.vert.join("\n") + _vert.split("// MAIN")[0],
+        main: _vert.split("// MAIN")[1],
+      },
+    ];
+  }
 
   if (chunks) {
     if (chunks.frag) _frag = _Head + chunks.frag.join("\n") + _frag;

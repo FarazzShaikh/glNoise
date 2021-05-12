@@ -41,11 +41,13 @@ float gln_perlin(vec2 P) {
   return 2.3 * n_xy;
 }
 
-float gln_pfbm(vec2 pos, vec4 props) {
-  float persistance = props.x;
-  float lacunarity = props.y;
-  float redistribution = props.z;
-  int octaves = int(props.w);
+float gln_pfbm(vec2 pos, gln_tFBMOpts props) {
+  float persistance = props.persistance;
+  float lacunarity = props.lacunarity;
+  float redistribution = props.redistribution;
+  int octaves = props.octaves;
+  bool terbulance = props.terbulance;
+  bool ridge = props.terbulance && props.ridge;
 
   float result = 0.0;
   float amplitude = 1.0;
@@ -56,9 +58,16 @@ float gln_pfbm(vec2 pos, vec4 props) {
     if (i >= octaves)
       break;
 
-    vec2 p = pos.xy * frequency;
+    vec2 p = pos.xy * frequency * props.scale;
 
     float noiseVal = gln_perlin(p);
+
+    if (terbulance)
+      noiseVal = abs(noiseVal);
+
+    if (ridge)
+      noiseVal = -1.0 * noiseVal;
+
     result += noiseVal * amplitude;
 
     frequency *= lacunarity;
