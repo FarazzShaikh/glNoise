@@ -7,7 +7,7 @@
   <h1 align="center">gl-Noise</h1>
   
   <p align="center">
-    A collection of Noise Funcitons for use with WebGL with an easy to use API.
+    A collection of GLSL noise functions for use with WebGL with an easy to use API.
     <br />
     <a href="">View Demo</a>
     ·
@@ -15,5 +15,7 @@
     ·
     <a href="">API Docs</a>
   </p>
+
+  <h3 align="center">Coming Soon</h3>
 </p>
 
