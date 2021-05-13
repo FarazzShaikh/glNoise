@@ -37,7 +37,7 @@ async function nodeFetch(s: string) {
  *
  * @async
  * @param {string[]} shaders Array of paths to shaders.
- * @returns {string}         Array of shaders corresponding to each path.
+ * @returns {Promise<string>}         Array of shaders corresponding to each path.
  */
 export async function loadShadersRaw(...shaders: string[]) {
   const _fetch = isNode ? nodeFetch : window.fetch;
@@ -53,9 +53,10 @@ export async function loadShadersRaw(...shaders: string[]) {
  * Loads shaders with specified Shader Chunks.
  * If chunks not specified, all chunks will be appended.
  *
+ * @async
  * @param {string[]} paths      Array of Paths to shaders.
  * @param {string[][]} chunks   Array of chunks to append to each shader
- * @returns {string[]}          Array of shaders corresponding to each path with respective chunks applied.
+ * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
  */
 export async function loadShaders(paths: string[], chunks?: string[][]) {
   let shaders: string[] = await loadShadersRaw(...paths);
@@ -77,12 +78,13 @@ export async function loadShaders(paths: string[], chunks?: string[][]) {
  * Loads shaders with Shader Chunks for use with [link THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
  * If chunks not specified, all chunks will be appended.
  *
+ * @async
  * @param {Object} shaders              Paths of shaders.
  * * @param {string} shaders.defines        Path of definitions shader.
  * * @param {string} shaders.header         Path of header shader.
  * * @param {string} shaders.main           Path of main shader.
  * @param {string[]} chunks             Array of chunks to append into the Header Section.
- * @returns {Object}                    CSM friendly shader.
+ * @returns {Promise<Object>}                    CSM friendly shader.
  */
 export async function loadShadersCSM(
   shaders: {

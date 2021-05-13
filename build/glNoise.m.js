@@ -31,8 +31,8 @@ async function nodeFetch(s) {
  * Loads Shaders without appeneding any Shader Chunks.
  *
  * @async
- * @param {string[]} shaders Array of Paths to shaders.
- * @returns {string} Array of strings with each shader as a string.
+ * @param {string[]} shaders Array of paths to shaders.
+ * @returns {Promise<string>}         Array of shaders corresponding to each path.
  */
 async function loadShadersRaw(...shaders) {
     const _fetch = isNode ? nodeFetch : window.fetch;
@@ -44,15 +44,15 @@ async function loadShadersRaw(...shaders) {
  * Loads shaders with specified Shader Chunks.
  * If chunks not specified, all chunks will be appended.
  *
- * @param frag Fragment Shader
- * @param vert Vertex Shader
- * @param chunks
- * @returns
+ * @async
+ * @param {string[]} paths      Array of Paths to shaders.
+ * @param {string[][]} chunks   Array of chunks to append to each shader
+ * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
  */
 async function loadShaders(paths, chunks) {
     let shaders = await loadShadersRaw(...paths);
     if (chunks) {
-        shaders.map((s, i) => {
+        shaders = shaders.map((s, i) => {
             return _Head + chunks[i].join("\n") + "\n" + s;
         });
     }
@@ -63,6 +63,18 @@ async function loadShaders(paths, chunks) {
     }
     return shaders;
 }
+/**
+ * Loads shaders with Shader Chunks for use with [link THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
+ * If chunks not specified, all chunks will be appended.
+ *
+ * @async
+ * @param {Object} shaders              Paths of shaders.
+ * * @param {string} shaders.defines        Path of definitions shader.
+ * * @param {string} shaders.header         Path of header shader.
+ * * @param {string} shaders.main           Path of main shader.
+ * @param {string[]} chunks             Array of chunks to append into the Header Section.
+ * @returns {Promise<Object>}                    CSM friendly shader.
+ */
 async function loadShadersCSM(shaders, chunks) {
     const _fetch = isNode ? nodeFetch : window.fetch;
     let _defines = "", _header = "", _main = "";
