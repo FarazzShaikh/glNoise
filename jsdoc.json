@@ -1,34 +1,42 @@
 {
     "tags": {
-      "allowUnknownTags": true,
-      "dictionaries": ["jsdoc", "closure"]
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
     },
     "source": {
-      "include": ["src", "README.md"],
-      "exclude": [],
-      "includePattern": ".js$",
-      "excludePattern": "(node_modules/|docs)"
+        "include": ["index.ts"],
+        "includePattern": "\\.(jsx|js|ts|tsx)$",
+        "excludePattern": "(^|\\/|\\\\)_"
     },
     "plugins": [
-      "plugins/markdown",
-      "./node_modules/loke-jsdoc-theme/plugins/async",
-      "./node_modules/loke-jsdoc-theme/plugins/rpc",
-      "./node_modules/loke-jsdoc-theme/plugins/api",
-      "./node_modules/loke-jsdoc-theme/plugins/timeout"
+        "node_modules/better-docs/typescript"
+    
     ],
-    "markdown": {
-      "excludeTags": ["author"]
+    "typescript": {
+        "moduleRoot": "test"
     },
-    "templates": {
-      "cleverLinks": false,
-      "monospaceLinks": true
+     "templates": {
+      "better-docs": {
+          "name": "gl-Noise",
+          "title": "gl-Noise | ",
+          "logo": "Assets/logo.png",
+          "css": "Assets/docs.css",
+          "navLinks": [
+            {
+                "label": "Github",
+                "href": "https://github.com/FarazzShaikh/glNoise"
+            },
+            {
+                "label": "Example",
+                "href": "TODO"
+            }
+        ]
+        }
     },
     "opts": {
-      "destination": "docs",
-      "encoding": "utf8",
-      "private": false,
-      "recurse": true,
-      "template": "./node_modules/loke-jsdoc-theme"
+        "template": "node_modules/better-docs",
+        "destination": "docs",
+        "recurse": true,
+        "readme": "README.md"
     }
-  }
-  
+}
