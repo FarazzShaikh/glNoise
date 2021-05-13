@@ -4,6 +4,7 @@
     "description": "",
     "main": "build/glNoise",
     "scripts": {
+        "preinstall": "npx npm-force-resolutions",
         "build": "rollup -c",
         "test": "ava",
         "doc": "cp -R Assets docs && jsdoc --configure jsdoc.json --verbose && chmod +x scripts/patch.sh && scripts/patch.sh docs Assets/favicon.ico"
@@ -38,5 +39,9 @@
     },
     "dependencies": {
         "node-fetch": "^2.6.1"
+    },
+    "resolutions": {
+        "underscore": "1.13.1",
+        "pug": "3.0.2 "
     }
 }
