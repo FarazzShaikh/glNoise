@@ -13,13 +13,31 @@
   <body>
     <div class="Side">
       <a class="Title" href="https://github.com/FarazzShaikh/three-noise"
-        >Three-Noise</a
+        >gl-Noise</a
       >
       <div class="SubTitle">Examples</div>
 
-      <div class="Section">CPU Compute</div>
-      <a class="Example" href="./Perlin/perlin.html">Perlin Noise</a>
-      <a class="Example" href="./Map/map.html">Map</a>
+      <a class="Section" selected="true" href="./Map/map.html">Maps</a>
+      <div class="Example" selected="true" type="0">Perlin Noise</div>
+      <div class="Example" selected="false" type="1">Simplex Noise</div>
+      <div class="Example" selected="false" type="2">Perlin Noise (fBm)</div>
+      <div class="Example" selected="false" type="3">Simplex Noise (fBm)</div>
+      <div class="Example" selected="false" type="4">Ridge Noise</div>
+      <div class="Example" selected="false" type="5">Voronoi Noise</div>
+      <div class="Example" selected="false" type="6">
+        Voronoi Noise (inverted)
+      </div>
+
+      <a class="Section" selected="false" href="./Plane/plane.html">Plane</a>
+      <div class="Example" selected="false" type="0">Perlin Noise</div>
+      <div class="Example" selected="false" type="1">Simplex Noise</div>
+      <div class="Example" selected="false" type="2">Perlin Noise (fBm)</div>
+      <div class="Example" selected="false" type="3">Simplex Noise (fBm)</div>
+      <div class="Example" selected="false" type="4">Ridge Noise</div>
+      <div class="Example" selected="false" type="5">Voronoi Noise</div>
+      <div class="Example" selected="false" type="6">
+        Voronoi Noise (inverted)
+      </div>
     </div>
 
     <iframe class="Iframe" allow="autoplay" src=""></iframe>
@@ -30,7 +48,8 @@
     <script>
       const sourceLink = document.querySelector(".CodeIcon");
       const toggleLink = document.querySelector(".SideIcon");
-      const exampleLinks = document.querySelectorAll("a.Example");
+      const exampleLinks = document.querySelectorAll("a.Section");
+      const exampleTabs = document.querySelectorAll(".Example");
       const iFrame = document.querySelector(".Iframe");
       const sourcePath =
         "https://github.com/FarazzShaikh/three-noise/tree/master/examples/";
@@ -56,8 +75,38 @@
         link.addEventListener("click", updateExample, false);
       });
 
+      exampleTabs.forEach((link) => {
+        link.addEventListener("click", updateTab, false);
+      });
+
+      function updateTab(e) {
+        const type = e.target.getAttribute("type");
+        exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
+        e.target.setAttribute("selected", "true");
+
+        localStorage.setItem("type", type);
+
+        let index = 0;
+        exampleTabs.forEach((e, i) => {
+          if (e.getAttribute("selected") === "true") {
+            index = i;
+            return;
+          }
+        });
+
+        if (index > 6 && exampleLinks[1].getAttribute("selected") === "false")
+          exampleLinks[1].click();
+        else if (
+          index <= 6 &&
+          exampleLinks[0].getAttribute("selected") === "false"
+        )
+          exampleLinks[0].click();
+      }
+
       function updateExample(e) {
         let src = e.target.href.split("examples/")[1];
+        exampleLinks.forEach((e) => e.setAttribute("selected", "false"));
+        e.target.setAttribute("selected", "true");
 
         // Allow user to cmd/ctrl + click to open in new tab
         if (e.metaKey) {

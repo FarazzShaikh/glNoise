@@ -84,17 +84,26 @@ body {
     margin: 20px 0 50px;
 }
 .Section {
-    font-weight: 400;
+    font-weight: bold;
     margin: 40px 0 20px;
+
     padding-left: 15px;
+    
 }
 .Example {
+    font-weight: lighter;
     margin: 10px 0;
     padding-left: 30px;
     display: block;
 }
-div.Example {
-    opacity: 0.2;
+div.Example[selected = "false"] {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+div.Example[selected = "true"] {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .SideIcon,

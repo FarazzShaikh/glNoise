@@ -1,3 +1,40 @@
+#define MAX_FBM_ITERATIONS 30
+
+struct gln_tFBMOpts // user defined structure.
+{
+  float seed;
+  float persistance;
+  float lacunarity;
+  float scale;
+  float redistribution;
+  int octaves;
+  bool terbulance;
+  bool ridge;
+};
+
+struct gln_tVoronoiOpts // user defined structure.
+{
+  float seed;
+  float distance;
+  float scale;
+  bool invert;
+};
+
+float gln_map(float value, float min1, float max1, float min2, float max2) {
+  return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+}
+
+float gln_normalize(float v) { return gln_map(v, -1.0, 1.0, 0.0, 1.0); }
+
+vec2 gln_rand2(vec2 p) {
+  return fract(
+      sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)))) *
+      43758.5453);
+}
+
+vec4 gln_rand4(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+vec3 gln_rand3(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+
 //	<https://www.shadertoy.com/view/4dS3Wd>
 //	By Morgan McGuire @morgan3d, http://graphicscodex.com
 //

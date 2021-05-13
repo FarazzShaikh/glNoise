@@ -4,7 +4,8 @@
     "description": "",
     "main": "build/glNoise",
     "scripts": {
-        "build": "rollup -c"
+        "build": "rollup -c",
+        "test": "ava"
     },
     "keywords": [],
     "author": "",
@@ -17,6 +18,9 @@
     ],
     "devDependencies": {
         "@rollup/plugin-typescript": "^8.2.1",
+        "@types/node": "^15.0.3",
+        "@types/node-fetch": "^2.5.10",
+        "ava": "^3.15.0",
         "ogl": "0.0.73",
         "rollup": "^2.46.0",
         "rollup-plugin-glslify": "^1.2.0",
@@ -27,5 +31,8 @@
         "files": [
             "tests/**/*"
         ]
+    },
+    "dependencies": {
+        "node-fetch": "^2.6.1"
     }
 }

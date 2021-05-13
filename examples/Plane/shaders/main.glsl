@@ -1,20 +1,3 @@
-
-uniform float seed;
-
-// the function which defines the displacement
-float displace(vec3 point) {
-  gln_tFBMOpts fbmOpts = gln_tFBMOpts(0.5, 2.0, 0.5, 1.0, 16, true, true);
-
-  float n = gln_pfbm(point.xy + (seed * 100.0), fbmOpts);
-  return n;
-}
-vec3 orthogonal(vec3 v) {
-  return normalize(abs(v.x) > abs(v.z) ? vec3(-v.y, v.x, 0.0)
-                                       : vec3(0.0, -v.z, v.y));
-}
-
-// MAIN
-
 vec3 newPos = position;
 
 newPos.z += displace(newPos);

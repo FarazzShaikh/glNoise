@@ -9,15 +9,13 @@ import {
 import {
   loadShaders,
   Perlin,
-  Utils,
-  Noise,
   Simplex,
   Voronoi,
 } from "../../build/glNoise.m.js";
 
 const chunks = {
-  frag: [Perlin, Utils, Noise, Simplex, Voronoi],
-  vert: [Perlin, Utils, Noise, Simplex, Voronoi],
+  frag: [Perlin, Simplex, Voronoi],
+  vert: [Perlin, Simplex, Voronoi],
 };
 
 loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(
@@ -42,16 +40,26 @@ loadShaders("./shader_f.glsl", "./shader_v.glsl", chunks).then(
         uTime: { value: 0 },
         uColor: { value: new Color(0.3, 0.2, 0.5) },
         uResolution: { value: new Vec3(0, 0, 0) },
+        uSeed: { value: Math.random() },
+        uType: { value: localStorage.getItem("type") || 0 },
       },
     });
 
     const mesh = new Mesh(gl, { geometry, program });
 
+    window.addEventListener(
+      "storage",
+      function (e) {
+        program.uniforms.uType.value = this.localStorage.getItem("type");
+      },
+      false
+    );
+
     requestAnimationFrame(update);
     function update(t) {
       requestAnimationFrame(update);
 
-      program.uniforms.uTime.value = t * 0.001;
+      program.uniforms.uTime.value = t * 0.0001;
       program.uniforms.uResolution.value.set(
         gl.canvas.width,
         gl.canvas.height,
