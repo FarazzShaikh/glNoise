@@ -10,64 +10,107 @@ export const Simplex: string = _Simplex;
 export const Voronoi: string = _Voronoi;
 export const Head: string = _Head;
 
-interface Chunks {
-  vert: string[];
-  frag: string[];
+const _all = [Perlin, Simplex, Voronoi];
+
+const isNode =
+  typeof process !== "undefined" &&
+  process.versions != null &&
+  process.versions.node != null;
+
+async function nodeFetch(s: string) {
+  // @ts-ignore
+  const fs = (await import("fs/promises")).default;
+  // @ts-ignore
+  const path = (await import("path")).default;
+
+  const f = (await fs.readFile(path.resolve(s))).toString();
+
+  return {
+    text: async function () {
+      return f;
+    },
+  };
 }
 
-interface CSMShader {
-  defines: string;
-  header: string;
-  main: string;
-}
-
+/**
+ * Loads Shaders without appeneding any Shader Chunks.
+ *
+ * @async
+ * @param {string[]} shaders Array of paths to shaders.
+ * @returns {string}         Array of shaders corresponding to each path.
+ */
 export async function loadShadersRaw(...shaders: string[]) {
+  const _fetch = isNode ? nodeFetch : window.fetch;
+
   return Promise.all(
     shaders.map(async (s) => {
-      return (await fetch(s)).text();
+      return (await _fetch(s)).text();
     })
   );
 }
 
-export async function loadShaders(frag: string, vert: string, chunks: Chunks) {
-  const shaders: string[] = [frag, vert];
-
-  let [_frag, _vert] = await Promise.all(
-    shaders.map(async (s) => {
-      if (s) return (await fetch(s)).text();
-      else return undefined;
-    })
-  );
+/**
+ * Loads shaders with specified Shader Chunks.
+ * If chunks not specified, all chunks will be appended.
+ *
+ * @param {string[]} paths      Array of Paths to shaders.
+ * @param {string[][]} chunks   Array of chunks to append to each shader
+ * @returns {string[]}          Array of shaders corresponding to each path with respective chunks applied.
+ */
+export async function loadShaders(paths: string[], chunks?: string[][]) {
+  let shaders: string[] = await loadShadersRaw(...paths);
 
   if (chunks) {
-    if (chunks.frag) _frag = _Head + chunks.frag.join("\n") + "\n" + _frag;
-    if (chunks.vert) _vert = _Head + chunks.vert.join("\n") + "\n" + _vert;
+    shaders = shaders.map((s, i) => {
+      return _Head + chunks[i].join("\n") + "\n" + s;
+    });
+  } else {
+    shaders = shaders.map((s) => {
+      return _Head + _all.join("\n") + "\n" + s;
+    });
   }
 
-  let obj = [];
-  if (frag) {
-    obj.push(_frag);
-  }
-
-  if (vert) {
-    obj.push(_vert);
-  }
-
-  return obj;
+  return shaders;
 }
 
-export async function loadShadersCSM(shaders: CSMShader, chunks: Chunks) {
+/**
+ * Loads shaders with Shader Chunks for use with [link THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
+ * If chunks not specified, all chunks will be appended.
+ *
+ * @param {Object} shaders              Paths of shaders.
+ * * @param {string} shaders.defines        Path of definitions shader.
+ * * @param {string} shaders.header         Path of header shader.
+ * * @param {string} shaders.main           Path of main shader.
+ * @param {string[]} chunks             Array of chunks to append into the Header Section.
+ * @returns {Object}                    CSM friendly shader.
+ */
+export async function loadShadersCSM(
+  shaders: {
+    defines: string;
+    header: string;
+    main: string;
+  },
+  chunks?: string[]
+) {
+  const _fetch = isNode ? nodeFetch : window.fetch;
   let _defines: string = "",
     _header: string = "",
     _main: string = "";
 
-  if (shaders.defines) _defines = await (await fetch(shaders.defines)).text();
-  if (shaders.header) _header = await (await fetch(shaders.header)).text();
-  if (shaders.main) _main = await (await fetch(shaders.main)).text();
+  if (shaders.defines) _defines = await (await _fetch(shaders.defines)).text();
+  if (shaders.header) _header = await (await _fetch(shaders.header)).text();
+  if (shaders.main) _main = await (await _fetch(shaders.main)).text();
+
+  if (!chunks)
+    return {
+      defines: _Head + _defines,
+      header: _all.join("\n") + "\n" + _header,
+      main: _main,
+    };
 
   return {
     defines: _Head + _defines,
-    header: chunks.frag.join("\n") + "\n" + _header,
+    header: chunks.join("\n") + "\n" + _header,
     main: _main,
   };
 }

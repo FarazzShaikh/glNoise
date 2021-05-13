@@ -1,18 +1,8 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
-import {
-  loadShadersCSM,
-  Perlin,
-  Simplex,
-  Voronoi,
-} from "../../build/glNoise.m.js";
+import { loadShadersCSM } from "../../build/glNoise.m.js";
 
 import { CustomShaderMaterial, TYPES } from "../lib/three-csm.module.js";
-
-const chunks = {
-  frag: [Perlin, Simplex, Voronoi],
-  vert: [Perlin, Simplex, Voronoi],
-};
 
 const paths = {
   defines: "./shaders/defines.glsl",
@@ -20,7 +10,7 @@ const paths = {
   main: "./shaders/main.glsl",
 };
 
-loadShadersCSM(paths, chunks).then((vertex) => {
+loadShadersCSM(paths).then((vertex) => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
     75,
