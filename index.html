@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><link rel="icon" href="Assets/favicon.ico" type="image/png"/>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gl-Noise |  Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="Assets/docs.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+             
+                <a class="image" href="index.html">
+                    <img src="Assets/logo.png" alt="logo">
+                </a>
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">gl-Noise</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/FarazzShaikh/glNoise"
+                        >
+                            Github
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="examples/index.html"
+                        >
+                            Example
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Voronoi.html">Voronoi</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><br />
+<p align="center">
+    <a href="">
+        <img src="./Assets/logo.png" alt="Logo" width="300" height="300">
+    </a>
+  <h1 align="center">gl-Noise</h1>
+  <p align="center">
+    A collection of GLSL noise functions for use with WebGL with an easy to use API.
+    <br />
+    <a href="">View Demo</a>
+    ·
+    <a href="https://github.com/FarazzShaikh/glNoise/issues/new">Report Bug</a>
+    ·
+    <a href="">API Docs</a>
+  </p>
+</p>
+<!-- TABLE OF CONTENTS -->
+<details open>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#why-this">Why This?</a>
+      </li>
+      <li>
+      <a href="#installation">Installation</a>
+      </li>
+      <li>
+      <a href="#importing">Importing</a>
+      </li>
+       <li>
+        <a href="#usage---javascript">Usage - JavaScript</a>
+        <ul>
+            <li><a href="#shader-chunks">Shader Chunks</a></li>
+            <li><a href="#loaders">Loaders</a></li>
+        </ul>
+        </li>
+      <li>
+      <a href="#usage---glsl">Usage - GLSL</a>
+      </li>
+      <li>
+      <a href="#credits">Credits</a>
+      </li>
+  </ol>
+</details>
+<br />
+<h2>Why this?</h2>
+<p>Because why not? There already exist excellent resources that compile a list of algorithms such as:</p>
+<ul>
+<li><a href="https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83">This Gist by Patricio Gonzalez Vivo</a></li>
+<li><a href="https://github.com/ashima/webgl-noise">This library by Ashima Arts</a></li>
+<li><a href="https://thebookofshaders.com/">The Book of shaders of course</a></li>
+</ul>
+<p>And many more. But they all either require another library like Glslify or require you to manually copy and paste them into your shader code.</p>
+<p>So this library addresses both those issues. It does not require any third-party libraries and you can include and use these noise functions without even having to give it a second thought.</p>
+<p><strong>Examples can be found in the <code>examples</code> directory.</strong></p>
+<h2>Installation</h2>
+<p>Make sure to have ThreeJS installed.</p>
+<pre class="prettyprint source lang-bash"><code>$ npm i three
+</code></pre>
+<p>Install gl-Noise</p>
+<pre class="prettyprint source lang-bash"><code>$ npm i gl-noise
+</code></pre>
+<p>or</p>
+<pre class="prettyprint source lang-bash"><code>$ yarn add gl-noise
+</code></pre>
+<p>gl-Noise uses ES Modules, in the browser, simply declare your script as a module and then import it as you would in node.</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;./main.js&quot; type=&quot;module&quot;>&lt;/script>
+&lt;!--                         👆 This lets you use ES Module import syntax-->
+</code></pre>
+<h2>Importing</h2>
+<p>If you are on Node, you can import like so:</p>
+<pre class="prettyprint source lang-js"><code>import {
+    // Loaders
+    loadShaders,
+    loadShadersRaw,
+    loadShadersCSM,
+
+    // Individual Shader Chunks
+    Perlin,
+    Simplex,
+    Voronoi
+} from &quot;gl-noise&quot;
+</code></pre>
+<p><strong>In browsers</strong>, if you'd like to use NPM and the Node syntax then you will have to add an <code>import-map</code> to your HTML. Simply place this code above your script.</p>
+<pre class="prettyprint source lang-html"><code>&lt;script type=&quot;importmap&quot;>
+{
+    &quot;imports&quot;: {
+        &quot;gl-noise&quot;: &quot;/node_modules/gl-noise/build/glNoise.m.js&quot;,
+    }
+}
+&lt;/script>
+</code></pre>
+<p>Then you can use Node-like imports:</p>
+<pre class="prettyprint source lang-js"><code>import {} from &quot;gl-noise&quot;
+//                 👆 Notice, we don't have to specify the
+//                    whole path (node_modules/.../...).
+//                    If you don't use the import-map, then
+//                    you will have to specify the path.
+</code></pre>
+<p>You can download <code>build/glNoise.m.js</code> and import it from wherever you want to save it. Alternatively, you can also download the IIFE type module from <code>build/glNoise.js</code> and include it in a script tag like people have been doing forever.</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;lib/glNoise.js&quot;>&lt;/script>
+&lt;script src=&quot;./main.js&quot;>&lt;/script>
+</code></pre>
+<h2>Usage - JavaScript</h2>
+<h3>Shader Chunks</h3>
+<p>A Shader Chunk is a self-contained piece of shader code that can be injected and used in a shader program. gl-Noise provides various Shader Chunks.</p>
+<pre class="prettyprint source lang-js"><code>import {
+    Perlin,     // 👈 2D Perlin Noise
+    Simplex,    // 👈 2D Simplex Noise
+    Voronoi     // 👈 2D Voronoi Noise
+} from &quot;gl-noise&quot;
+</code></pre>
+<p><strong>It also has a bunch of utility functions. See the API Reference for more info on all available functions.</strong></p>
+<p>You can load these chunks along with shaders as you will see in the next section.</p>
+<h3>Loaders</h3>
+<p>gl-Noise provides three types of loaders. You can read about them in the API Reference but here is a summary.</p>
+<pre class="prettyprint source lang-js"><code>const paths = [&quot;./s1.glsl&quot;, &quot;./s2.glsl&quot;, &quot;./s3.glsl&quot;];
+const chunks = [
+    [Perlin],           // 👈 Chunks to include with s1
+    [Perlin, Simplex],  // 👈 Chunks to include with s2
+    []                  // 👈 Chunks to include with s3
+]
+
+// Loads shaders and appends chunks to them.
+loadShaders(paths, chunks).then(([s1, s2, s3]) => {
+    // whatever
+})
+
+const CSMpaths = {
+  defines: &quot;./shaders/defines.glsl&quot;,
+  header: &quot;./shaders/header.glsl&quot;,
+  main: &quot;./shaders/main.glsl&quot;,
+};
+
+const CSMchunks = [Perlin, Simplex]
+
+// Loads shaders with CSM Friendly format
+loadShadersCSM(CSMpaths, CSMchunks).then(({defines, header, main}) => {
+    // whatever
+})
+
+// Note: Leaving out the &quot;chunks&quot; parameter results in all available chunks being added.
+
+// Loads shaders without any post processing.
+loadShadersRaw(paths).then(([s1, s2, s3]) => {
+    // whatever
+})
+
+</code></pre>
+<h2>Usage - GLSL</h2>
+<p>Once the chunks are imported properly, using gl-Noise Within GLSL is a breeze. All you have to do is call the function you want with the right arguments.</p>
+<pre class="prettyprint source lang-glsl"><code>float p = gln_perlin(uv);
+float n = gln_normalize(p);
+</code></pre>
+<p><strong>See the full list of available functions in the API Reference.</strong></p>
+<p><strong>Note: CSM = My <a href="https://github.com/FarazzShaikh/THREE-CustomShaderMaterial">CustomShaderMaterial</a></strong></p>
+<h2>Credits</h2>
+<p>I have not come up with these noise functions. Here's attribution to the creators of them.</p>
+<table>
+<thead>
+<tr>
+<th>Noise</th>
+<th>Maker</th>
+<th>Reference</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perlin Noise</td>
+<td>Hugh Kennedy</td>
+<td><a href="https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl">GitHub</a></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>Simplex Noise</td>
+<td>Ian McEwan</td>
+<td><a href="https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl">GitHub</a></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>Voronoi Noise</td>
+<td>Patricio Gonzalez Vivo</td>
+<td><a href="https://thebookofshaders.com/12/">WebSite</a></td>
+<td>???</td>
+</tr>
+</tbody>
+</table>
+<p><strong>If you see your function being used in this library, please open an issue or contact me at farazzshaikh@gmail.com so I can credit you or remove the function ASAP.</strong></p></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
