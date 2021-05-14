@@ -14,6 +14,7 @@
     "license": "ISC",
     "type": "module",
     "files": [
+        "Assets/*",
         "build/glNoise",
         "README.md",
         "package.json"
