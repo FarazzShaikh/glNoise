@@ -1,7 +1,7 @@
 {
     "name": "glnoise",
     "version": "1.0.1",
-    "description": "",
+    "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
     "main": "build/glNoise",
     "scripts": {
         "preinstall": "npx npm-force-resolutions",
@@ -9,14 +9,15 @@
         "test": "ava",
         "doc": "chmod +x scripts/doc.sh && scripts/doc.sh"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": ["glsl", "shader", "webgl", "noise"],
+    "author": "Faraz Shaikh",
+    "license": "MIT",
     "type": "module",
     "files": [
         "Assets/*",
         "build/glNoise",
         "README.md",
+        "package-lock.json",
         "package.json"
     ],
     "devDependencies": {
