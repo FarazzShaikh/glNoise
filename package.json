@@ -38,9 +38,7 @@
             "tests/**/*"
         ]
     },
-    "dependencies": {
-        "node-fetch": "^2.6.1"
-    },
+    "dependencies": {},
     "resolutions": {
         "underscore": "1.13.1",
         "pug": "3.0.2 "
