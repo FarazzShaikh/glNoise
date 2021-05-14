@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc","closure"]
     },
     "source": {
-        "include": ["index.ts"],
+        "include": ["index.temp.ts"],
         "includePattern": "\\.(jsx|js|ts|tsx)$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
@@ -31,6 +31,9 @@
                 "href": "TODO"
             }
         ]
+        },
+        "default": {
+            "outputSourceFiles": false
         }
     },
     "opts": {

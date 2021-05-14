@@ -1,4 +1,16 @@
 
+
+/**
+ * Generats Simplex Noise.
+ *
+ * @name gln_simplex
+ * @function
+ * @param {vec2} v  Point to sample Simplex Noise at.
+ * @return {float}  Value of Simplex Noise at point "p".
+ *
+ * @example
+ * float n = gln_simplex(position.xy);
+ */
 float gln_simplex(vec2 v) {
   const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626,
                       0.024390243902439);
@@ -26,14 +38,29 @@ float gln_simplex(vec2 v) {
   return 130.0 * dot(m, g);
 }
 
-float gln_sfbm(vec2 pos, gln_tFBMOpts props) {
-  pos += (props.seed * 100.0);
-  float persistance = props.persistance;
-  float lacunarity = props.lacunarity;
-  float redistribution = props.redistribution;
-  int octaves = props.octaves;
-  bool terbulance = props.terbulance;
-  bool ridge = props.terbulance && props.ridge;
+/**
+ * Generats Fractional Brownian motion (fBm) from Simplex Noise.
+ *
+ * @name gln_sfbm
+ * @function
+ * @param {vec2} v               Point to sample fBm at.
+ * @param {gln_tFBMOpts} opts    Options for generating Simplex Noise.
+ * @return {float}               Value of fBm at point "p".
+ *
+ * @example
+ * gln_tFBMOpts opts =
+ *      gln_tFBMOpts(uSeed, 0.3, 2.0, 0.5, 1.0, 5, false, false);
+ *
+ * float n = gln_sfbm(position.xy, opts);
+ */
+float gln_sfbm(vec2 v, gln_tFBMOpts opts) {
+  v += (opts.seed * 100.0);
+  float persistance = opts.persistance;
+  float lacunarity = opts.lacunarity;
+  float redistribution = opts.redistribution;
+  int octaves = opts.octaves;
+  bool terbulance = opts.terbulance;
+  bool ridge = opts.terbulance && opts.ridge;
 
   float result = 0.0;
   float amplitude = 1.0;
@@ -44,7 +71,7 @@ float gln_sfbm(vec2 pos, gln_tFBMOpts props) {
     if (i >= octaves)
       break;
 
-    vec2 p = pos.xy * frequency * props.scale;
+    vec2 p = v.xy * frequency * opts.scale;
 
     float noiseVal = gln_simplex(p);
 

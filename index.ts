@@ -38,6 +38,9 @@ async function nodeFetch(s: string) {
  * @async
  * @param {string[]} shaders Array of paths to shaders.
  * @returns {Promise<string>}         Array of shaders corresponding to each path.
+ *
+ * @example
+ * const [vert, frag] = await loadShadersRaw(["vert.glsl", "frag.glsl"]);
  */
 export async function loadShadersRaw(shaders: string[]) {
   const _fetch = isNode ? nodeFetch : window.fetch;
@@ -57,6 +60,17 @@ export async function loadShadersRaw(shaders: string[]) {
  * @param {string[]} paths      Array of Paths to shaders.
  * @param {string[][]} chunks   Array of chunks to append to each shader
  * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
+ *
+ * @example
+ * const chunks = [
+ *      [Perlin, Simplex],
+ *      []
+ * ];
+ * const paths = [
+ *      "vert.glsl",
+ *      "frag.glsl",
+ * ];
+ * const [vert, frag] = await loadShaders(paths, chunks);
  */
 export async function loadShaders(paths: string[], chunks?: string[][]) {
   let shaders: string[] = await loadShadersRaw(paths);
@@ -75,7 +89,7 @@ export async function loadShaders(paths: string[], chunks?: string[][]) {
 }
 
 /**
- * Loads shaders with Shader Chunks for use with [link THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
+ * Loads shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
  * If chunks not specified, all chunks will be appended.
  *
  * @async
@@ -85,6 +99,15 @@ export async function loadShaders(paths: string[], chunks?: string[][]) {
  * * @param {string} shaders.main           Path of main shader.
  * @param {string[]} chunks             Array of chunks to append into the Header Section.
  * @returns {Promise<Object>}                    CSM friendly shader.
+ *
+ * @example
+ * const chunks =  [Perlin, Simplex];
+ * const paths = [
+ *      defines: "defines.glsl",
+ *      header: "header.glsl",
+ *      main: "main.glsl",
+ * ];
+ * const {defines, header, main} = await loadShadersCSM(paths, chunks);
  */
 export async function loadShadersCSM(
   shaders: {

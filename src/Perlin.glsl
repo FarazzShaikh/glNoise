@@ -1,6 +1,17 @@
 
 vec2 _fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
+/**
+ * Generats Perlin Noise.
+ *
+ * @name gln_perlin
+ * @function
+ * @param {vec2} p  Point to sample Perlin Noise at.
+ * @return {float}  Value of Perlin Noise at point "p".
+ *
+ * @example
+ * float n = gln_perlin(position.xy);
+ */
 float gln_perlin(vec2 P) {
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
   vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
@@ -35,14 +46,29 @@ float gln_perlin(vec2 P) {
   return 2.3 * n_xy;
 }
 
-float gln_pfbm(vec2 pos, gln_tFBMOpts props) {
-  pos += (props.seed * 100.0);
-  float persistance = props.persistance;
-  float lacunarity = props.lacunarity;
-  float redistribution = props.redistribution;
-  int octaves = props.octaves;
-  bool terbulance = props.terbulance;
-  bool ridge = props.terbulance && props.ridge;
+/**
+ * Generats Fractional Brownian motion (fBm) from Perlin Noise.
+ *
+ * @name gln_pfbm
+ * @function
+ * @param {vec2} p               Point to sample fBm at.
+ * @param {gln_tFBMOpts} opts    Options for generating Perlin Noise.
+ * @return {float}               Value of fBm at point "p".
+ *
+ * @example
+ * gln_tFBMOpts opts =
+ *      gln_tFBMOpts(uSeed, 0.3, 2.0, 0.5, 1.0, 5, false, false);
+ *
+ * float n = gln_pfbm(position.xy, opts);
+ */
+float gln_pfbm(vec2 p, gln_tFBMOpts opts) {
+  p += (opts.seed * 100.0);
+  float persistance = opts.persistance;
+  float lacunarity = opts.lacunarity;
+  float redistribution = opts.redistribution;
+  int octaves = opts.octaves;
+  bool terbulance = opts.terbulance;
+  bool ridge = opts.terbulance && opts.ridge;
 
   float result = 0.0;
   float amplitude = 1.0;
@@ -53,7 +79,7 @@ float gln_pfbm(vec2 pos, gln_tFBMOpts props) {
     if (i >= octaves)
       break;
 
-    vec2 p = pos.xy * frequency * props.scale;
+    vec2 p = p.xy * frequency * opts.scale;
 
     float noiseVal = gln_perlin(p);
 

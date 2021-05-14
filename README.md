@@ -105,7 +105,7 @@ import {
 } from "gl-noise"
 ```
 
-**In browsers**, if you'd like to use NPM and the Node syntax then you will have to add a `import-map` to your HTML. Simply place this code above your script.
+**In browsers**, if you'd like to use NPM and the Node syntax then you will have to add an `import-map` to your HTML. Simply place this code above your script.
 ```html
 <script type="importmap">
 {
