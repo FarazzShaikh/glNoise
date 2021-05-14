@@ -1,6 +1,6 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
-import { loadShadersCSM } from "../../build/glNoise.m.js";
+import { loadShadersCSM } from "/build/glNoise.m.js";
 
 import { CustomShaderMaterial, TYPES } from "../lib/three-csm.module.js";
 

@@ -77,7 +77,16 @@ body {
     font-size: 18px;
     margin: 20px 0;
     display: block;
+    font-weight: lighter;
+    display: flex;
+    align-items: center;
 }
+
+.Title img {
+    width: 40px;
+    height: 40px;
+}
+
 .SubTitle {
     font-weight: 400;
     font-size: 17px;

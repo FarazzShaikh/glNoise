@@ -15,3 +15,11 @@ jobs:
       - name: Test 🧐
         run: |
           npm run test
+
+      - name: Document 🤓
+        run: |
+          npm run doc
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: docs

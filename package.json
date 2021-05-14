@@ -7,7 +7,7 @@
         "preinstall": "npx npm-force-resolutions",
         "build": "rollup -c",
         "test": "ava",
-        "doc": "node doc.js && cp -R Assets docs && jsdoc --configure jsdoc.json --verbose && chmod +x scripts/patch.sh && scripts/patch.sh docs Assets/favicon.ico"
+        "doc": "chmod +x scripts/doc.sh && scripts/doc.sh"
     },
     "keywords": [],
     "author": "",
