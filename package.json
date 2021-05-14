@@ -1,6 +1,6 @@
 {
     "name": "glnoise",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
     "main": "build/glNoise",
     "scripts": {
@@ -9,7 +9,12 @@
         "test": "ava",
         "doc": "chmod +x scripts/doc.sh && scripts/doc.sh"
     },
-    "keywords": ["glsl", "shader", "webgl", "noise"],
+    "keywords": [
+        "glsl",
+        "shader",
+        "webgl",
+        "noise"
+    ],
     "author": "Faraz Shaikh",
     "license": "MIT",
     "type": "module",
