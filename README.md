@@ -15,6 +15,9 @@
     ·
     <a href="https://farazzshaikh.github.io/glNoise/">API Docs</a>
   </p>
+  <p align="center">
+    <a href="https://www.npmjs.com/package/glnoise"><img align="center" src="https://img.shields.io/npm/v/glnoise?color=cc3534&style=for-the-badge" /></a>
+  </p>
 </p>
 
 
