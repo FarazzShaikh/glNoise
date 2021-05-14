@@ -9,11 +9,11 @@
   <p align="center">
     A collection of GLSL noise functions for use with WebGL with an easy to use API.
     <br />
-    <a href="">View Demo</a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/index.html?src=Map/map.html">View Demo</a>
     ·
     <a href="https://github.com/FarazzShaikh/glNoise/issues/new">Report Bug</a>
     ·
-    <a href="">API Docs</a>
+    <a href="https://farazzshaikh.github.io/glNoise/">API Docs</a>
   </p>
 </p>
 
