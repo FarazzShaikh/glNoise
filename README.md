@@ -53,7 +53,7 @@
 
 ## Why this?
 
-Because why not? There already exist excellent resources that compile a list of algorithms such as:
+There already exist excellent resources that compile a list of algorithms such as:
 - [This Gist by Patricio Gonzalez Vivo](https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83)
 - [This library by Ashima Arts](https://github.com/ashima/webgl-noise)
 - [The Book of shaders of course](https://thebookofshaders.com/)
@@ -147,13 +147,13 @@ import {
 } from "gl-noise"
 ```
 
-**It also has a bunch of utility functions. See the API Reference for more info on all available functions.**
+**It also has a bunch of utility functions. See the [API Reference](https://farazzshaikh.github.io/glNoise/module-Common.html) for more info on all available functions.**
 
 You can load these chunks along with shaders as you will see in the next section.
 
 ### Loaders
 
-gl-Noise provides three types of loaders. You can read about them in the API Reference but here is a summary.
+gl-Noise provides three types of loaders. You can read about them in the [API Reference](https://farazzshaikh.github.io/glNoise/global.html#loadShaders) but here is a summary.
 
 ```js
 const paths = ["./s1.glsl", "./s2.glsl", "./s3.glsl"];
@@ -199,7 +199,7 @@ float p = gln_perlin(uv);
 float n = gln_normalize(p);
 ```
 
-**See the full list of available functions in the API Reference.**
+**See the full list of available functions in the [API Reference](https://farazzshaikh.github.io/glNoise/module-Common.html).**
 
 **Note: CSM = My [CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**
 
