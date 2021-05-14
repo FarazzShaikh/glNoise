@@ -170,7 +170,7 @@
 </details>
 <br />
 <h2>Why this?</h2>
-<p>Because why not? There already exist excellent resources that compile a list of algorithms such as:</p>
+<p>There already exist excellent resources that compile a list of algorithms such as:</p>
 <ul>
 <li><a href="https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83">This Gist by Patricio Gonzalez Vivo</a></li>
 <li><a href="https://github.com/ashima/webgl-noise">This library by Ashima Arts</a></li>
@@ -236,10 +236,10 @@
     Voronoi     // 👈 2D Voronoi Noise
 } from &quot;gl-noise&quot;
 </code></pre>
-<p><strong>It also has a bunch of utility functions. See the API Reference for more info on all available functions.</strong></p>
+<p><strong>It also has a bunch of utility functions. See the <a href="https://farazzshaikh.github.io/glNoise/module-Common.html">API Reference</a> for more info on all available functions.</strong></p>
 <p>You can load these chunks along with shaders as you will see in the next section.</p>
 <h3>Loaders</h3>
-<p>gl-Noise provides three types of loaders. You can read about them in the API Reference but here is a summary.</p>
+<p>gl-Noise provides three types of loaders. You can read about them in the <a href="https://farazzshaikh.github.io/glNoise/global.html#loadShaders">API Reference</a> but here is a summary.</p>
 <pre class="prettyprint source lang-js"><code>const paths = [&quot;./s1.glsl&quot;, &quot;./s2.glsl&quot;, &quot;./s3.glsl&quot;];
 const chunks = [
     [Perlin],           // 👈 Chunks to include with s1
@@ -278,7 +278,7 @@ loadShadersRaw(paths).then(([s1, s2, s3]) => {
 <pre class="prettyprint source lang-glsl"><code>float p = gln_perlin(uv);
 float n = gln_normalize(p);
 </code></pre>
-<p><strong>See the full list of available functions in the API Reference.</strong></p>
+<p><strong>See the full list of available functions in the <a href="https://farazzshaikh.github.io/glNoise/module-Common.html">API Reference</a>.</strong></p>
 <p><strong>Note: CSM = My <a href="https://github.com/FarazzShaikh/THREE-CustomShaderMaterial">CustomShaderMaterial</a></strong></p>
 <h2>Credits</h2>
 <p>I have not come up with these noise functions. Here's attribution to the creators of them.</p>

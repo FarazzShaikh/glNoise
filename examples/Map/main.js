@@ -6,7 +6,7 @@ import {
   Triangle,
   Vec3,
 } from "https://cdn.skypack.dev/ogl";
-import { loadShaders } from "../..//build/glNoise.m.js";
+import { loadShaders } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
 
