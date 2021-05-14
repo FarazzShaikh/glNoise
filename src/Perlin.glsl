@@ -1,7 +1,4 @@
 
-// From https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl
-// And https://thebookofshaders.com/13/
-
 vec2 _fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
 float gln_perlin(vec2 P) {

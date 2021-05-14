@@ -39,7 +39,7 @@ async function nodeFetch(s: string) {
  * @param {string[]} shaders Array of paths to shaders.
  * @returns {Promise<string>}         Array of shaders corresponding to each path.
  */
-export async function loadShadersRaw(...shaders: string[]) {
+export async function loadShadersRaw(shaders: string[]) {
   const _fetch = isNode ? nodeFetch : window.fetch;
 
   return Promise.all(
@@ -59,7 +59,7 @@ export async function loadShadersRaw(...shaders: string[]) {
  * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
  */
 export async function loadShaders(paths: string[], chunks?: string[][]) {
-  let shaders: string[] = await loadShadersRaw(...paths);
+  let shaders: string[] = await loadShadersRaw(paths);
 
   if (chunks) {
     shaders = shaders.map((s, i) => {

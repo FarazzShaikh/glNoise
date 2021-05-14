@@ -11,7 +11,7 @@ ava("Test loadShadersRaw()", async (t) => {
   const expected = (
     await fs.readFile(path.resolve("tests/test.glsl"))
   ).toString();
-  const actual = (await loadShadersRaw("tests/test.glsl"))[0];
+  const actual = (await loadShadersRaw(["tests/test.glsl"]))[0];
 
   t.is(actual, expected);
 });

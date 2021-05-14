@@ -1,5 +1,3 @@
-// From https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
-// And https://thebookofshaders.com/13/
 
 float gln_simplex(vec2 v) {
   const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626,

@@ -1,4 +1,3 @@
-// From https://thebookofshaders.com/12/
 
 float gln_voronoi(vec2 x, gln_tVoronoiOpts opts) {
   vec2 p = floor(x * opts.scale + (opts.seed * 1000.0));
