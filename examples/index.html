@@ -18,25 +18,68 @@
       </a>
       <div class="SubTitle">Examples</div>
 
-      <a class="Section" selected="true" href="./Map/map.html">Maps</a>
-      <div class="Example" selected="true" type="0">Perlin Noise</div>
-      <div class="Example" selected="false" type="1">Simplex Noise</div>
-      <div class="Example" selected="false" type="2">Perlin Noise (fBm)</div>
-      <div class="Example" selected="false" type="3">Simplex Noise (fBm)</div>
-      <div class="Example" selected="false" type="4">Ridge Noise</div>
-      <div class="Example" selected="false" type="5">Voronoi Noise</div>
-      <div class="Example" selected="false" type="6">
+      <a class="Section" selected="true" href="./Map/map.html"
+        >2D Noise | Maps</a
+      >
+      <div class="Example" sec="map" selected="true" type="0">Perlin Noise</div>
+      <div class="Example" sec="map" selected="false" type="1">
+        Simplex Noise
+      </div>
+      <div class="Example" sec="map" selected="false" type="2">
+        Perlin Noise (fBm)
+      </div>
+      <div class="Example" sec="map" selected="false" type="3">
+        Simplex Noise (fBm)
+      </div>
+      <div class="Example" sec="map" selected="false" type="4">Ridge Noise</div>
+      <div class="Example" sec="map" selected="false" type="5">
+        Voronoi Noise
+      </div>
+      <div class="Example" sec="map" selected="false" type="6">
         Voronoi Noise (inverted)
       </div>
 
-      <a class="Section" selected="false" href="./Plane/plane.html">Plane</a>
-      <div class="Example" selected="false" type="0">Perlin Noise</div>
-      <div class="Example" selected="false" type="1">Simplex Noise</div>
-      <div class="Example" selected="false" type="2">Perlin Noise (fBm)</div>
-      <div class="Example" selected="false" type="3">Simplex Noise (fBm)</div>
-      <div class="Example" selected="false" type="4">Ridge Noise</div>
-      <div class="Example" selected="false" type="5">Voronoi Noise</div>
-      <div class="Example" selected="false" type="6">
+      <a class="Section" selected="false" href="./Plane/plane.html"
+        >2D Noise | Plane</a
+      >
+      <div class="Example" sec="plane" selected="false" type="0">
+        Perlin Noise
+      </div>
+      <div class="Example" sec="plane" selected="false" type="1">
+        Simplex Noise
+      </div>
+      <div class="Example" sec="plane" selected="false" type="2">
+        Perlin Noise (fBm)
+      </div>
+      <div class="Example" sec="plane" selected="false" type="3">
+        Simplex Noise (fBm)
+      </div>
+      <div class="Example" sec="plane" selected="false" type="4">
+        Ridge Noise
+      </div>
+      <div class="Example" sec="plane" selected="false" type="5">
+        Voronoi Noise
+      </div>
+      <div class="Example" sec="plane" selected="false" type="6">
+        Voronoi Noise (inverted)
+      </div>
+
+      <a class="Section" selected="false" href="./3D/3D.html">3D Noise</a>
+      <div class="Example" sec="3d" selected="false" type="0">Perlin Noise</div>
+      <div class="Example" sec="3d" selected="false" type="1">
+        Simplex Noise
+      </div>
+      <div class="Example" sec="3d" selected="false" type="2">
+        Perlin Noise (fBm)
+      </div>
+      <div class="Example" sec="3d" selected="false" type="3">
+        Simplex Noise (fBm)
+      </div>
+      <div class="Example" sec="3d" selected="false" type="4">Ridge Noise</div>
+      <div class="Example" sec="3d" selected="false" type="5">
+        Voronoi Noise
+      </div>
+      <div class="Example" sec="3d" selected="false" type="6">
         Voronoi Noise (inverted)
       </div>
     </div>
@@ -95,13 +138,25 @@
           }
         });
 
-        if (index > 6 && exampleLinks[1].getAttribute("selected") === "false")
-          exampleLinks[1].click();
-        else if (
-          index <= 6 &&
-          exampleLinks[0].getAttribute("selected") === "false"
-        )
-          exampleLinks[0].click();
+        switch (e.target.getAttribute("sec")) {
+          case "map":
+            if (exampleLinks[0].getAttribute("selected") === "false")
+              exampleLinks[0].click();
+            break;
+
+          case "plane":
+            if (exampleLinks[1].getAttribute("selected") === "false")
+              exampleLinks[1].click();
+            break;
+
+          case "3d":
+            if (exampleLinks[2].getAttribute("selected") === "false")
+              exampleLinks[2].click();
+            break;
+
+          default:
+            break;
+        }
       }
 
       function updateExample(e) {
