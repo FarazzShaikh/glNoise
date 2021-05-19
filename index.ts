@@ -2,15 +2,18 @@ import _Perlin from "./src/Perlin.glsl";
 import _Simplex from "./src/Simplex.glsl";
 import _Voronoi from "./src/Voronoi.glsl";
 import _Common from "./src/Common.glsl";
+import _FFT from "./src/FFT.glsl";
 
 const _Head = "precision highp float;\n" + _Common + "\n";
 
 export const Perlin: string = _Perlin;
 export const Simplex: string = _Simplex;
 export const Voronoi: string = _Voronoi;
+export const FFT: string = _FFT;
+
 export const Head: string = _Head;
 
-const _all = [Perlin, Simplex, Voronoi];
+const _all = [Perlin, Simplex, Voronoi, FFT];
 
 const isNode =
   typeof process !== "undefined" &&
