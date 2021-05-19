@@ -1,7 +1,7 @@
 
 
 /**
- * Generats Simplex Noise.
+ * Generats 2D Simplex Noise.
  *
  * @name gln_simplex
  * @function
@@ -38,6 +38,17 @@ float gln_simplex(vec2 v) {
   return 130.0 * dot(m, g);
 }
 
+/**
+ * Generats 3D Simplex Noise.
+ *
+ * @name gln_simplex
+ * @function
+ * @param {vec3} v  Point to sample Simplex Noise at.
+ * @return {float}  Value of Simplex Noise at point "p".
+ *
+ * @example
+ * float n = gln_simplex(position.xyz);
+ */
 float gln_simplex(vec3 v) {
   const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
   const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);

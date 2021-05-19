@@ -3,7 +3,7 @@ vec2 _fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 vec3 _fade(vec3 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
 /**
- * Generats Perlin Noise.
+ * Generats 2D Perlin Noise.
  *
  * @name gln_perlin
  * @function
@@ -47,6 +47,17 @@ float gln_perlin(vec2 P) {
   return 2.3 * n_xy;
 }
 
+/**
+ * Generats 3D Perlin Noise.
+ *
+ * @name gln_perlin
+ * @function
+ * @param {vec3} p  Point to sample Perlin Noise at.
+ * @return {float}  Value of Perlin Noise at point "p".
+ *
+ * @example
+ * float n = gln_perlin(position.xyz);
+ */
 float gln_perlin(vec3 P) {
   vec3 Pi0 = floor(P);        // Integer part for indexing
   vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
