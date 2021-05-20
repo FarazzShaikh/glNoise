@@ -1,4 +1,4 @@
-name: Build, Test and Deploy
+name: Main 🧠
 on:
   push:
     branches:
@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
+        uses: actions/setup-node@v2
 
       - name: Build 🔨
         run: |
@@ -37,6 +38,7 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
 
       - name: Pre Release 👷
+        if: ${{ steps.publish.outputs.type != 'none' }}
         run: |
           chmod +x scripts/getChange.sh
           ./scripts/getChange.sh ${{steps.publish.outputs.version}} CHANGELOG.md > CHANGELOG.txt
