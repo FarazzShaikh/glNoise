@@ -120,7 +120,7 @@ float gln_simplex(vec3 v) {
 }
 
 /**
- * Generats Fractional Brownian motion (fBm) from Simplex Noise.
+ * Generats 2D Fractional Brownian motion (fBm) from Simplex Noise.
  *
  * @name gln_sfbm
  * @function
@@ -152,7 +152,61 @@ float gln_sfbm(vec2 v, gln_tFBMOpts opts) {
     if (i >= octaves)
       break;
 
-    vec2 p = v.xy * frequency * opts.scale;
+    vec2 p = v * frequency * opts.scale;
+
+    float noiseVal = gln_simplex(p);
+
+    if (terbulance)
+      noiseVal = abs(noiseVal);
+
+    if (ridge)
+      noiseVal = -1.0 * noiseVal;
+
+    result += noiseVal * amplitude;
+
+    frequency *= lacunarity;
+    amplitude *= persistance;
+    maximum += amplitude;
+  }
+
+  float redistributed = pow(result, redistribution);
+  return redistributed / maximum;
+}
+
+/**
+ * Generats 3D Fractional Brownian motion (fBm) from Simplex Noise.
+ *
+ * @name gln_sfbm
+ * @function
+ * @param {vec3} v               Point to sample fBm at.
+ * @param {gln_tFBMOpts} opts    Options for generating Simplex Noise.
+ * @return {float}               Value of fBm at point "p".
+ *
+ * @example
+ * gln_tFBMOpts opts =
+ *      gln_tFBMOpts(uSeed, 0.3, 2.0, 0.5, 1.0, 5, false, false);
+ *
+ * float n = gln_sfbm(position.xy, opts);
+ */
+float gln_sfbm(vec3 v, gln_tFBMOpts opts) {
+  v += (opts.seed * 100.0);
+  float persistance = opts.persistance;
+  float lacunarity = opts.lacunarity;
+  float redistribution = opts.redistribution;
+  int octaves = opts.octaves;
+  bool terbulance = opts.terbulance;
+  bool ridge = opts.terbulance && opts.ridge;
+
+  float result = 0.0;
+  float amplitude = 1.0;
+  float frequency = 1.0;
+  float maximum = amplitude;
+
+  for (int i = 0; i < MAX_FBM_ITERATIONS; i++) {
+    if (i >= octaves)
+      break;
+
+    vec3 p = v * frequency * opts.scale;
 
     float noiseVal = gln_simplex(p);
 
