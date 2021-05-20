@@ -5,6 +5,7 @@ import {
   Mesh,
   Triangle,
   Vec3,
+  TextureLoader,
 } from "https://cdn.skypack.dev/ogl";
 import { loadShaders } from "../../build/glNoise.m.js";
 
@@ -22,6 +23,12 @@ loadShaders(paths).then(([fragment, vertex]) => {
   window.addEventListener("resize", resize, false);
   resize();
 
+  const texture = TextureLoader.load(gl, {
+    src: {
+      png: "./textures/chrome.png",
+    },
+  });
+
   const geometry = new Triangle(gl);
 
   const program = new Program(gl, {
@@ -30,6 +37,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
     uniforms: {
       uTime: { value: 0 },
       uResolution: { value: new Vec3(0, 0, 0) },
+      uMap: { value: texture },
     },
   });
 
