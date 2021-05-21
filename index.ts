@@ -1,6 +1,7 @@
 import _Perlin from "./src/Perlin.glsl";
 import _Simplex from "./src/Simplex.glsl";
 import _Voronoi from "./src/Voronoi.glsl";
+import _BlendModes from "./src/BlendModes.glsl";
 import _Common from "./src/Common.glsl";
 
 const _Head = "precision highp float;\n" + _Common + "\n";
@@ -8,9 +9,10 @@ const _Head = "precision highp float;\n" + _Common + "\n";
 export const Perlin: string = _Perlin;
 export const Simplex: string = _Simplex;
 export const Voronoi: string = _Voronoi;
+export const BlendModes: string = _BlendModes;
 export const Head: string = _Head;
 
-const _all = [Perlin, Simplex, Voronoi];
+const _all = [Perlin, Simplex, Voronoi, BlendModes];
 
 const isNode =
   typeof process !== "undefined" &&

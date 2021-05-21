@@ -24,17 +24,27 @@ loadShaders(paths).then(([fragment, vertex]) => {
   window.addEventListener("resize", resize, false);
   resize();
 
+  const rect = TextureLoader.load(gl, {
+    src: {
+      png: "./textures/rect.png",
+    },
+  });
+
+  const logo = TextureLoader.load(gl, {
+    src: {
+      png: "./textures/logo.png",
+    },
+  });
+
   const geometry = new Triangle(gl);
 
   const program = new Program(gl, {
     vertex,
     fragment,
     uniforms: {
-      uTime: { value: 0 },
-      uColor: { value: new Color(0.3, 0.2, 0.5) },
-      uResolution: { value: new Vec3(0, 0, 0) },
-      uSeed: { value: Math.random() },
-      uType: { value: localStorage.getItem("type") || 0 },
+      uType: { value: Number(localStorage.getItem("type")) || 0 },
+      uRect: { value: rect },
+      uLogo: { value: logo },
     },
   });
 
@@ -43,7 +53,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
   window.addEventListener(
     "storage",
     function (e) {
-      program.uniforms.uType.value = this.localStorage.getItem("type");
+      program.uniforms.uType.value = Number(this.localStorage.getItem("type"));
     },
     false
   );
@@ -51,13 +61,6 @@ loadShaders(paths).then(([fragment, vertex]) => {
   requestAnimationFrame(update);
   function update(t) {
     requestAnimationFrame(update);
-
-    program.uniforms.uTime.value = t * 0.0001;
-    program.uniforms.uResolution.value.set(
-      gl.canvas.width,
-      gl.canvas.height,
-      0
-    );
 
     // Don't need a camera if camera uniforms aren't required
     renderer.render({ scene: mesh });

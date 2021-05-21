@@ -76,6 +76,23 @@
         Simplex Noise (fBm)
       </div>
       <div class="Example" sec="3d" selected="false" type="4">Ridge Noise</div>
+
+      <a class="Section" selected="true" href="./BlendModes/blend.html"
+        >Blend Modes</a
+      >
+      <div class="Example" sec="blend" selected="true" type="0">Copy</div>
+      <div class="Example" sec="blend" selected="true" type="1">Add</div>
+      <div class="Example" sec="blend" selected="true" type="2">Subtract</div>
+      <div class="Example" sec="blend" selected="true" type="3">Multiply</div>
+      <div class="Example" sec="blend" selected="true" type="4">Add Sub</div>
+      <div class="Example" sec="blend" selected="true" type="5">Lighten</div>
+      <div class="Example" sec="blend" selected="true" type="6">Darken</div>
+      <div class="Example" sec="blend" selected="true" type="7">Divide</div>
+      <div class="Example" sec="blend" selected="true" type="8">Overlay</div>
+      <div class="Example" sec="blend" selected="true" type="9">Screen</div>
+      <div class="Example" sec="blend" selected="true" type="10">
+        Soft Light
+      </div>
     </div>
 
     <iframe class="Iframe" allow="autoplay" src=""></iframe>
@@ -146,6 +163,11 @@
           case "3d":
             if (exampleLinks[2].getAttribute("selected") === "false")
               exampleLinks[2].click();
+            break;
+
+          case "blend":
+            if (exampleLinks[3].getAttribute("selected") === "false")
+              exampleLinks[3].click();
             break;
 
           default:
