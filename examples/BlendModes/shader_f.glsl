@@ -2,12 +2,15 @@ precision highp float;
 varying vec2 vUv;
 
 uniform int uType;
+uniform vec2 uResolution;
 uniform sampler2D uRect;
 uniform sampler2D uLogo;
 
 void main() {
 
   vec2 uv = vUv;
+  uv.x *= uResolution.x / uResolution.y;
+
   vec4 logo = texture2D(uLogo, uv);
   vec4 rect = texture2D(uRect, uv);
 

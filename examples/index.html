@@ -77,21 +77,8 @@
       </div>
       <div class="Example" sec="3d" selected="false" type="4">Ridge Noise</div>
 
-      <a class="Section" selected="true" href="./BlendModes/blend.html"
-        >Blend Modes</a
-      >
-      <div class="Example" sec="blend" selected="true" type="0">Copy</div>
-      <div class="Example" sec="blend" selected="true" type="1">Add</div>
-      <div class="Example" sec="blend" selected="true" type="2">Subtract</div>
-      <div class="Example" sec="blend" selected="true" type="3">Multiply</div>
-      <div class="Example" sec="blend" selected="true" type="4">Add Sub</div>
-      <div class="Example" sec="blend" selected="true" type="5">Lighten</div>
-      <div class="Example" sec="blend" selected="true" type="6">Darken</div>
-      <div class="Example" sec="blend" selected="true" type="7">Divide</div>
-      <div class="Example" sec="blend" selected="true" type="8">Overlay</div>
-      <div class="Example" sec="blend" selected="true" type="9">Screen</div>
-      <div class="Example" sec="blend" selected="true" type="10">
-        Soft Light
+      <div class="Section" selected="false" >Misc</div>
+      <a class="Example" sec="misc" selected="false" type="0" href="./BlendModes/blend.html">Blend Modes</a>
       </div>
     </div>
 
@@ -136,18 +123,18 @@
 
       function updateTab(e) {
         const type = e.target.getAttribute("type");
-        exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
-        e.target.setAttribute("selected", "true");
-
         localStorage.setItem("type", type);
 
         let index = 0;
         exampleTabs.forEach((e, i) => {
+            e.setAttribute("selected", "false")
           if (e.getAttribute("selected") === "true") {
             index = i;
             return;
           }
         });
+
+        e.target.setAttribute("selected", "true");
 
         switch (e.target.getAttribute("sec")) {
           case "map":
@@ -165,9 +152,8 @@
               exampleLinks[2].click();
             break;
 
-          case "blend":
-            if (exampleLinks[3].getAttribute("selected") === "false")
-              exampleLinks[3].click();
+          case "misc":
+            updateExample(e)
             break;
 
           default:

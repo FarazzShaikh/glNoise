@@ -1,13 +1,13 @@
 import {
   Renderer,
   Program,
-  Color,
   Mesh,
   Triangle,
-  Plane,
-  Vec3,
+  Vec2,
   TextureLoader,
 } from "https://cdn.skypack.dev/ogl";
+
+import * as dat from "../lib/dat.gui.module.js";
 import { loadShaders } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
@@ -45,6 +45,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
       uType: { value: Number(localStorage.getItem("type")) || 0 },
       uRect: { value: rect },
       uLogo: { value: logo },
+      uResolution: { value: new Vec2() },
     },
   });
 
@@ -58,9 +59,26 @@ loadShaders(paths).then(([fragment, vertex]) => {
     false
   );
 
+  const gui = new dat.gui.GUI();
+  gui.add(program.uniforms.uType, "value", {
+    Copy: 0,
+    Add: 1,
+    Subtract: 2,
+    Multiply: 3,
+    AddSub: 4,
+    Lighten: 5,
+    Darken: 6,
+    Divide: 7,
+    Overlay: 8,
+    Screen: 9,
+    SoftLight: 10,
+  });
+
   requestAnimationFrame(update);
   function update(t) {
     requestAnimationFrame(update);
+
+    program.uniforms.uResolution.value.set(gl.canvas.width, gl.canvas.height);
 
     // Don't need a camera if camera uniforms aren't required
     renderer.render({ scene: mesh });
