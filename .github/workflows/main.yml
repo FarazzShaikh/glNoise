@@ -7,45 +7,47 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-      - uses: actions/checkout@v2.3.1
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
+      - name: Checkout repo
+        uses: actions/checkout@v2.3.1
 
-      - name: Build 🔨
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Build library
         run: |
           npm install
           npm run build
 
-      - name: Test 🧪
+      - name: Run unit tests
         run: |
           npm run test
 
-      - name: Document 🤓
+      - name: Generate docs
         run: |
           npm run doc
 
-      - name: Publish Docs 📖
+      - name: Publish docs
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
           folder: docs
 
-      - name: Publish NPM 📝
+      - name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         id: publish
         if: ${{ env.deployment_status != 'failed' }}
         with:
           token: ${{ secrets.NPM_TOKEN }}
 
-      - name: Pre Release 👷
+      - name: Get changes from changelog
         if: ${{ steps.publish.outputs.type != 'none' }}
         run: |
           chmod +x scripts/getChange.sh
           ./scripts/getChange.sh ${{steps.publish.outputs.version}} CHANGELOG.md > CHANGELOG.txt
 
-      - name: Release 🚀
+      - name: Release on GitHub
         uses: softprops/action-gh-release@v1
         if: ${{ steps.publish.outputs.type != 'none' }}
         with:
@@ -55,7 +57,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
-      - name: Push Build 👍
+      - name: Push build to branch
       - uses: EndBug/add-and-commit@v7
         with:
           default_author: github_actions
