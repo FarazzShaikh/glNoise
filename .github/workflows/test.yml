@@ -4,13 +4,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-      - uses: actions/checkout@v2.3.1
-      - uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2.3.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: '12'
           
-      - name: Test 🧪
+      - name: Run Unit Tests
         run: |
           npm install
           npm run build
