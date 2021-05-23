@@ -2,7 +2,7 @@
     "name": "gl-noise",
     "version": "1.0.0",
     "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
-    "main": "build/glNoise",
+    "main": "build/glNoise.m.js",
     "scripts": {
         "preinstall": "npx npm-force-resolutions",
         "build": "rollup -c",
@@ -20,7 +20,7 @@
     "type": "module",
     "files": [
         "Assets/*",
-        "build/glNoise",
+        "build/glNoise.m.js",
         "README.md",
         "package-lock.json",
         "package.json"
