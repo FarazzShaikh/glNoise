@@ -1,7 +1,7 @@
-name: Test
+name: Build and Test
 on: [push, pull_request]
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -12,4 +12,10 @@ jobs:
           npm install
           npm run build
           npm run test
+          
+      - name: Push build to branch
+      - uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          add: "build/*"
           
