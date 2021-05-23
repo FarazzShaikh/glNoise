@@ -32,7 +32,7 @@ jobs:
       - name: Publish NPM 📝
         uses: JS-DevTools/npm-publish@v1
         id: publish
-        if: ${{ env.deployment_status == 'success' }}
+        if: ${{ env.deployment_status != 'failed' }}
         with:
           token: ${{ secrets.NPM_TOKEN }}
 
