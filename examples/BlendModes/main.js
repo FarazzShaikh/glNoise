@@ -1,13 +1,13 @@
 import {
   Renderer,
   Program,
-  Color,
   Mesh,
   Triangle,
-  Plane,
-  Vec3,
+  Vec2,
   TextureLoader,
 } from "https://cdn.skypack.dev/ogl";
+
+import * as dat from "../lib/dat.gui.module.js";
 import { loadShaders } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
@@ -24,17 +24,28 @@ loadShaders(paths).then(([fragment, vertex]) => {
   window.addEventListener("resize", resize, false);
   resize();
 
+  const rect = TextureLoader.load(gl, {
+    src: {
+      png: "./textures/rect.png",
+    },
+  });
+
+  const logo = TextureLoader.load(gl, {
+    src: {
+      png: "./textures/logo.png",
+    },
+  });
+
   const geometry = new Triangle(gl);
 
   const program = new Program(gl, {
     vertex,
     fragment,
     uniforms: {
-      uTime: { value: 0 },
-      uColor: { value: new Color(0.3, 0.2, 0.5) },
-      uResolution: { value: new Vec3(0, 0, 0) },
-      uSeed: { value: Math.random() },
-      uType: { value: localStorage.getItem("type") || 0 },
+      uType: { value: Number(localStorage.getItem("type")) || 0 },
+      uRect: { value: rect },
+      uLogo: { value: logo },
+      uResolution: { value: new Vec2() },
     },
   });
 
@@ -43,21 +54,31 @@ loadShaders(paths).then(([fragment, vertex]) => {
   window.addEventListener(
     "storage",
     function (e) {
-      program.uniforms.uType.value = this.localStorage.getItem("type");
+      program.uniforms.uType.value = Number(this.localStorage.getItem("type"));
     },
     false
   );
+
+  const gui = new dat.gui.GUI();
+  gui.add(program.uniforms.uType, "value", {
+    Copy: 0,
+    Add: 1,
+    Subtract: 2,
+    Multiply: 3,
+    AddSub: 4,
+    Lighten: 5,
+    Darken: 6,
+    Divide: 7,
+    Overlay: 8,
+    Screen: 9,
+    SoftLight: 10,
+  });
 
   requestAnimationFrame(update);
   function update(t) {
     requestAnimationFrame(update);
 
-    program.uniforms.uTime.value = t * 0.0001;
-    program.uniforms.uResolution.value.set(
-      gl.canvas.width,
-      gl.canvas.height,
-      0
-    );
+    program.uniforms.uResolution.value.set(gl.canvas.width, gl.canvas.height);
 
     // Don't need a camera if camera uniforms aren't required
     renderer.render({ scene: mesh });

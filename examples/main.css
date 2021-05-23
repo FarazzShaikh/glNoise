@@ -168,7 +168,7 @@ div.Example[selected = "true"] {
     z-index: 1;
 }
 .Info a {
-    color: rgb(39, 124, 235);
+    color: rgb(39, 147, 235);
 }
 canvas {
     position: absolute;
@@ -176,4 +176,8 @@ canvas {
     height: 100%;
     top: 0;
     left: 0;
+}
+
+select {
+    color: white
 }
