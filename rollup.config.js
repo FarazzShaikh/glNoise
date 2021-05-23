@@ -26,7 +26,7 @@ export default [
       file: "build/glNoise.m.js",
       format: "es",
     },
-    external: ["fs/promises", "path"],
+    external: ["fs", "path"],
     plugins: [glslify(glslOpts), typescript(tscOpts)],
   },
   {
@@ -36,7 +36,7 @@ export default [
       format: "iife",
       name: "glNoise",
     },
-    external: ["fs/promises", "path"],
+    external: ["fs", "path"],
     plugins: [glslify(glslOpts), typescript(tscOpts)],
   },
 ];
