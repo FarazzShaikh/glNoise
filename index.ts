@@ -19,7 +19,7 @@ const isNode =
 
 async function nodeFetch(s: string) {
   // @ts-ignore
-  const fs = (await import("fs")).promises.default;
+  const fs = (await import("fs")).promises;
   // @ts-ignore
   const path = (await import("path")).default;
 
