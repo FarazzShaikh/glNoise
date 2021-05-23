@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -18,66 +18,14 @@
       </a>
       <div class="SubTitle">Examples</div>
 
-      <a class="Section" selected="true" href="./Map/map.html"
-        >2D Noise | Maps</a
-      >
-      <div class="Example" sec="map" selected="true" type="0">Perlin Noise</div>
-      <div class="Example" sec="map" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="map" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="map" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="map" selected="false" type="4">Ridge Noise</div>
-      <div class="Example" sec="map" selected="false" type="5">
-        Voronoi Noise
-      </div>
-      <div class="Example" sec="map" selected="false" type="6">
-        Voronoi Noise (inverted)
-      </div>
+      <div class="Section">2D NOise</div>
+      <a class="Example" sec="misc" selected="false" type="0" href="./Map/map.html">Map</a>
+      <a class="Example" sec="misc" selected="false" type="0" href="./Plane/plane.html">Plane</a>
 
-      <a class="Section" selected="false" href="./Plane/plane.html"
-        >2D Noise | Plane</a
-      >
-      <div class="Example" sec="plane" selected="false" type="0">
-        Perlin Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="plane" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="plane" selected="false" type="4">
-        Ridge Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="5">
-        Voronoi Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="6">
-        Voronoi Noise (inverted)
-      </div>
-
-      <a class="Section" selected="false" href="./3D/3D.html">3D Noise</a>
-      <div class="Example" sec="3d" selected="false" type="0">Perlin Noise</div>
-      <div class="Example" sec="3d" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="3d" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="3d" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="3d" selected="false" type="4">Ridge Noise</div>
-
-      <div class="Section" selected="false" >Misc</div>
+      <div class="Section">3D</div>
+      <a class="Example" sec="misc" selected="false" type="0" href="./3D/3D.html">Cube</a>
+      
+      <div class="Section">Misc</div>
       <a class="Example" sec="misc" selected="false" type="0" href="./BlendModes/blend.html">Blend Modes</a>
       </div>
     </div>
@@ -90,7 +38,7 @@
     <script>
       const sourceLink = document.querySelector(".CodeIcon");
       const toggleLink = document.querySelector(".SideIcon");
-      const exampleLinks = document.querySelectorAll("a.Section");
+      const exampleLinks = document.querySelectorAll(".Section");
       const exampleTabs = document.querySelectorAll(".Example");
       const iFrame = document.querySelector(".Iframe");
       const sourcePath =
@@ -113,57 +61,15 @@
         updateExample({ target });
       }
 
-      exampleLinks.forEach((link) => {
+      exampleTabs.forEach((link) => {
         link.addEventListener("click", updateExample, false);
       });
 
-      exampleTabs.forEach((link) => {
-        link.addEventListener("click", updateTab, false);
-      });
-
-      function updateTab(e) {
-        const type = e.target.getAttribute("type");
-        localStorage.setItem("type", type);
-
-        let index = 0;
-        exampleTabs.forEach((e, i) => {
-            e.setAttribute("selected", "false")
-          if (e.getAttribute("selected") === "true") {
-            index = i;
-            return;
-          }
-        });
-
-        e.target.setAttribute("selected", "true");
-
-        switch (e.target.getAttribute("sec")) {
-          case "map":
-            if (exampleLinks[0].getAttribute("selected") === "false")
-              exampleLinks[0].click();
-            break;
-
-          case "plane":
-            if (exampleLinks[1].getAttribute("selected") === "false")
-              exampleLinks[1].click();
-            break;
-
-          case "3d":
-            if (exampleLinks[2].getAttribute("selected") === "false")
-              exampleLinks[2].click();
-            break;
-
-          case "misc":
-            updateExample(e)
-            break;
-
-          default:
-            break;
-        }
-      }
 
       function updateExample(e) {
+          console.log(e.target.attributes)
         let src = e.target.href.split("examples/")[1];
-        exampleLinks.forEach((e) => e.setAttribute("selected", "false"));
+        exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
         e.target.setAttribute("selected", "true");
 
         // Allow user to cmd/ctrl + click to open in new tab

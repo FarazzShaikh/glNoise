@@ -53,7 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Push build to branch
-      - uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v7
         with:
           default_author: github_actions
-          add: "build/*"
+          add: "build/* -f"

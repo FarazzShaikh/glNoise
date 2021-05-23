@@ -105,12 +105,12 @@ body {
     padding-left: 30px;
     display: block;
 }
-div.Example[selected = "false"] {
+.Example[selected = "false"] {
     opacity: 0.5;
     cursor: pointer;
 }
 
-div.Example[selected = "true"] {
+.Example[selected = "true"] {
     opacity: 1;
     cursor: pointer;
 }

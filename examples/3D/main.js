@@ -1,4 +1,5 @@
 import * as THREE from "https://cdn.skypack.dev/three";
+import * as dat from "../lib/dat.gui.module.js";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 import { loadShaders } from "../../build/glNoise.m.js";
 
@@ -24,6 +25,11 @@ loadShaders(paths).then(([fragment, vertex]) => {
       uResolution: { value: new THREE.Vector3() },
       uType: { value: localStorage.getItem("type") || 0 },
       uIsSphere: { value: 0 },
+
+      uPersistance: { value: 0.5 },
+      uLacunarity: { value: 2.0 },
+      uScale: { value: 1.0 },
+      uOctaves: { value: 5 },
     },
     fragmentShader: fragment,
     vertexShader: vertex,
@@ -64,14 +70,84 @@ loadShaders(paths).then(([fragment, vertex]) => {
     false
   );
 
+  let doesAnimate = {
+    value: true,
+  };
+
+  let gui_fbmHidden = true;
+  let gui_folder_fmb;
+  const gui = new dat.gui.GUI();
+
+  gui.add(doesAnimate, "value").name("Move with time?");
+  gui
+    .add(material.uniforms.uScale, "value")
+    .min(0)
+    .max(10)
+    .step(0.01)
+    .name("Scale")
+    .onChange((v) => gui_chnageHandler("uScale", v));
+
+  gui
+    .add(material.uniforms.uType, "value", {
+      "Perlin Noise": 0,
+      "Simplex Noise": 1,
+      "FBM (Perlin)": 2,
+      "FBM (Simplex)": 3,
+      "Ridge Noise": 4,
+    })
+    .name("Type")
+    .onChange((e) => {
+      gui_chnageHandler("uType", e);
+      if (e == 2 || e == 3 || e == 4) {
+        if (gui_fbmHidden) {
+          gui_folder_fmb.show();
+          gui_folder_fmb.open();
+          gui_fbmHidden = false;
+        }
+      } else {
+        gui_folder_fmb.hide();
+        gui_fbmHidden = true;
+      }
+    });
+
+  gui_folder_fmb = gui.addFolder("FBM");
+  gui_folder_fmb.hide();
+  gui_folder_fmb
+    .add(material.uniforms.uPersistance, "value")
+    .min(0)
+    .max(1)
+    .step(0.01)
+    .name("Smoothness")
+    .onChange((v) => gui_chnageHandler("uPersistance", v));
+
+  gui_folder_fmb
+    .add(material.uniforms.uLacunarity, "value")
+    .min(0)
+    .max(4)
+    .step(0.01)
+    .name("Detail")
+    .onChange((v) => gui_chnageHandler("uLacunarity", v));
+
+  gui_folder_fmb
+    .add(material.uniforms.uOctaves, "value")
+    .min(0)
+    .max(10)
+    .step(1)
+    .name("Octaves")
+    .onChange((v) => gui_chnageHandler("uOctaves", v));
+
+  function gui_chnageHandler(ele, v) {
+    material2.uniforms[ele].value = v;
+  }
+
   const animate = function (time) {
     requestAnimationFrame(animate);
 
     const canvas = renderer.domElement;
     material.uniforms.uResolution.value.set(canvas.width, canvas.height, 1);
-    material.uniforms.uTime.value = time * 0.0001;
+    if (doesAnimate.value) material.uniforms.uTime.value = time * 0.0001;
     material2.uniforms.uResolution.value.set(canvas.width, canvas.height, 1);
-    material2.uniforms.uTime.value = time * 0.0001;
+    if (doesAnimate.value) material2.uniforms.uTime.value = time * 0.0001;
 
     controls.update();
     renderer.render(scene, camera);

@@ -1,4 +1,5 @@
 import * as THREE from "https://cdn.skypack.dev/three";
+import * as dat from "../lib/dat.gui.module.js";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 import { loadShadersCSM } from "../../build/glNoise.m.js";
 
@@ -32,7 +33,14 @@ loadShadersCSM(paths).then((vertex) => {
         uColor: { value: new THREE.Color(1, 1, 1) },
         uResolution: { value: new THREE.Vector3() },
         uSeed: { value: Math.random() },
-        uType: { value: localStorage.getItem("type") || 0 },
+        uType: { value: 0 },
+
+        uPersistance: { value: 0.3 },
+        uLacunarity: { value: 2.0 },
+        uScale: { value: 0.5 },
+        uOctaves: { value: 5 },
+        uDistance: { value: 0 },
+        uInvert: { value: false },
       },
     ],
     baseMaterial: type,
@@ -72,12 +80,99 @@ loadShadersCSM(paths).then((vertex) => {
     false
   );
 
+  let doesAnimate = {
+    value: true,
+  };
+
+  let gui_fbmHidden = true;
+  let gui_voronoiHidden = true;
+  let gui_folder_fmb;
+  let gui_folder_voronoi;
+  const gui = new dat.gui.GUI();
+
+  gui.add(doesAnimate, "value").name("Move with time?");
+  gui
+    .add(material.uniforms.uScale, "value")
+    .min(0)
+    .max(10)
+    .step(0.01)
+    .name("Scale");
+
+  gui
+    .add(material.uniforms.uType, "value", {
+      "Perlin Noise": 0,
+      "Simplex Noise": 1,
+      "FBM (Perlin)": 2,
+      "FBM (Simplex)": 3,
+      "Ridge Noise": 4,
+      Voronoi: 5,
+    })
+    .name("Type")
+    .onChange((e) => {
+      if (e == 2 || e == 3 || e == 4) {
+        if (gui_fbmHidden) {
+          gui_folder_fmb.show();
+          gui_folder_fmb.open();
+          gui_fbmHidden = false;
+          gui_folder_voronoi.hide();
+          gui_voronoiHidden = true;
+        }
+      } else if (e == 5) {
+        if (gui_voronoiHidden) {
+          gui_folder_voronoi.show();
+          gui_folder_voronoi.open();
+          gui_voronoiHidden = false;
+          gui_folder_fmb.hide();
+          gui_fbmHidden = true;
+        }
+      } else {
+        gui_folder_fmb.hide();
+        gui_fbmHidden = true;
+        gui_folder_voronoi.hide();
+        gui_voronoiHidden = true;
+      }
+    });
+
+  gui_folder_fmb = gui.addFolder("FBM");
+  gui_folder_fmb.hide();
+  gui_folder_fmb
+    .add(material.uniforms.uPersistance, "value")
+    .min(0)
+    .max(1)
+    .step(0.01)
+    .name("Smoothness");
+
+  gui_folder_fmb
+    .add(material.uniforms.uLacunarity, "value")
+    .min(0)
+    .max(4)
+    .step(0.01)
+    .name("Detail");
+
+  gui_folder_fmb
+    .add(material.uniforms.uOctaves, "value")
+    .min(0)
+    .max(10)
+    .step(1)
+    .name("Octaves");
+
+  gui_folder_voronoi = gui.addFolder("Voronoi");
+  gui_folder_voronoi.hide();
+  gui_folder_voronoi
+    .add(material.uniforms.uDistance, "value")
+    .min(0)
+    .max(10)
+    .step(1)
+    .name("Distance");
+
+  gui_folder_voronoi.add(material.uniforms.uInvert, "value").name("Invert");
+
   const animate = function (time) {
     requestAnimationFrame(animate);
 
     const canvas = renderer.domElement;
     material.uniforms.uResolution.value.set(canvas.width, canvas.height, 1);
-    material.uniforms.uTime.value = time * 0.0001;
+    if (doesAnimate.value) material.uniforms.uTime.value = time * 0.0001;
 
     controls.update();
     renderer.render(scene, camera);
