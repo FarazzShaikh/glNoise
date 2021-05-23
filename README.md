@@ -68,12 +68,6 @@ So this library addresses both those issues. It does not require any third-party
 
 ## Installation
 
-Make sure to have ThreeJS installed.
-```bash
-$ npm i three
-```
-
-Install gl-Noise
 ```bash
 $ npm i gl-noise
 ```
