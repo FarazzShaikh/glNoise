@@ -42,7 +42,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
     vertex,
     fragment,
     uniforms: {
-      uType: { value: Number(localStorage.getItem("type")) || 0 },
+      uType: { value: 2 },
       uRect: { value: rect },
       uLogo: { value: logo },
       uResolution: { value: new Vec2() },
@@ -50,14 +50,6 @@ loadShaders(paths).then(([fragment, vertex]) => {
   });
 
   const mesh = new Mesh(gl, { geometry, program });
-
-  window.addEventListener(
-    "storage",
-    function (e) {
-      program.uniforms.uType.value = Number(this.localStorage.getItem("type"));
-    },
-    false
-  );
 
   const gui = new dat.gui.GUI();
   gui.add(program.uniforms.uType, "value", {

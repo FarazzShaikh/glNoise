@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, minimal-ui, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
     />
-    <title>Three-Noise | Examples</title>
+    <title>gl-Noise | Examples</title>
     <link href="main.css" rel="stylesheet" />
   </head>
   <body>
@@ -18,11 +18,11 @@
       </a>
       <div class="SubTitle">Examples</div>
 
-      <div class="Section">2D NOise</div>
-      <a class="Example" sec="misc" selected="false" type="0" href="./Map/map.html">Map</a>
+      <div class="Section">2D Noise</div>
+      <a class="Example" sec="misc" selected="true" type="0" href="./Map/map.html">Map</a>
       <a class="Example" sec="misc" selected="false" type="0" href="./Plane/plane.html">Plane</a>
 
-      <div class="Section">3D</div>
+      <div class="Section">3D Noise</div>
       <a class="Example" sec="misc" selected="false" type="0" href="./3D/3D.html">Cube</a>
       
       <div class="Section">Misc</div>
@@ -36,62 +36,86 @@
     <a class="CodeIcon" href="" target="_blank">&lt;&#47;&gt;</a>
 
     <script>
-      const sourceLink = document.querySelector(".CodeIcon");
-      const toggleLink = document.querySelector(".SideIcon");
-      const exampleLinks = document.querySelectorAll(".Section");
-      const exampleTabs = document.querySelectorAll(".Example");
-      const iFrame = document.querySelector(".Iframe");
-      const sourcePath =
-        "https://github.com/FarazzShaikh/glNoise/tree/master/examples/";
 
-      toggleLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.body.toggleAttribute("data-hideSidebar");
-      });
+    const iFrame = document.querySelector(".Iframe");
+    const sourceLink = document.querySelector(".CodeIcon");
 
-      // Load query example in iFrame if linked
-      let loadQuery = location.search.split("src=");
-      if (loadQuery[1]) {
-        iFrame.src = loadQuery[1];
-        sourceLink.href = sourcePath + loadQuery[1];
-      } else {
-        // choose random example to show if none linked
-        let target =
-          exampleLinks[Math.floor(Math.random() * exampleLinks.length)];
-        updateExample({ target });
-      }
+    window.addEventListener("load", (e) => {
+        const s = webgl_support();
+        if(s) {
+                    
+           
+            const toggleLink = document.querySelector(".SideIcon");
+            const exampleLinks = document.querySelectorAll(".Section");
+            const exampleTabs = document.querySelectorAll(".Example");
+            
+            const sourcePath =
+                "https://github.com/FarazzShaikh/glNoise/tree/master/examples/";
 
-      exampleTabs.forEach((link) => {
-        link.addEventListener("click", updateExample, false);
-      });
+            toggleLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.body.toggleAttribute("data-hideSidebar");
+            });
+
+            // Load query example in iFrame if linked
+            let loadQuery = location.search.split("src=");
+            if (loadQuery[1]) {
+                iFrame.src = loadQuery[1];
+                sourceLink.href = sourcePath + loadQuery[1];
+            } else {
+                // choose random example to show if none linked
+                let target =
+                exampleTabs[0];
+                updateExample({ target });
+            }
+
+            exampleTabs.forEach((link) => {
+                link.addEventListener("click", updateExample, false);
+            });
 
 
-      function updateExample(e) {
-          console.log(e.target.attributes)
-        let src = e.target.href.split("examples/")[1];
-        exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
-        e.target.setAttribute("selected", "true");
+            function updateExample(e) {
+                let src = e.target.href.split("examples/")[1];
+                exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
+                e.target.setAttribute("selected", "true");
 
-        // Allow user to cmd/ctrl + click to open in new tab
-        if (e.metaKey) {
-          window.open(
-            `${location.origin}${location.pathname}?src=${src}`,
-            "_blank"
-          );
-          return;
+                // Allow user to cmd/ctrl + click to open in new tab
+                if (e.metaKey) {
+                window.open(
+                    `${location.origin}${location.pathname}?src=${src}`,
+                    "_blank"
+                );
+                return;
+                }
+
+                iFrame.src = e.target.href;
+                sourceLink.href = sourcePath + src;
+
+                // Update search query
+                history.pushState(
+                null,
+                null,
+                `${location.origin}${location.pathname}?src=${src}`
+                );
+                e.preventDefault && e.preventDefault();
+            }
+        } else {
+            iFrame.src = "./noWebGL.html";
+            sourceLink.href = "https://codepen.io/aleksblago/pen/meXvvE";
         }
+        
+    })
 
-        iFrame.src = e.target.href;
-        sourceLink.href = sourcePath + src;
 
-        // Update search query
-        history.pushState(
-          null,
-          null,
-          `${location.origin}${location.pathname}?src=${src}`
-        );
-        e.preventDefault && e.preventDefault();
-      }
+        function webgl_support () { 
+            try {
+                var canvas = document.createElement('canvas'); 
+                return !!window.WebGLRenderingContext &&
+                (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+            } catch(e) {
+                return false;
+            }
+        };
     </script>
   </body>
 </html>

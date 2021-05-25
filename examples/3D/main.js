@@ -23,7 +23,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
     uniforms: {
       uTime: { value: 1.0 },
       uResolution: { value: new THREE.Vector3() },
-      uType: { value: localStorage.getItem("type") || 0 },
+      uType: { value: 0 },
       uIsSphere: { value: 0 },
 
       uPersistance: { value: 0.5 },
@@ -60,15 +60,6 @@ loadShaders(paths).then(([fragment, vertex]) => {
   scene.add(axesHelper);
 
   const controls = new OrbitControls(camera, renderer.domElement);
-
-  window.addEventListener(
-    "storage",
-    function (e) {
-      material.uniforms.uType.value = this.localStorage.getItem("type");
-      material2.uniforms.uType.value = this.localStorage.getItem("type");
-    },
-    false
-  );
 
   let doesAnimate = {
     value: true,

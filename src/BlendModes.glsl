@@ -130,6 +130,66 @@ vec4 gln_copy(vec4 f, vec4 b) {
   return result;
 }
 
+/**
+ * Enum for gl-Noise Blend Modes.
+ * @name gln_BLENDMODES
+ * @enum {number}
+ * @property {number} gln_COPY The <b>Copy</b> blending mode will just place the
+ * foreground on top of the background.
+ * @property {number} gln_ADD The <b>Add</b> blending mode will add the
+ * foreground input value to each corresponding pixel in the background.
+ * @property {number} gln_SUBSTRACT The <b>Substract</b> blending mode will
+ * substract the foreground input value from each corresponding pixel in the
+ * background.
+ * @property {number} gln_MULTIPLY The <b>Multiply</b> blending mode will
+ * multiply the background input value by each corresponding pixel in the
+ * foreground.
+ * @property {number} gln_ADDSUB The <b>Add Sub</b> blending mode works as
+ * following: <ul> <li> Foreground pixels with a value higher than 0.5 are added
+ * to their respective background pixels. </li> <li> Foreground pixels with a
+ * value lower than 0.5 are substracted from their respective background pixels.
+ * </li>
+ * </ul>
+ * @property {number} gln_LIGHTEN The <b>Lighten (Max)</b> Blending mode will
+ * pick the higher value between the background and the foreground.
+ * @property {number} gln_DARKEN The <b>Darken (Min)</b> Blending mode will pick
+ * the lower value between the background and the foreground.
+ * @property {number} gln_DIVIDE The <b>Divide</b> blending mode will divide the
+ * background input pixels value by each corresponding pixel in the foreground.
+ * @property {number} gln_OVERLAY The <b>Overlay</b> blending mode combines
+ * Multiply and Screen blend modes: <ul> <li> If the value of the lower layer
+ * pixel is below 0.5, then a Multiply type blending is applied. </li> <li> If
+ * the value of the lower layer pixel is above 0.5, then a Screen type blending
+ * is applied. </li>
+ * </ul>
+ * @property {number} gln_SCREEN With <b>Screen</b> blend mode the values of the
+ * pixels in the two inputs are inverted, multiplied, and then inverted
+ * again.</br>The result is the opposite effect to multiply and is always equal
+ * or higher (brighter) compared to the original.
+ * @property {number} gln_SOFTLIGHT The <b>Soft Light</b> blend mode creates a
+ * subtle lighter or darker result depending on the brightness of the foreground
+ * color.
+ * </br>Blend colors that are more than 50% brightness will lighten the
+ * background pixels and colors that are less than 50% brightness will darken
+ * the background pixels.
+ */
+
+/**
+ * Blends a Color with another.
+ *
+ * @name gln_blend
+ * @function
+ * @param {vec4} f  Foreground
+ * @param {vec4} b  Background
+ * @param {gln_BLENDMODES} type  Blend mode
+ * @return {vec4} Mapped Value
+ *
+ * @example
+ * vec4 logo = texture2D(uLogo, uv);
+ * vec4 rect = texture2D(uRect, uv);
+ *
+ * vec4 final = gln_blend(logo, rect, gln_COPY);
+ */
 vec4 gln_blend(vec4 f, vec4 b, int type) {
 
   vec4 n;

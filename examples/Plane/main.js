@@ -72,14 +72,6 @@ loadShadersCSM(paths).then((vertex) => {
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  window.addEventListener(
-    "storage",
-    function (e) {
-      material.uniforms.uType.value = this.localStorage.getItem("type");
-    },
-    false
-  );
-
   let doesAnimate = {
     value: true,
   };

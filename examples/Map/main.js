@@ -47,14 +47,6 @@ loadShaders(paths).then(([fragment, vertex]) => {
 
   const mesh = new Mesh(gl, { geometry, program });
 
-  window.addEventListener(
-    "storage",
-    function (e) {
-      program.uniforms.uType.value = this.localStorage.getItem("type");
-    },
-    false
-  );
-
   let doesAnimate = {
     value: true,
   };
