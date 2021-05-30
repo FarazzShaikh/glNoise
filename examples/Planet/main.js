@@ -6,12 +6,7 @@ import { loadShaders } from "../../build/glNoise.m.js";
 import * as dat from "../lib/dat.gui.module.js";
 import Stats from "../lib/stats.js";
 
-const paths = [
-  "./shaders/fragment.glsl",
-  "./shaders/vertex.glsl",
-  "./shaders/moon/vertex.glsl",
-  "./shaders/moon/fragment.glsl",
-];
+const paths = ["./shaders/fragment.glsl", "./shaders/vertex.glsl"];
 
 function hex(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
