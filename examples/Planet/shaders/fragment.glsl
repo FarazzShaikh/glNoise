@@ -5,7 +5,6 @@ varying vec2 vUv;
 
 struct WorldOpts {
   float height;
-  float simplexFac;
   float seaLevel;
   float simplexOpacity;
 };

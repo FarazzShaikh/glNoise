@@ -24,45 +24,45 @@ var hex2rgb = (str) => {
 };
 
 class GUIOpts {
-  constructor(def, min, max, step) {
+  constructor(def, min, max, step, name) {
     this.def = def;
     this.min = min;
     this.max = max;
     this.step = step;
+    this.name = name;
   }
 }
 
 const ridgeOpts = {
-  seed: new GUIOpts(Math.random(), null, null, null),
-  persistance: new GUIOpts(0.5, 0.01, 2, 0.01),
-  lacunarity: new GUIOpts(2, 0.1, 4, 0.01),
-  scale: new GUIOpts(1, 0.01, 5, 0.01),
-  redistribution: new GUIOpts(1, 0.1, 5, 0.01),
-  octaves: new GUIOpts(7, 1, 10, 1),
-  terbulance: new GUIOpts(true, null, null, null),
-  ridge: new GUIOpts(true, null, null, null),
+  seed: new GUIOpts(Math.random() * 1000, null, null, null, "Seed"),
+  persistance: new GUIOpts(0.5, 0.01, 2, 0.01, "Smoothness"),
+  lacunarity: new GUIOpts(2, 0.1, 4, 0.01, "Detail"),
+  scale: new GUIOpts(1, 0.01, 5, 0.01, "Scale"),
+  redistribution: new GUIOpts(1, 0.1, 5, 0.01, "Flatness"),
+  octaves: new GUIOpts(7, 1, 10, 1, "Number of Layers"),
+  terbulance: new GUIOpts(true, null, null, null, "Terbulance"),
+  ridge: new GUIOpts(true, null, null, null, "Ridges"),
 };
 
 const SimplexOpts = {
-  seed: new GUIOpts(Math.random(), null, null, null),
-  persistance: new GUIOpts(0.5, 0.01, 2, 0.01),
-  lacunarity: new GUIOpts(2, 0.1, 4, 0.01),
-  scale: new GUIOpts(1, 0.01, 5, 0.01),
-  redistribution: new GUIOpts(1, 0.1, 5, 0.01),
-  octaves: new GUIOpts(7, 1, 10, 1),
-  terbulance: new GUIOpts(false, null, null, null),
-  ridge: new GUIOpts(false, null, null, null),
+  seed: new GUIOpts(Math.random() * 1000, null, null, null, "Seed"),
+  persistance: new GUIOpts(0.5, 0.01, 2, 0.01, "Smoothness"),
+  lacunarity: new GUIOpts(2, 0.1, 4, 0.01, "Detail"),
+  scale: new GUIOpts(1, 0.01, 5, 0.01, "Scale"),
+  redistribution: new GUIOpts(1, 0.1, 5, 0.01, "Flatness"),
+  octaves: new GUIOpts(7, 1, 10, 1, "Number of Layers"),
+  terbulance: new GUIOpts(false, null, null, null, "Terbulance"),
+  ridge: new GUIOpts(false, null, null, null, "Ridges"),
 };
 
 const maskOpts = {
-  scale: new GUIOpts(0.5, 0.01, 5, 0.01),
+  scale: new GUIOpts(0.5, 0.01, 5, 0.01, "Scale"),
 };
 
 const worldOpts = {
-  height: new GUIOpts(1, 0.01, 10, 0.01),
-  simplexFac: new GUIOpts(0.5, 0.01, 5, 0.01),
-  seaLevel: new GUIOpts(0.22, -2, 2, 0.01),
-  simplexOpacity: new GUIOpts(0.2, 0, 1, 0.01),
+  height: new GUIOpts(1, 0.01, 10, 0.01, "World Height"),
+  seaLevel: new GUIOpts(0.22, -2, 2, 0.01, "Sea Level"),
+  simplexOpacity: new GUIOpts(0.2, 0, 1, 0.01, "World Detail"),
 };
 
 function GUI2Uniform(obj) {
@@ -115,48 +115,14 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
     vertexShader: vertex,
   });
 
-  const geometry = new THREE.IcosahedronGeometry(3, 64);
+  const geometry = new THREE.IcosahedronGeometry(3, 80);
   const sphere = new THREE.Mesh(geometry, material);
   scene.add(sphere);
 
-  const loader = new GLTFLoader();
-
-  const parent = new THREE.Object3D();
-  scene.add(parent);
-
-  loader.load(
-    "./models/scene.gltf",
-    function (gltf) {
-      console.log(gltf);
-      gltf.scene.children[0].scale.x = 0.0001;
-      gltf.scene.children[0].scale.y = 0.0001;
-      gltf.scene.children[0].scale.z = 0.0001;
-
-      gltf.scene.children[0].position.y += 5;
-      parent.add(gltf.scene);
-    },
-    undefined,
-    function (error) {
-      console.error(error);
-    }
-  );
-
-  var pivot1 = new THREE.Object3D();
-  pivot1.rotation.z = 0;
-  parent.add(pivot1);
-
-  camera.position.set(6, 6, 6);
-
-  const size = 6;
-  const divisions = 10;
-
-  const gridHelper = new THREE.GridHelper(size, divisions);
-  scene.add(gridHelper);
-
-  const axesHelper = new THREE.AxesHelper(4);
-  scene.add(axesHelper);
+  camera.position.set(4, 4, 4);
 
   const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enablePan = false;
 
   const light = new THREE.PointLight(
     new THREE.Color(...light1.value.color),
@@ -172,9 +138,24 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
 
   const gui = new dat.gui.GUI();
 
+  const doesAnimate = {
+    value: true,
+  };
+
+  gui.add(doesAnimate, "value").name("Rotation");
+
+  var obj = {
+    rand: function () {
+      material.uniforms.uRidgeOpts.value.seed = Math.random() * 1000;
+      material.uniforms.uSimplexOpts.value.seed = Math.random() * 1000;
+    },
+  };
+
+  gui.add(obj, "rand").name("Randomize");
+
   const uniforms = {
-    "Ridge Options": "uRidgeOpts",
-    "Simplex Options": "uSimplexOpts",
+    "Ridge Noise Options": "uRidgeOpts",
+    "Simplex Noise Options": "uSimplexOpts",
     "World Options": "uWorldOpts",
     "Mask Options": "uMaskOpts",
   };
@@ -193,7 +174,12 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
     Object.keys(u.value).forEach((k) => {
       const opt = opto[k];
       if (opt.min !== null)
-        folder.add(u.value, k).min(opt.min).max(opt.max).step(opt.step).name(k);
+        folder
+          .add(u.value, k)
+          .min(opt.min)
+          .max(opt.max)
+          .step(opt.step)
+          .name(opt.name);
       else folder.add(u.value, k).name(k);
     });
   });
@@ -218,9 +204,10 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
     controls.update();
     renderer.render(scene, camera);
 
-    // moon.rotation.z += 0.005;
-    parent.rotation.z += 0.005;
-    parent.rotation.x += 0.005;
+    if (doesAnimate.value) {
+      sphere.rotation.y += 0.001;
+      sphere.rotation.x -= 0.001;
+    }
 
     stats.end();
     requestAnimationFrame(animate);

@@ -1,7 +1,7 @@
 /**
  * Generats Voronoi Noise.
  *
- * @name gln_voronoi
+ * @name gln_worley
  * @function
  * @param {vec2}  x                  Point to sample Voronoi Noise at.
  * @param {gln_tVoronoiOpts} opts    Options for generating Voronoi Noise.
@@ -10,9 +10,9 @@
  * @example
  * gln_tVoronoiOpts opts = gln_tVoronoiOpts(uSeed, 0.0, 0.5, false);
  *
- * float n = gln_voronoi(position.xy, opts);
+ * float n = gln_worley(position.xy, opts);
  */
-float gln_voronoi(vec2 point, gln_tVoronoiOpts opts) {
+float gln_worley(vec2 point, gln_tVoronoiOpts opts) {
   vec2 p = floor(point * opts.scale);
   vec2 f = fract(point * opts.scale);
   float res = 0.0;
@@ -33,7 +33,7 @@ float gln_voronoi(vec2 point, gln_tVoronoiOpts opts) {
 /**
  * Generats 3D Fractional Brownian motion (fBm) from Worley Noise.
  *
- * @name gln_vfbm
+ * @name gln_wfbm
  * @function
  * @param {vec3} v               Point to sample fBm at.
  * @param {gln_tFBMOpts} opts    Options for generating Simplex Noise.
@@ -46,9 +46,9 @@ float gln_voronoi(vec2 point, gln_tVoronoiOpts opts) {
  * gln_tVoronoiOpts voronoiOpts =
  *     gln_tVoronoiOpts(1.0, 1.0, 3.0, false);
  *
- * float n = gln_vfbm(position.xy, voronoiOpts, opts);
+ * float n = gln_wfbm(position.xy, voronoiOpts, opts);
  */
-float gln_vfbm(vec2 v, gln_tFBMOpts opts, gln_tVoronoiOpts vopts) {
+float gln_wfbm(vec2 v, gln_tFBMOpts opts, gln_tVoronoiOpts vopts) {
   v += (opts.seed * 100.0);
   float persistance = opts.persistance;
   float lacunarity = opts.lacunarity;
@@ -68,7 +68,7 @@ float gln_vfbm(vec2 v, gln_tFBMOpts opts, gln_tVoronoiOpts vopts) {
 
     vec2 p = v * frequency * opts.scale;
 
-    float noiseVal = gln_voronoi(p, vopts);
+    float noiseVal = gln_worley(p, vopts);
 
     if (terbulance)
       noiseVal = abs(noiseVal);

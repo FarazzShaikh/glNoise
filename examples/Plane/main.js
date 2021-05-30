@@ -97,8 +97,8 @@ loadShadersCSM(paths).then((vertex) => {
       "FBM (Perlin)": 2,
       "FBM (Simplex)": 3,
       "Ridge Noise": 4,
-      Voronoi: 5,
-      "FBM (Voronoi)": 6,
+      Worley: 5,
+      "FBM (Worley)": 6,
     })
     .name("Type")
     .onChange((e) => {

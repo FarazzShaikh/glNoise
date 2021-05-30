@@ -33,9 +33,9 @@ float displace(vec3 point) {
   } else if (uType == 4) {
     n = gln_normalize(gln_sfbm(uv, fbmOpts2));
   } else if (uType == 5) {
-    n = gln_voronoi(uv, voronoiOpts);
+    n = gln_worley(uv, voronoiOpts);
   } else if (uType == 6) {
-    n = gln_vfbm(uv, fbmOpts, voronoiOpts);
+    n = gln_wfbm(uv, fbmOpts, voronoiOpts);
   }
 
   return n;

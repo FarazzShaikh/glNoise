@@ -9,7 +9,6 @@ struct MaskOpts {
 
 struct WorldOpts {
   float height;
-  float simplexFac;
   float seaLevel;
   float simplexOpacity;
 };
@@ -26,7 +25,9 @@ vec3 displace(vec3 point) {
 
   vec3 p = point;
 
-  float mask = gln_normalize(gln_simplex(point * uMaskOpts.scale));
+  float seed = uSimplexOpts.seed;
+  float mask = gln_normalize(gln_simplex(
+      (point + ((seed * 100.0) + (seed * 1000.0))) * uMaskOpts.scale));
 
   gln_tFBMOpts opts1 = uSimplexOpts;
   opts1.redistribution = 1.0;
