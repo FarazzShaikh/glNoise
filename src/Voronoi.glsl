@@ -29,3 +29,60 @@ float gln_voronoi(vec2 point, gln_tVoronoiOpts opts) {
     result = 1.0 - result;
   return result;
 }
+
+/**
+ * Generats 3D Fractional Brownian motion (fBm) from Worley Noise.
+ *
+ * @name gln_vfbm
+ * @function
+ * @param {vec3} v               Point to sample fBm at.
+ * @param {gln_tFBMOpts} opts    Options for generating Simplex Noise.
+ * @return {float}               Value of fBm at point "p".
+ *
+ * @example
+ * gln_tFBMOpts opts =
+ *      gln_tFBMOpts(1.0, 0.3, 2.0, 0.5, 1.0, 5, false, false);
+ *
+ * gln_tVoronoiOpts voronoiOpts =
+ *     gln_tVoronoiOpts(1.0, 1.0, 3.0, false);
+ *
+ * float n = gln_vfbm(position.xy, voronoiOpts, opts);
+ */
+float gln_vfbm(vec2 v, gln_tFBMOpts opts, gln_tVoronoiOpts vopts) {
+  v += (opts.seed * 100.0);
+  float persistance = opts.persistance;
+  float lacunarity = opts.lacunarity;
+  float redistribution = opts.redistribution;
+  int octaves = opts.octaves;
+  bool terbulance = opts.terbulance;
+  bool ridge = opts.terbulance && opts.ridge;
+
+  float result = 0.0;
+  float amplitude = 1.0;
+  float frequency = 1.0;
+  float maximum = amplitude;
+
+  for (int i = 0; i < MAX_FBM_ITERATIONS; i++) {
+    if (i >= octaves)
+      break;
+
+    vec2 p = v * frequency * opts.scale;
+
+    float noiseVal = gln_voronoi(p, vopts);
+
+    if (terbulance)
+      noiseVal = abs(noiseVal);
+
+    if (ridge)
+      noiseVal = -1.0 * noiseVal;
+
+    result += noiseVal * amplitude;
+
+    frequency *= lacunarity;
+    amplitude *= persistance;
+    maximum += amplitude;
+  }
+
+  float redistributed = pow(result, redistribution);
+  return redistributed / maximum;
+}

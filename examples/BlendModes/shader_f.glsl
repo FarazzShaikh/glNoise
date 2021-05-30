@@ -11,6 +11,16 @@ void main() {
   vec2 uv = vUv;
   uv.x *= uResolution.x / uResolution.y;
 
+  gln_tFBMOpts fbmOpts1 =
+      gln_tFBMOpts(1.0, 0.5, 2.0, 1.0, 1.0, 1, false, false);
+  gln_tFBMOpts fbmOpts2 =
+      gln_tFBMOpts(1.0, 0.5, 2.0, 1.0, 1.0, 7, false, false);
+
+  float f1 = gln_normalize(gln_sfbm(uv, fbmOpts1));
+  float f2 = gln_normalize(gln_sfbm(uv, fbmOpts2));
+
+  //   vec4 logo = vec4(vec3(f1), 1.0);
+  //   vec4 rect = vec4(vec3(f2), 1.0);
   vec4 logo = texture2D(uLogo, uv);
   vec4 rect = texture2D(uRect, uv);
 

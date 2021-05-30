@@ -73,10 +73,11 @@ loadShaders(paths).then(([fragment, vertex]) => {
       "FBM (Simplex)": 3,
       "Ridge Noise": 4,
       Voronoi: 5,
+      "FBM (Voronoi)": 6,
     })
     .name("Type")
     .onChange((e) => {
-      if (e == 2 || e == 3 || e == 4) {
+      if (e == 2 || e == 3 || e == 4 || e == 6) {
         if (gui_fbmHidden) {
           gui_folder_fmb.show();
           gui_folder_fmb.open();
