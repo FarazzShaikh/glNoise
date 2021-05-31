@@ -21,15 +21,15 @@ const isNode =
 
 async function nodeFetch(s: string) {
   // @ts-ignore
-  const fs = (await import("fs")).promises;
+  const fs = await import("fs");
   // @ts-ignore
   const path = (await import("path")).default;
 
-  const f = (await fs.readFile(path.resolve(s))).toString();
+  const f = fs.readFileSync(path.resolve(s));
 
   return {
     text: async function () {
-      return f;
+      return f.toString();
     },
   };
 }

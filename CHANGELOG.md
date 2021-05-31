@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added examples to demonstrate 3D noise and blend modes.
 - Added Worley Noise based FBM
 - Changed implementation of Worley Noise
+- Updated Readme
 
 ## Version 1.0.4
 

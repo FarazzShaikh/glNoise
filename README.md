@@ -210,6 +210,23 @@ float n = gln_normalize(p);
 
 **Note: CSM = My [CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**
 
+## Development
+
+The concept is prerrty simple. You can fork it and write your GLSL funcitons in a file with the `.glsl` in the `src` directory. The funciton must be shader independant so no use of `gl_FragCoord` or any shader specific variables. 
+
+You can document your code using [JSDoc](https://jsdoc.app/about-getting-started.html) style comment blocks. The documentation is auto generated so you **MUST** include a `@name` with the name of your function. See the preexisting functions for refrence. This is because 
+
+Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the `_all` array.
+
+Thats it. You can see if it builds by running
+
+```bash
+npm run build
+```
+
+It's ideal if you'd include your new noise function as an example but not required.
+
+
 ## Credits
 
 I have not come up with these noise functions. Here's attribution to the creators of them.
@@ -218,6 +235,6 @@ I have not come up with these noise functions. Here's attribution to the creator
 |-------|-------|-----------|---------|
 | Perlin Noise | Hugh Kennedy | [GitHub](https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl) | MIT |
 | Simplex Noise | Ian McEwan | [GitHub](https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl) | MIT |
-| Voronoi Noise | Patricio Gonzalez Vivo | [WebSite](https://thebookofshaders.com/12/) | ??? |
+| Worley Noise | Max Bittker | [GitHub](https://github.com/MaxBittker/glsl-voronoi-noise) | MIT |
 
-**If you see your function being used in this library, please open an issue or contact me at farazzshaikh@gmail.com so I can credit you or remove the function ASAP.**
+**If you see your function being used in this library, please open an issue so I can credit you or remove the function ASAP.**

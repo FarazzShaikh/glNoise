@@ -23,13 +23,13 @@ var glNoise = (function (exports) {
       process.versions.node != null;
   async function nodeFetch(s) {
       // @ts-ignore
-      const fs = (await import('fs')).promises;
+      const fs = await import('fs');
       // @ts-ignore
       const path = (await import('path')).default;
-      const f = (await fs.readFile(path.resolve(s))).toString();
+      const f = fs.readFileSync(path.resolve(s));
       return {
           text: async function () {
-              return f;
+              return f.toString();
           },
       };
   }
