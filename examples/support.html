@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        outline: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #text {
+        color: black;
+        text-align: center;
+        padding: 5%;
+        margin-bottom: 10%;
+        font-family: sans-serif;
+      }
+
+      #code {
+        background-color: rgb(240, 240, 240);
+        padding: 1rem;
+        border-radius: 1rem;
+        font-size: large;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        margin: 0.2rem;
+      }
+
+      #code:hover {
+        box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+      }
+
+      h1 {
+        font-weight: lighter;
+      }
+
+      h5 {
+        font-weight: bold;
+      }
+
+      img {
+        max-width: 300px;
+      }
+
+      .tippy-content {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="text">
+      <img src="" />
+      <div id="code">
+        <code>0x1A12e003D805e39f73Dd1596eeAFDfde79Ce61D2</code>
+      </div>
+      <h5>Thank You for supoorting me!</h5>
+    </div>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@4"></script>
+    <script defer>
+      window.onload = () => {
+        tippy("#code", {
+          content: "Click to copy me!",
+        });
+        const code = document.querySelector("#code");
+
+        const addr = {
+          ETH: "0x1A12e003D805e39f73Dd1596eeAFDfde79Ce61D2",
+          BTC: "17qLgjRrRQy6vy3WBzHdcnApCYQ98gVQZh",
+          DOGE: "DJo5mPCPPCpBnZwCP9EP7o87saKvEjHqYy",
+        };
+
+        const queryString = window.location.search;
+        const via = new URLSearchParams(queryString).getAll("via")[0];
+
+        document
+          .querySelector("img")
+          .setAttribute("src", `./Assets/${via}.gif`);
+
+        document.querySelector("code").innerHTML =
+          addr[via] || "Broken link 😭";
+
+        code.addEventListener("click", function (e) {
+          navigator.clipboard.writeText(addr[via]);
+          this._tippy.setContent("Copied!");
+          this._tippy.show();
+        });
+
+        code.addEventListener("mouseout", function () {
+          setTimeout(() => {
+            this._tippy.setContent("Click to copy me!");
+          }, 500);
+        });
+      };
+    </script>
+  </body>
+</html>

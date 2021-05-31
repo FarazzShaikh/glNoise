@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added 3D versions of Perlin, Simplex, and FBM functions.
 - Added Photoshop-like blend modes.
-- Added examples to demonstrate 3D noise and blendmodes.
+- Added examples to demonstrate 3D noise and blend modes.
 - Added Worley Noise based FBM
 - Changed implementation of Worley Noise
 
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Fixed bug related to typo in `package.json`
+- Fixed bug related to a typo in `package.json`
 - Fixed bug with `fs/promises` not being found in React.
 
 ## Version 1.0.0
