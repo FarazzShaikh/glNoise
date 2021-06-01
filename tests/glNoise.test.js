@@ -7,43 +7,85 @@ import {
   loadShadersCSM,
 } from "../build/glNoise.m.js";
 
-ava("Test loadShadersRaw()", async (t) => {
-  const expected = (
-    await fs.readFile(path.resolve("tests/test.glsl"))
-  ).toString();
-  const actual = (await loadShadersRaw(["tests/test.glsl"]))[0];
+let files;
+let expected;
 
-  t.is(actual, expected);
+ava.before(async () => {
+  files = (await fs.readdir("src")).filter(
+    (file) => path.extname(file).toLowerCase() === ".glsl"
+  );
+
+  expected = await Promise.all(
+    files.map(async (f) =>
+      (await fs.readFile(path.resolve(`src/${f}`))).toString()
+    )
+  );
+});
+
+ava("Test file extensions", async (t) => {
+  const files = (await fs.readdir("src")).map((f) => {
+    if (f !== "glsl.d.ts") {
+      return f.split(".")[1];
+    }
+  });
+  const isTrue = files.every((f) => (f ? f === "glsl" : true));
+  t.true(
+    isTrue,
+    "File with extension other than .glsl found in 'src' directory"
+  );
+});
+
+ava("Test loadShadersRaw()", async (t) => {
+  const actual = await Promise.all(
+    files.map(async (f) => (await loadShadersRaw([`src/${f}`]))[0])
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return f === actual[i];
+  });
+
+  t.true(isTrue);
 });
 
 ava("Test loadShaders()", async (t) => {
-  const chunks = [[]];
-  const paths = ["tests/test.glsl"];
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
 
-  const common = (
-    await fs.readFile(path.resolve("src/Common.glsl"))
-  ).toString();
-  const vert = (await fs.readFile(path.resolve("tests/test.glsl"))).toString();
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const paths = [basePath];
+      const chunks = [await loadShadersRaw([`src/${f}`])];
+      return (await loadShaders(paths, chunks))[0];
+    })
+  );
 
-  const actual = (await loadShaders(paths, chunks))[0];
+  const isTrue = expected.every((f, i) => {
+    return actual[i].includes(f) && actual[i].includes(base);
+  });
 
-  t.assert(actual.includes(vert) && actual.includes(common));
+  t.true(isTrue);
 });
 
 ava("Test loadShadersCSM()", async (t) => {
-  const paths = {
-    defines: "tests/test.glsl",
-    header: "tests/test.glsl",
-    main: "tests/test.glsl",
-  };
-  const expected = (
-    await fs.readFile(path.resolve("tests/test.glsl"))
-  ).toString();
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
 
-  const actual = await loadShadersCSM(paths, []);
-  console.log(actual.header.includes(expected));
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const chunks = [await loadShadersRaw([`src/${f}`])];
+      const csm = {
+        defines: basePath,
+        header: basePath,
+        main: basePath,
+      };
 
-  t.assert(actual.defines.includes(expected));
-  t.is(actual.header, "\n" + expected);
-  t.is(actual.main, expected);
+      return await loadShadersCSM(csm, chunks);
+    })
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return actual[i].header.includes(f) && actual[i].main.includes(base);
+  });
+
+  t.true(isTrue);
 });

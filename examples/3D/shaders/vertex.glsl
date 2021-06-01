@@ -4,15 +4,23 @@ uniform float uTime;
 uniform int uType;
 uniform float uSeed;
 
+uniform float uPersistance;
+uniform float uLacunarity;
+uniform float uScale;
+uniform int uOctaves;
+uniform bool uInvert;
+uniform float uDistance;
+
 void main() {
 
-  gln_tFBMOpts fbmOpts =
-      gln_tFBMOpts(uSeed, 0.5, 2.0, 0.5, 1.0, 5, false, false);
-  gln_tFBMOpts fbmOpts2 =
-      gln_tFBMOpts(uSeed, 0.5, 2.0, 2.0, 1.0, 5, true, true);
+  gln_tFBMOpts fbmOpts = gln_tFBMOpts(uSeed, uPersistance, uLacunarity, uScale,
+                                      1.0, uOctaves, false, false);
 
-  gln_tVoronoiOpts voronoiOpts = gln_tVoronoiOpts(uSeed, 0.0, 3.0, false);
-  gln_tVoronoiOpts voronoiOpts2 = gln_tVoronoiOpts(uSeed, 0.0, 3.0, true);
+  gln_tFBMOpts fbmOpts2 = gln_tFBMOpts(uSeed, uPersistance, uLacunarity, uScale,
+                                       1.0, uOctaves, true, true);
+
+  gln_tVoronoiOpts voronoiOpts =
+      gln_tVoronoiOpts(uSeed, uDistance, uScale * 3.0, uInvert);
 
   vec3 pos = position;
   vPosition = normalize(pos);
@@ -24,15 +32,17 @@ void main() {
     float n;
 
     if (uType == 0) {
-      n = gln_normalize(gln_perlin(pos * 4.0));
+      n = gln_normalize(gln_perlin(uv * 4.0 * uScale));
     } else if (uType == 1) {
-      n = gln_normalize(gln_simplex(pos * 2.0));
+      n = gln_normalize(gln_simplex(uv * 4.0 * uScale));
     } else if (uType == 2) {
-      n = gln_normalize(gln_pfbm(pos, fbmOpts));
+      n = gln_normalize(gln_pfbm(uv, fbmOpts));
     } else if (uType == 3) {
-      n = gln_normalize(gln_sfbm(pos, fbmOpts));
+      n = gln_normalize(gln_sfbm(uv, fbmOpts));
     } else if (uType == 4) {
-      n = gln_normalize(gln_sfbm(pos, fbmOpts2));
+      n = gln_normalize(gln_sfbm(uv, fbmOpts2));
+    } else if (uType == 5) {
+      n = gln_worley(uv, voronoiOpts);
     }
 
     pos = position + (normal * n);

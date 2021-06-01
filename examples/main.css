@@ -91,9 +91,10 @@ body {
     font-weight: 400;
     font-size: 17px;
     margin: 20px 0 50px;
+    font-weight: bold;
 }
 .Section {
-    font-weight: bold;
+    font-weight: normal;
     margin: 40px 0 20px;
 
     padding-left: 15px;
@@ -105,12 +106,13 @@ body {
     padding-left: 30px;
     display: block;
 }
-div.Example[selected = "false"] {
+.Example[selected = "false"] {
     opacity: 0.5;
     cursor: pointer;
 }
 
-div.Example[selected = "true"] {
+.Example[selected = "true"] {
+    font-weight: bold;
     opacity: 1;
     cursor: pointer;
 }

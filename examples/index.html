@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, minimal-ui, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
     />
-    <title>Three-Noise | Examples</title>
+    <title>gl-Noise | Examples</title>
     <link href="main.css" rel="stylesheet" />
   </head>
   <body>
@@ -18,66 +18,15 @@
       </a>
       <div class="SubTitle">Examples</div>
 
-      <a class="Section" selected="true" href="./Map/map.html"
-        >2D Noise | Maps</a
-      >
-      <div class="Example" sec="map" selected="true" type="0">Perlin Noise</div>
-      <div class="Example" sec="map" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="map" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="map" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="map" selected="false" type="4">Ridge Noise</div>
-      <div class="Example" sec="map" selected="false" type="5">
-        Voronoi Noise
-      </div>
-      <div class="Example" sec="map" selected="false" type="6">
-        Voronoi Noise (inverted)
-      </div>
+      <div class="Section">2D Noise</div>
+      <a class="Example" sec="misc" selected="false" type="0" href="./Map/map.html">Map</a>
+      <a class="Example" sec="misc" selected="false" type="0" href="./Plane/plane.html">Plane</a>
 
-      <a class="Section" selected="false" href="./Plane/plane.html"
-        >2D Noise | Plane</a
-      >
-      <div class="Example" sec="plane" selected="false" type="0">
-        Perlin Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="plane" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="plane" selected="false" type="4">
-        Ridge Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="5">
-        Voronoi Noise
-      </div>
-      <div class="Example" sec="plane" selected="false" type="6">
-        Voronoi Noise (inverted)
-      </div>
-
-      <a class="Section" selected="false" href="./3D/3D.html">3D Noise</a>
-      <div class="Example" sec="3d" selected="false" type="0">Perlin Noise</div>
-      <div class="Example" sec="3d" selected="false" type="1">
-        Simplex Noise
-      </div>
-      <div class="Example" sec="3d" selected="false" type="2">
-        Perlin Noise (fBm)
-      </div>
-      <div class="Example" sec="3d" selected="false" type="3">
-        Simplex Noise (fBm)
-      </div>
-      <div class="Example" sec="3d" selected="false" type="4">Ridge Noise</div>
-
-      <div class="Section" selected="false" >Misc</div>
+      <div class="Section">3D Noise</div>
+      <a class="Example" sec="misc" selected="true" type="0" href="./Planet/3D.html">Planet</a>
+      <a class="Example" sec="misc" selected="false" type="0" href="./3D/3D.html">Cube</a>
+      
+      <div class="Section">Misc</div>
       <a class="Example" sec="misc" selected="false" type="0" href="./BlendModes/blend.html">Blend Modes</a>
       </div>
     </div>
@@ -88,104 +37,86 @@
     <a class="CodeIcon" href="" target="_blank">&lt;&#47;&gt;</a>
 
     <script>
-      const sourceLink = document.querySelector(".CodeIcon");
-      const toggleLink = document.querySelector(".SideIcon");
-      const exampleLinks = document.querySelectorAll("a.Section");
-      const exampleTabs = document.querySelectorAll(".Example");
-      const iFrame = document.querySelector(".Iframe");
-      const sourcePath =
-        "https://github.com/FarazzShaikh/glNoise/tree/master/examples/";
 
-      toggleLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.body.toggleAttribute("data-hideSidebar");
-      });
+    const iFrame = document.querySelector(".Iframe");
+    const sourceLink = document.querySelector(".CodeIcon");
 
-      // Load query example in iFrame if linked
-      let loadQuery = location.search.split("src=");
-      if (loadQuery[1]) {
-        iFrame.src = loadQuery[1];
-        sourceLink.href = sourcePath + loadQuery[1];
-      } else {
-        // choose random example to show if none linked
-        let target =
-          exampleLinks[Math.floor(Math.random() * exampleLinks.length)];
-        updateExample({ target });
-      }
+    window.addEventListener("load", (e) => {
+        const s = webgl_support();
+        if(s) {
+                    
+           
+            const toggleLink = document.querySelector(".SideIcon");
+            const exampleLinks = document.querySelectorAll(".Section");
+            const exampleTabs = document.querySelectorAll(".Example");
+            
+            const sourcePath =
+                "https://github.com/FarazzShaikh/glNoise/tree/master/examples/";
 
-      exampleLinks.forEach((link) => {
-        link.addEventListener("click", updateExample, false);
-      });
+            toggleLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.body.toggleAttribute("data-hideSidebar");
+            });
 
-      exampleTabs.forEach((link) => {
-        link.addEventListener("click", updateTab, false);
-      });
+            // Load query example in iFrame if linked
+            let loadQuery = location.search.split("src=");
+            if (loadQuery[1]) {
+                iFrame.src = loadQuery[1];
+                sourceLink.href = sourcePath + loadQuery[1];
+            } else {
+                // choose random example to show if none linked
+                let target =
+                exampleTabs[2];
+                updateExample({ target });
+            }
 
-      function updateTab(e) {
-        const type = e.target.getAttribute("type");
-        localStorage.setItem("type", type);
+            exampleTabs.forEach((link) => {
+                link.addEventListener("click", updateExample, false);
+            });
 
-        let index = 0;
-        exampleTabs.forEach((e, i) => {
-            e.setAttribute("selected", "false")
-          if (e.getAttribute("selected") === "true") {
-            index = i;
-            return;
-          }
-        });
 
-        e.target.setAttribute("selected", "true");
+            function updateExample(e) {
+                let src = e.target.href.split("examples/")[1];
+                exampleTabs.forEach((e) => e.setAttribute("selected", "false"));
+                e.target.setAttribute("selected", "true");
 
-        switch (e.target.getAttribute("sec")) {
-          case "map":
-            if (exampleLinks[0].getAttribute("selected") === "false")
-              exampleLinks[0].click();
-            break;
+                // Allow user to cmd/ctrl + click to open in new tab
+                if (e.metaKey) {
+                window.open(
+                    `${location.origin}${location.pathname}?src=${src}`,
+                    "_blank"
+                );
+                return;
+                }
 
-          case "plane":
-            if (exampleLinks[1].getAttribute("selected") === "false")
-              exampleLinks[1].click();
-            break;
+                iFrame.src = e.target.href;
+                sourceLink.href = sourcePath + src;
 
-          case "3d":
-            if (exampleLinks[2].getAttribute("selected") === "false")
-              exampleLinks[2].click();
-            break;
-
-          case "misc":
-            updateExample(e)
-            break;
-
-          default:
-            break;
+                // Update search query
+                history.pushState(
+                null,
+                null,
+                `${location.origin}${location.pathname}?src=${src}`
+                );
+                e.preventDefault && e.preventDefault();
+            }
+        } else {
+            iFrame.src = "./noWebGL.html";
+            sourceLink.href = "https://codepen.io/aleksblago/pen/meXvvE";
         }
-      }
+        
+    })
 
-      function updateExample(e) {
-        let src = e.target.href.split("examples/")[1];
-        exampleLinks.forEach((e) => e.setAttribute("selected", "false"));
-        e.target.setAttribute("selected", "true");
 
-        // Allow user to cmd/ctrl + click to open in new tab
-        if (e.metaKey) {
-          window.open(
-            `${location.origin}${location.pathname}?src=${src}`,
-            "_blank"
-          );
-          return;
-        }
-
-        iFrame.src = e.target.href;
-        sourceLink.href = sourcePath + src;
-
-        // Update search query
-        history.pushState(
-          null,
-          null,
-          `${location.origin}${location.pathname}?src=${src}`
-        );
-        e.preventDefault && e.preventDefault();
-      }
+        function webgl_support () { 
+            try {
+                var canvas = document.createElement('canvas'); 
+                return !!window.WebGLRenderingContext &&
+                (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+            } catch(e) {
+                return false;
+            }
+        };
     </script>
   </body>
 </html>

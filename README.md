@@ -18,6 +18,17 @@
   <p align="center">
     <a href="https://www.npmjs.com/package/gl-noise"><img align="center" src="https://img.shields.io/npm/v/gl-noise?color=cc3534&style=for-the-badge" /></a>
   </p>
+
+  <p align="center">
+    My work is for and funded by the community. If you used this or found this helpful consider supporting me.
+  </p>
+
+  <p align="center">
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=ETH"><img align="center" src="https://img.shields.io/badge/Ethereum-A6A9AA?style=for-the-badge&logo=ethereum&logoColor=white" /></a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=BTC"><img align="center" src="https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white" /></a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=DOGE"><img align="center" src="https://img.shields.io/badge/dogecoin-C2A633?style=for-the-badge&logo=dogecoin&logoColor=white" /></a>
+     <a href="https://paypal.me/farazzshaikh"><img align="center" src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" /></a>
+  </p>
 </p>
 
 
@@ -37,6 +48,11 @@
         <a href="#usage---javascript">Usage - JavaScript</a>
         <ul>
             <li><a href="#shader-chunks">Shader Chunks</a></li>
+            <ul>
+                <li><a href="#loadshadersraw">`loadShadersRaw`</a></li>
+                <li><a href="#loadshaders">`loadShaders`</a></li>
+                <li><a href="#loadshaderscsm">`loadShadersCSM`</a></li>
+            </ul>
             <li><a href="#loaders">Loaders</a></li>
         </ul>
         </li>
@@ -68,12 +84,6 @@ So this library addresses both those issues. It does not require any third-party
 
 ## Installation
 
-Make sure to have ThreeJS installed.
-```bash
-$ npm i three
-```
-
-Install gl-Noise
 ```bash
 $ npm i gl-noise
 ```
@@ -157,18 +167,70 @@ You can load these chunks along with shaders as you will see in the next section
 
 gl-Noise provides three types of loaders. You can read about them in the [API Reference](https://farazzshaikh.github.io/glNoise/global.html#loadShaders) but here is a summary.
 
+#### `loadShadersRaw`
+
+This function loads shaders without any processing. Like loading a text file.
+
 ```js
-const paths = ["./s1.glsl", "./s2.glsl", "./s3.glsl"];
-const chunks = [
-    [Perlin],           // 👈 Chunks to include with s1
-    [Perlin, Simplex],  // 👈 Chunks to include with s2
-    []                  // 👈 Chunks to include with s3
+// Paths must be an array of strings
+const paths = [
+    "path/to/s1.glsl",
+    "path/to/s2.glsl",
+    "path/to/s3.glsl",
 ]
 
-// Loads shaders and appends chunks to them.
-loadShaders(paths, chunks).then(([s1, s2, s3]) => {
+
+loadShadersRaw(paths).then(([s1, s2, s3]) => {
     // whatever
 })
+    
+```
+
+#### `loadShaders`
+This function loads shaders and appends the provided chunks to them. The chunks can be imported from gl-Noise and are just strings that will be appended to each shader.
+
+```js
+import { Perlin, Simplex, Common } from "gl-noise"
+import { CustomChunk } from "custom/path.glsl"
+
+// Paths must be an array of strings
+const paths = [
+    "path/to/s1.glsl",
+    "path/to/s2.glsl",
+    "path/to/s3.glsl",
+];
+
+// Chunks are optional. If undefined or NULL, 
+// all available inbuilt chunks will be appened
+const chunks = [
+    [Perlin, Simplex],      // 👈 Chunks to include with s1
+    [CustomChunk],          // 👈 Chunks to include with s2
+    null                    // 👈 Chunks to include with s3
+]
+
+// Headers are optional. If undefined or NULL, 
+// only the "Common" shader chunk will be appened
+const headers = [
+    `precision highp float;`,   👈 Header to include with s1
+    `
+    precision highp float;      👈 Header to include with s2
+    ${Common}
+    `,
+    null,                       👈 Header to include with s3
+    
+]
+
+loadShaders(paths, chunks, headers).then(([s1, s2, s3]) => {
+    // whatever
+})
+
+```
+
+#### `loadShadersCSM`
+
+**This function is to be used with [THREE-CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**. It appends shader chunks to the `header` section of the provided inputs.
+
+```js
 
 const CSMpaths = {
   defines: "./shaders/defines.glsl",
@@ -183,12 +245,6 @@ loadShadersCSM(CSMpaths, CSMchunks).then(({defines, header, main}) => {
     // whatever
 })
 
-// Note: Leaving out the "chunks" parameter results in all available chunks being added.
-
-// Loads shaders without any post processing.
-loadShadersRaw(paths).then(([s1, s2, s3]) => {
-    // whatever
-})
 
 ```
 
@@ -203,7 +259,22 @@ float n = gln_normalize(p);
 
 **See the full list of available functions in the [API Reference](https://farazzshaikh.github.io/glNoise/module-Common.html).**
 
-**Note: CSM = My [CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**
+## Development
+
+The concept is pretty simple. You can fork it and write your GLSL functions in a file with the `.glsl` extension in the `src` directory. **The function must be shader independent so no use of `gl_FragCoord` or any shader-specific variables.** 
+
+You can document your code using [JSDoc](https://jsdoc.app/about-getting-started.html) style comment blocks. The documentation is auto-generated so you **MUST** include a `@name` with the name of your function. See the preexisting functions for reference. This is because 
+
+Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the `_all` array.
+
+That's it. You can see if it builds by running
+
+```bash
+npm run build
+```
+
+It's ideal if you'd include your new noise function as an example but not required.
+
 
 ## Credits
 
@@ -213,6 +284,6 @@ I have not come up with these noise functions. Here's attribution to the creator
 |-------|-------|-----------|---------|
 | Perlin Noise | Hugh Kennedy | [GitHub](https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl) | MIT |
 | Simplex Noise | Ian McEwan | [GitHub](https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl) | MIT |
-| Voronoi Noise | Patricio Gonzalez Vivo | [WebSite](https://thebookofshaders.com/12/) | ??? |
+| Worley Noise | Max Bittker | [GitHub](https://github.com/MaxBittker/glsl-voronoi-noise) | MIT |
 
-**If you see your function being used in this library, please open an issue or contact me at farazzshaikh@gmail.com so I can credit you or remove the function ASAP.**
+**If you see your function being used in this library, please open an issue so I can credit you or remove the function ASAP.**

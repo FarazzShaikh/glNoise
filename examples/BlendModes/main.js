@@ -1,18 +1,16 @@
-import {
-  Renderer,
-  Program,
-  Mesh,
-  Triangle,
-  Vec2,
-  TextureLoader,
-} from "https://cdn.skypack.dev/ogl";
+import { Renderer, Program, Mesh, Triangle, Vec2, TextureLoader } from "https://cdn.skypack.dev/ogl";
 
 import * as dat from "../lib/dat.gui.module.js";
-import { loadShaders } from "../../build/glNoise.m.js";
+import { loadShaders, Common } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
 
-loadShaders(paths).then(([fragment, vertex]) => {
+const head = `
+precision highp float;
+${Common}
+`;
+
+loadShaders(paths, null, [head, head]).then(([fragment, vertex]) => {
   const renderer = new Renderer();
   const gl = renderer.gl;
   document.body.appendChild(gl.canvas);
@@ -42,7 +40,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
     vertex,
     fragment,
     uniforms: {
-      uType: { value: Number(localStorage.getItem("type")) || 0 },
+      uType: { value: 2 },
       uRect: { value: rect },
       uLogo: { value: logo },
       uResolution: { value: new Vec2() },
@@ -50,14 +48,6 @@ loadShaders(paths).then(([fragment, vertex]) => {
   });
 
   const mesh = new Mesh(gl, { geometry, program });
-
-  window.addEventListener(
-    "storage",
-    function (e) {
-      program.uniforms.uType.value = Number(this.localStorage.getItem("type"));
-    },
-    false
-  );
 
   const gui = new dat.gui.GUI();
   gui.add(program.uniforms.uType, "value", {
