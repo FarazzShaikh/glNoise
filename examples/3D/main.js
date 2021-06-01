@@ -1,17 +1,11 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 import * as dat from "../lib/dat.gui.module.js";
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
-import { loadShadersCSM } from "../../build/glNoise.m.js";
+import { loadShaders } from "../../build/glNoise.m.js";
 
-import { CustomShaderMaterial, TYPES } from "../lib/three-csm.module.js";
+const paths = ["./shaders/fragment.glsl", "./shaders/vertex.glsl"];
 
-const paths = {
-  defines: "./shaders/defines.glsl",
-  header: "./shaders/header.glsl",
-  main: "./shaders/main.glsl",
-};
-
-loadShadersCSM(paths).then((vertex) => {
+loadShaders(paths).then(([fragment, vertex]) => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
     75,
@@ -24,40 +18,35 @@ loadShadersCSM(paths).then((vertex) => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  const geometry = new THREE.PlaneGeometry(5, 5, 256, 256);
-  const type = TYPES.NORMAL;
-  const material = new CustomShaderMaterial({
-    uniforms: [
-      {
-        uTime: { value: 1.0 },
-        uColor: { value: new THREE.Color(1, 1, 1) },
-        uResolution: { value: new THREE.Vector3() },
-        uSeed: { value: Math.random() },
-        uType: { value: 0 },
+  const geometry = new THREE.BoxGeometry(2, 2, 2);
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 1.0 },
+      uResolution: { value: new THREE.Vector3() },
+      uType: { value: 0 },
+      uIsSphere: { value: 0 },
 
-        uPersistance: { value: 0.3 },
-        uLacunarity: { value: 2.0 },
-        uScale: { value: 0.5 },
-        uOctaves: { value: 5 },
-        uDistance: { value: 0 },
-        uInvert: { value: false },
-      },
-    ],
-    baseMaterial: type,
-    vShader: {
-      defines: vertex.defines,
-      header: vertex.header,
-      main: vertex.main,
+      uPersistance: { value: 0.5 },
+      uLacunarity: { value: 2.0 },
+      uScale: { value: 1.0 },
+      uOctaves: { value: 5 },
     },
-    passthrough: {
-      wireframe: false,
-      // lights: true,
-      side: THREE.DoubleSide,
-    },
+    fragmentShader: fragment,
+    vertexShader: vertex,
   });
+
   const cube = new THREE.Mesh(geometry, material);
   cube.rotateX(-Math.PI / 2);
+  cube.position.x -= 2;
   scene.add(cube);
+
+  const geometry2 = new THREE.IcosahedronGeometry(0.8, 32);
+  const material2 = material.clone();
+  material2.uniforms.uIsSphere.value = 1;
+
+  const sphere = new THREE.Mesh(geometry2, material2);
+  sphere.position.x += 2;
+  scene.add(sphere);
 
   camera.position.set(4, 4, 4);
 
@@ -77,9 +66,7 @@ loadShadersCSM(paths).then((vertex) => {
   };
 
   let gui_fbmHidden = true;
-  let gui_voronoiHidden = true;
   let gui_folder_fmb;
-  let gui_folder_voronoi;
   const gui = new dat.gui.GUI();
 
   gui.add(doesAnimate, "value").name("Move with time?");
@@ -88,7 +75,8 @@ loadShadersCSM(paths).then((vertex) => {
     .min(0)
     .max(10)
     .step(0.01)
-    .name("Scale");
+    .name("Scale")
+    .onChange((v) => gui_chnageHandler("uScale", v));
 
   gui
     .add(material.uniforms.uType, "value", {
@@ -97,32 +85,19 @@ loadShadersCSM(paths).then((vertex) => {
       "FBM (Perlin)": 2,
       "FBM (Simplex)": 3,
       "Ridge Noise": 4,
-      Worley: 5,
-      "FBM (Worley)": 6,
     })
     .name("Type")
     .onChange((e) => {
-      if (e == 2 || e == 3 || e == 4 || e == 6) {
+      gui_chnageHandler("uType", e);
+      if (e == 2 || e == 3 || e == 4) {
         if (gui_fbmHidden) {
           gui_folder_fmb.show();
           gui_folder_fmb.open();
           gui_fbmHidden = false;
-          gui_folder_voronoi.hide();
-          gui_voronoiHidden = true;
-        }
-      } else if (e == 5) {
-        if (gui_voronoiHidden) {
-          gui_folder_voronoi.show();
-          gui_folder_voronoi.open();
-          gui_voronoiHidden = false;
-          gui_folder_fmb.hide();
-          gui_fbmHidden = true;
         }
       } else {
         gui_folder_fmb.hide();
         gui_fbmHidden = true;
-        gui_folder_voronoi.hide();
-        gui_voronoiHidden = true;
       }
     });
 
@@ -133,32 +108,28 @@ loadShadersCSM(paths).then((vertex) => {
     .min(0)
     .max(1)
     .step(0.01)
-    .name("Smoothness");
+    .name("Smoothness")
+    .onChange((v) => gui_chnageHandler("uPersistance", v));
 
   gui_folder_fmb
     .add(material.uniforms.uLacunarity, "value")
     .min(0)
     .max(4)
     .step(0.01)
-    .name("Detail");
+    .name("Detail")
+    .onChange((v) => gui_chnageHandler("uLacunarity", v));
 
   gui_folder_fmb
     .add(material.uniforms.uOctaves, "value")
     .min(0)
     .max(10)
     .step(1)
-    .name("Octaves");
+    .name("Octaves")
+    .onChange((v) => gui_chnageHandler("uOctaves", v));
 
-  gui_folder_voronoi = gui.addFolder("Voronoi");
-  gui_folder_voronoi.hide();
-  gui_folder_voronoi
-    .add(material.uniforms.uDistance, "value")
-    .min(0)
-    .max(10)
-    .step(1)
-    .name("Distance");
-
-  gui_folder_voronoi.add(material.uniforms.uInvert, "value").name("Invert");
+  function gui_chnageHandler(ele, v) {
+    material2.uniforms[ele].value = v;
+  }
 
   const animate = function (time) {
     requestAnimationFrame(animate);
@@ -166,6 +137,8 @@ loadShadersCSM(paths).then((vertex) => {
     const canvas = renderer.domElement;
     material.uniforms.uResolution.value.set(canvas.width, canvas.height, 1);
     if (doesAnimate.value) material.uniforms.uTime.value = time * 0.0001;
+    material2.uniforms.uResolution.value.set(canvas.width, canvas.height, 1);
+    if (doesAnimate.value) material2.uniforms.uTime.value = time * 0.0001;
 
     controls.update();
     renderer.render(scene, camera);

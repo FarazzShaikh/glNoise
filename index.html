@@ -90,7 +90,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Voronoi.html">Voronoi</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
                 
             </nav>
         </div>
@@ -142,6 +142,15 @@
   <p align="center">
     <a href="https://www.npmjs.com/package/gl-noise"><img align="center" src="https://img.shields.io/npm/v/gl-noise?color=cc3534&style=for-the-badge" /></a>
   </p>
+  <p align="center">
+    My work is for and funded by the community. If you used this or found this helpful consider supporting me.
+  </p>
+  <p align="center">
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=ETH"><img align="center" src="https://img.shields.io/badge/Ethereum-A6A9AA?style=for-the-badge&logo=ethereum&logoColor=white" /></a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=BTC"><img align="center" src="https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white" /></a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/support.html?via=DOGE"><img align="center" src="https://img.shields.io/badge/dogecoin-C2A633?style=for-the-badge&logo=dogecoin&logoColor=white" /></a>
+     <a href="https://paypal.me/farazzshaikh"><img align="center" src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" /></a>
+  </p>
 </p>
 <details open>
   <summary>Table of Contents</summary>
@@ -159,6 +168,11 @@
         <a href="#usage---javascript">Usage - JavaScript</a>
         <ul>
             <li><a href="#shader-chunks">Shader Chunks</a></li>
+            <ul>
+                <li><a href="#loadshadersraw">`loadShadersRaw`</a></li>
+                <li><a href="#loadshaders">`loadShaders`</a></li>
+                <li><a href="#loadshaderscsm">`loadShadersCSM`</a></li>
+            </ul>
             <li><a href="#loaders">Loaders</a></li>
         </ul>
         </li>
@@ -182,10 +196,6 @@
 <p>So this library addresses both those issues. It does not require any third-party libraries and you can include and use these noise functions without even having to give it a second thought.</p>
 <p><strong>Examples can be found in the <code>examples</code> directory.</strong></p>
 <h2>Installation</h2>
-<p>Make sure to have ThreeJS installed.</p>
-<pre class="prettyprint source lang-bash"><code>$ npm i three
-</code></pre>
-<p>Install gl-Noise</p>
 <pre class="prettyprint source lang-bash"><code>$ npm i gl-noise
 </code></pre>
 <p>or</p>
@@ -242,18 +252,61 @@
 <p>You can load these chunks along with shaders as you will see in the next section.</p>
 <h3>Loaders</h3>
 <p>gl-Noise provides three types of loaders. You can read about them in the <a href="https://farazzshaikh.github.io/glNoise/global.html#loadShaders">API Reference</a> but here is a summary.</p>
-<pre class="prettyprint source lang-js"><code>const paths = [&quot;./s1.glsl&quot;, &quot;./s2.glsl&quot;, &quot;./s3.glsl&quot;];
-const chunks = [
-    [Perlin],           // 👈 Chunks to include with s1
-    [Perlin, Simplex],  // 👈 Chunks to include with s2
-    []                  // 👈 Chunks to include with s3
+<h4><code>loadShadersRaw</code></h4>
+<p>This function loads shaders without any processing. Like loading a text file.</p>
+<pre class="prettyprint source lang-js"><code>// Paths must be an array of strings
+const paths = [
+    &quot;path/to/s1.glsl&quot;,
+    &quot;path/to/s2.glsl&quot;,
+    &quot;path/to/s3.glsl&quot;,
 ]
 
-// Loads shaders and appends chunks to them.
-loadShaders(paths, chunks).then(([s1, s2, s3]) => {
+
+loadShadersRaw(paths).then(([s1, s2, s3]) => {
+    // whatever
+})
+    
+</code></pre>
+<h4><code>loadShaders</code></h4>
+<p>This function loads shaders and appends the provided chunks to them. The chunks can be imported from gl-Noise and are just strings that will be appended to each shader.</p>
+<pre class="prettyprint source lang-js"><code>import { Perlin, Simplex, Common } from &quot;gl-noise&quot;
+import { CustomChunk } from &quot;custom/path.glsl&quot;
+
+// Paths must be an array of strings
+const paths = [
+    &quot;path/to/s1.glsl&quot;,
+    &quot;path/to/s2.glsl&quot;,
+    &quot;path/to/s3.glsl&quot;,
+];
+
+// Chunks are optional. If undefined or NULL, 
+// all available inbuilt chunks will be appened
+const chunks = [
+    [Perlin, Simplex],      // 👈 Chunks to include with s1
+    [CustomChunk],          // 👈 Chunks to include with s2
+    null                    // 👈 Chunks to include with s3
+]
+
+// Headers are optional. If undefined or NULL, 
+// only the &quot;Common&quot; shader chunk will be appened
+const headers = [
+    `precision highp float;`,   👈 Header to include with s1
+    `
+    precision highp float;      👈 Header to include with s2
+    ${Common}
+    `,
+    null,                       👈 Header to include with s3
+    
+]
+
+loadShaders(paths, chunks, headers).then(([s1, s2, s3]) => {
     // whatever
 })
 
+</code></pre>
+<h4><code>loadShadersCSM</code></h4>
+<p><strong>This function is to be used with <a href="https://github.com/FarazzShaikh/THREE-CustomShaderMaterial">THREE-CustomShaderMaterial</a></strong>. It appends shader chunks to the <code>header</code> section of the provided inputs.</p>
+<pre class="prettyprint source lang-js"><code>
 const CSMpaths = {
   defines: &quot;./shaders/defines.glsl&quot;,
   header: &quot;./shaders/header.glsl&quot;,
@@ -267,12 +320,6 @@ loadShadersCSM(CSMpaths, CSMchunks).then(({defines, header, main}) => {
     // whatever
 })
 
-// Note: Leaving out the &quot;chunks&quot; parameter results in all available chunks being added.
-
-// Loads shaders without any post processing.
-loadShadersRaw(paths).then(([s1, s2, s3]) => {
-    // whatever
-})
 
 </code></pre>
 <h2>Usage - GLSL</h2>
@@ -281,7 +328,14 @@ loadShadersRaw(paths).then(([s1, s2, s3]) => {
 float n = gln_normalize(p);
 </code></pre>
 <p><strong>See the full list of available functions in the <a href="https://farazzshaikh.github.io/glNoise/module-Common.html">API Reference</a>.</strong></p>
-<p><strong>Note: CSM = My <a href="https://github.com/FarazzShaikh/THREE-CustomShaderMaterial">CustomShaderMaterial</a></strong></p>
+<h2>Development</h2>
+<p>The concept is pretty simple. You can fork it and write your GLSL functions in a file with the <code>.glsl</code> extension in the <code>src</code> directory. <strong>The function must be shader independent so no use of <code>gl_FragCoord</code> or any shader-specific variables.</strong></p>
+<p>You can document your code using <a href="https://jsdoc.app/about-getting-started.html">JSDoc</a> style comment blocks. The documentation is auto-generated so you <strong>MUST</strong> include a <code>@name</code> with the name of your function. See the preexisting functions for reference. This is because</p>
+<p>Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the <code>_all</code> array.</p>
+<p>That's it. You can see if it builds by running</p>
+<pre class="prettyprint source lang-bash"><code>npm run build
+</code></pre>
+<p>It's ideal if you'd include your new noise function as an example but not required.</p>
 <h2>Credits</h2>
 <p>I have not come up with these noise functions. Here's attribution to the creators of them.</p>
 <table>
@@ -307,14 +361,14 @@ float n = gln_normalize(p);
 <td>MIT</td>
 </tr>
 <tr>
-<td>Voronoi Noise</td>
-<td>Patricio Gonzalez Vivo</td>
-<td><a href="https://thebookofshaders.com/12/">WebSite</a></td>
-<td>???</td>
+<td>Worley Noise</td>
+<td>Max Bittker</td>
+<td><a href="https://github.com/MaxBittker/glsl-voronoi-noise">GitHub</a></td>
+<td>MIT</td>
 </tr>
 </tbody>
 </table>
-<p><strong>If you see your function being used in this library, please open an issue or contact me at farazzshaikh@gmail.com so I can credit you or remove the function ASAP.</strong></p></article>
+<p><strong>If you see your function being used in this library, please open an issue so I can credit you or remove the function ASAP.</strong></p></article>
     </section>
 
 
@@ -326,7 +380,7 @@ float n = gln_normalize(p);
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

@@ -1,3 +1,8 @@
+varying vec3 vPosition;
+uniform float uTime;
+uniform int uType;
+uniform float uSeed;
+
 uniform float uPersistance;
 uniform float uLacunarity;
 uniform float uScale;
@@ -5,8 +10,7 @@ uniform int uOctaves;
 uniform bool uInvert;
 uniform float uDistance;
 
-// the function which defines the displacement
-float displace(vec3 point) {
+void main() {
 
   gln_tFBMOpts fbmOpts = gln_tFBMOpts(uSeed, uPersistance, uLacunarity, uScale,
                                       1.0, uOctaves, false, false);
@@ -17,10 +21,10 @@ float displace(vec3 point) {
   gln_tVoronoiOpts voronoiOpts =
       gln_tVoronoiOpts(uSeed, uDistance, uScale * 3.0, uInvert);
 
-  vec2 uv = point.xy;
+  vec3 pos = vPosition;
+  pos += uTime;
+  vec3 uv = pos;
   float n;
-
-  uv += uTime;
 
   if (uType == 0) {
     n = gln_normalize(gln_perlin(uv * 4.0 * uScale));
@@ -32,15 +36,7 @@ float displace(vec3 point) {
     n = gln_normalize(gln_sfbm(uv, fbmOpts));
   } else if (uType == 4) {
     n = gln_normalize(gln_sfbm(uv, fbmOpts2));
-  } else if (uType == 5) {
-    n = gln_worley(uv, voronoiOpts);
-  } else if (uType == 6) {
-    n = gln_wfbm(uv, fbmOpts, voronoiOpts);
   }
 
-  return n;
-}
-vec3 orthogonal(vec3 v) {
-  return normalize(abs(v.x) > abs(v.z) ? vec3(-v.y, v.x, 0.0)
-                                       : vec3(0.0, -v.z, v.y));
+  gl_FragColor = vec4(1.0 * n, 1.0 * n, 1.0 * n, 1.0);
 }

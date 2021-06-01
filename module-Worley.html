@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>gl-Noise |  Voronoi</title>
+  <title>gl-Noise |  Worley</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -90,7 +90,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Voronoi.html">Voronoi</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
                 
             </nav>
         </div>
@@ -98,7 +98,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>GLSL</p>
-                    <h1>Voronoi</h1>
+                    <h1>Worley</h1>
                 </header>
                 
 
@@ -220,8 +220,8 @@
 
 
     
-    <h4 class="name" id="~gln_voronoi">
-        <a class="href-link" href="#~gln_voronoi">#</a>
+    <h4 class="name" id="~gln_wfbm">
+        <a class="href-link" href="#~gln_wfbm">#</a>
         
             
                 <span class='tag'>inner</span>
@@ -229,7 +229,215 @@
         
         <span class="code-name">
             
-                gln_voronoi<span class="signature">(x, opts)</span><span class="type-signature"> &rarr; {float}</span>
+                gln_wfbm<span class="signature">(v, opts)</span><span class="type-signature"> &rarr; {float}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Generats 3D Fractional Brownian motion (fBm) from Worley Noise.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>v</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">vec3</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Point to sample fBm at.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>opts</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">gln_tFBMOpts</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Options for generating Simplex Noise.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Value of fBm at point "p".</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">float</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>gln_tFBMOpts opts =
+     gln_tFBMOpts(1.0, 0.3, 2.0, 0.5, 1.0, 5, false, false);
+
+gln_tVoronoiOpts voronoiOpts =
+    gln_tVoronoiOpts(1.0, 1.0, 3.0, false);
+
+float n = gln_wfbm(position.xy, voronoiOpts, opts);</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~gln_worley">
+        <a class="href-link" href="#~gln_worley">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                gln_worley<span class="signature">(x, opts)</span><span class="type-signature"> &rarr; {float}</span>
             
         </span>
     </h4>
@@ -414,7 +622,7 @@
     
         <pre class="prettyprint"><code>gln_tVoronoiOpts opts = gln_tVoronoiOpts(uSeed, 0.0, 0.5, false);
 
-float n = gln_voronoi(position.xy, opts);</code></pre>
+float n = gln_worley(position.xy, opts);</code></pre>
     
 
 
@@ -438,7 +646,7 @@ float n = gln_voronoi(position.xy, opts);</code></pre>
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
