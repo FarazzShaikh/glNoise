@@ -79,10 +79,10 @@ vec3 calcColor() {
   else if (vHeight <= uWorldOpts.seaLevel + 0.04)
     diffuseColor = vec3(1., 0.827, 0.706);
 
-  else if (vHeight <= uWorldOpts.seaLevel + 0.15)
+  else if (vHeight <= uWorldOpts.seaLevel + 0.09)
     diffuseColor = vec3(0.741, 0.824, 0.714);
 
-  else if (vHeight <= uWorldOpts.seaLevel + 0.2)
+  else if (vHeight <= uWorldOpts.seaLevel + 0.19)
     diffuseColor = vec3(0.329, 0.369, 0.325);
 
   else

@@ -8,16 +8,13 @@ var _BlendModes = "#define GLSLIFY 1\n#define gln_COPY 1\n#define gln_ADD 2\n#de
 
 var _Common = "#define GLSLIFY 1\n#define MAX_FBM_ITERATIONS 30\nvec4 _permute(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }\nvec4 _taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }\n\n/**\n * @typedef {struct} gln_tFBMOpts   Options for fBm generators.\n * @property {float} seed           Seed for PRNG generation.\n * @property {float} persistance    Factor by which successive layers of noise\n * will decrease in amplitude.\n * @property {float} lacunarity     Factor by which successive layers of noise\n * will increase in frequency.\n * @property {float} scale          \"Zoom level\" of generated noise.\n * @property {float} redistribution Flatness in the generated noise.\n * @property {int} octaves          Number of layers of noise to stack.\n * @property {boolean} terbulance   Enable terbulance\n * @property {boolean} ridge        Convert the fBm to Ridge Noise. Only works\n * when \"terbulance\" is set to true.\n */\nstruct gln_tFBMOpts // user defined structure.\n{\n  float seed;\n  float persistance;\n  float lacunarity;\n  float scale;\n  float redistribution;\n  int octaves;\n  bool terbulance;\n  bool ridge;\n};\n\n/**\n * @typedef {struct} gln_tVoronoiOpts   Options for Voronoi Noise generators.\n * @property {float} seed               Seed for PRNG generation.\n * @property {float} distance           Size of each generated cell\n * @property {float} scale              \"Zoom level\" of generated noise.\n * @property {boolean} invert           Invert generated noise.\n */\nstruct gln_tVoronoiOpts // user defined structure.\n{\n  float seed;\n  float distance;\n  float scale;\n  bool invert;\n};\n\n/**\n * Converts a number from one range to another.\n *\n * @name gln_map\n * @function\n * @param {} value      Value to map\n * @param {float} min1  Minimum for current range\n * @param {float} max1  Maximum for current range\n * @param {float} min2  Minimum for wanted range\n * @param {float} max2  Maximum for wanted range\n * @return {float} Mapped Value\n *\n * @example\n * float n = gln_map(-0.2, -1.0, 1.0, 0.0, 1.0);\n * // n = 0.4\n */\nfloat gln_map(float value, float min1, float max1, float min2, float max2) {\n  return min2 + (value - min1) * (max2 - min2) / (max1 - min1);\n}\n\n/**\n * Normalized a value from the range [-1, 1] to the range [0,1].\n *\n * @name gln_normalize\n * @function\n * @param {float} v Value to normalize\n * @return {float} Normalized Value\n *\n * @example\n * float n = gln_normalize(-0.2);\n * // n = 0.4\n */\nfloat gln_normalize(float v) { return gln_map(v, -1.0, 1.0, 0.0, 1.0); }\n\n/**\n * Generats a random 2D Vector.\n *\n * @name gln_rand2\n * @function\n * @param {vec2} p Vector to hash to generate the random numbers from.\n * @return {vec2} Random vector.\n *\n * @example\n * vec2 n = gln_rand2(vec2(1.0, -4.2));\n */\nvec2 gln_rand2(vec2 p) {\n  return fract(\n      sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)))) *\n      43758.5453);\n}\n\n/**\n * Generats a random 3D Vector.\n *\n * @name gln_rand3\n * @function\n * @param {vec3} p Vector to hash to generate the random numbers from.\n * @return {vec3} Random vector.\n *\n * @example\n * vec3 n = gln_rand3(vec3(1.0, -4.2, 0.2));\n */\nvec3 gln_rand3(vec3 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }\n\n/**\n * Generats a random 4D Vector.\n *\n * @name gln_rand4\n * @function\n * @param {vec4} p Vector to hash to generate the random numbers from.\n * @return {vec4} Random vector.\n *\n * @example\n * vec4 n = gln_rand4(vec4(1.0, -4.2, 0.2, 2.2));\n */\nvec4 gln_rand4(vec4 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }\n\n/**\n * Generats a random number.\n *\n * @name gln_rand\n * @function\n * @param {float} n Value to hash to generate the number from.\n * @return {float} Random number.\n *\n * @example\n * float n = gln_rand(2.5);\n */\nfloat gln_rand(float n) { return fract(sin(n) * 1e4); }\n\n/**\n * Generats a random number.\n *\n * @name gln_rand\n * @function\n * @param {vec2} p Value to hash to generate the number from.\n * @return {float} Random number.\n *\n * @example\n * float n = gln_rand(vec2(2.5, -1.8));\n */\nfloat gln_rand(vec2 p) {\n  return fract(1e4 * sin(17.0 * p.x + p.y * 0.1) *\n               (0.1 + abs(sin(p.y * 13.0 + p.x))));\n}\n"; // eslint-disable-line
 
-const _Head = "precision highp float;\n" + _Common + "\n";
 const Perlin = _Perlin;
 const Simplex = _Simplex;
 const Worley = _Worley;
 const BlendModes = _BlendModes;
-const Head = _Head;
+const Common = _Common;
 const _all = [Perlin, Simplex, Worley, BlendModes];
-const isNode = typeof process !== "undefined" &&
-    process.versions != null &&
-    process.versions.node != null;
+const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 async function nodeFetch(s) {
     // @ts-ignore
     const fs = await import('fs');
@@ -53,9 +50,15 @@ async function loadShadersRaw(shaders) {
  * @async
  * @param {string[]} paths      Array of Paths to shaders.
  * @param {string[][]} chunks   Array of chunks to append to each shader
+ * @param {string[]} headers    Array of headers to be appended to each shader. Can be used to provide precision;
  * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
  *
  * @example
+ * const head = `
+ * precision highp float;
+ * ${Common}
+ * `;
+ *
  * const chunks = [
  *      [Perlin, Simplex],
  *      []
@@ -64,18 +67,37 @@ async function loadShadersRaw(shaders) {
  *      "vert.glsl",
  *      "frag.glsl",
  * ];
- * const [vert, frag] = await loadShaders(paths, chunks);
+ * const [vert, frag] = await loadShaders(paths, chunks, head);
  */
-async function loadShaders(paths, chunks) {
+async function loadShaders(paths, chunks, headers) {
+    if (!paths || paths.length <= 0)
+        throw new Error("glNoise::loadShaders requires atleast one path.");
+    if (!headers)
+        headers = new Array(paths.length).fill(Common);
     let shaders = await loadShadersRaw(paths);
     if (chunks) {
         shaders = shaders.map((s, i) => {
-            return _Head + chunks[i].join("\n") + "\n" + s;
+            let c;
+            if (chunks[i])
+                c = chunks[i];
+            else
+                c = _all;
+            let h;
+            if (headers[i])
+                h = headers[i];
+            else
+                h = Common;
+            return h + c.join("\n") + "\n" + s;
         });
     }
     else {
-        shaders = shaders.map((s) => {
-            return _Head + _all.join("\n") + "\n" + s;
+        shaders = shaders.map((s, i) => {
+            let h;
+            if (headers[i])
+                h = headers[i];
+            else
+                h = Common;
+            return h + _all.join("\n") + "\n" + s;
         });
     }
     return shaders;
@@ -112,15 +134,15 @@ async function loadShadersCSM(shaders, chunks) {
         _main = await (await _fetch(shaders.main)).text();
     if (!chunks)
         return {
-            defines: _Head + _defines,
+            defines: _defines + Common,
             header: _all.join("\n") + "\n" + _header,
             main: _main,
         };
     return {
-        defines: _Head + _defines,
+        defines: _defines + Common,
         header: chunks.join("\n") + "\n" + _header,
         main: _main,
     };
 }
 
-export { BlendModes, Head, Perlin, Simplex, Worley, loadShaders, loadShadersCSM, loadShadersRaw };
+export { BlendModes, Common, Perlin, Simplex, Worley, loadShaders, loadShadersCSM, loadShadersRaw };

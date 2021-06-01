@@ -1,17 +1,15 @@
-import {
-  Renderer,
-  Program,
-  Color,
-  Mesh,
-  Triangle,
-  Vec3,
-} from "https://cdn.skypack.dev/ogl";
+import { Renderer, Program, Color, Mesh, Triangle, Vec3 } from "https://cdn.skypack.dev/ogl";
 import * as dat from "../lib/dat.gui.module.js";
-import { loadShaders } from "../../build/glNoise.m.js";
+import { loadShaders, Common } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
 
-loadShaders(paths).then(([fragment, vertex]) => {
+const head = `
+precision highp float;
+${Common}
+`;
+
+loadShaders(paths, null, [head, head]).then(([fragment, vertex]) => {
   const renderer = new Renderer();
   const gl = renderer.gl;
   document.body.appendChild(gl.canvas);
@@ -58,12 +56,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
   const gui = new dat.gui.GUI();
 
   gui.add(doesAnimate, "value").name("Move with time?");
-  gui
-    .add(program.uniforms.uScale, "value")
-    .min(0)
-    .max(10)
-    .step(0.01)
-    .name("Scale");
+  gui.add(program.uniforms.uScale, "value").min(0).max(10).step(0.01).name("Scale");
 
   gui
     .add(program.uniforms.uType, "value", {
@@ -103,35 +96,15 @@ loadShaders(paths).then(([fragment, vertex]) => {
 
   gui_folder_fmb = gui.addFolder("FBM");
   gui_folder_fmb.hide();
-  gui_folder_fmb
-    .add(program.uniforms.uPersistance, "value")
-    .min(0)
-    .max(1)
-    .step(0.01)
-    .name("Smoothness");
+  gui_folder_fmb.add(program.uniforms.uPersistance, "value").min(0).max(1).step(0.01).name("Smoothness");
 
-  gui_folder_fmb
-    .add(program.uniforms.uLacunarity, "value")
-    .min(0)
-    .max(4)
-    .step(0.01)
-    .name("Detail");
+  gui_folder_fmb.add(program.uniforms.uLacunarity, "value").min(0).max(4).step(0.01).name("Detail");
 
-  gui_folder_fmb
-    .add(program.uniforms.uOctaves, "value")
-    .min(0)
-    .max(10)
-    .step(1)
-    .name("Octaves");
+  gui_folder_fmb.add(program.uniforms.uOctaves, "value").min(0).max(10).step(1).name("Octaves");
 
   gui_folder_voronoi = gui.addFolder("Voronoi");
   gui_folder_voronoi.hide();
-  gui_folder_voronoi
-    .add(program.uniforms.uDistance, "value")
-    .min(0)
-    .max(10)
-    .step(1)
-    .name("Distance");
+  gui_folder_voronoi.add(program.uniforms.uDistance, "value").min(0).max(10).step(1).name("Distance");
 
   gui_folder_voronoi.add(program.uniforms.uInvert, "value").name("Invert");
 
@@ -140,11 +113,7 @@ loadShaders(paths).then(([fragment, vertex]) => {
     requestAnimationFrame(update);
 
     if (doesAnimate.value) program.uniforms.uTime.value = t * 0.0001;
-    program.uniforms.uResolution.value.set(
-      gl.canvas.width,
-      gl.canvas.height,
-      0
-    );
+    program.uniforms.uResolution.value.set(gl.canvas.width, gl.canvas.height, 0);
 
     // Don't need a camera if camera uniforms aren't required
     renderer.render({ scene: mesh });

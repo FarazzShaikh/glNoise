@@ -1,18 +1,16 @@
-import {
-  Renderer,
-  Program,
-  Mesh,
-  Triangle,
-  Vec2,
-  TextureLoader,
-} from "https://cdn.skypack.dev/ogl";
+import { Renderer, Program, Mesh, Triangle, Vec2, TextureLoader } from "https://cdn.skypack.dev/ogl";
 
 import * as dat from "../lib/dat.gui.module.js";
-import { loadShaders } from "../../build/glNoise.m.js";
+import { loadShaders, Common } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
 
-loadShaders(paths).then(([fragment, vertex]) => {
+const head = `
+precision highp float;
+${Common}
+`;
+
+loadShaders(paths, null, [head, head]).then(([fragment, vertex]) => {
   const renderer = new Renderer();
   const gl = renderer.gl;
   document.body.appendChild(gl.canvas);

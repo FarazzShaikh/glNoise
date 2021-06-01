@@ -10,13 +10,7 @@ const paths = ["./shaders/fragment.glsl", "./shaders/vertex.glsl"];
 
 function hex(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? [
-        parseInt(result[1], 16),
-        parseInt(result[2], 16),
-        parseInt(result[3], 16),
-      ]
-    : null;
+  return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
 }
 
 var hex2rgb = (str) => {
@@ -75,14 +69,9 @@ function GUI2Uniform(obj) {
   return o;
 }
 
-loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
+loadShaders(paths).then(([fragment, vertex]) => {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -124,16 +113,8 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enablePan = false;
 
-  const light = new THREE.PointLight(
-    new THREE.Color(...light1.value.color),
-    1,
-    100
-  );
-  light.position.set(
-    light1.value.position.x,
-    light1.value.position.y,
-    light1.value.position.z
-  );
+  const light = new THREE.PointLight(new THREE.Color(...light1.value.color), 1, 100);
+  light.position.set(light1.value.position.x, light1.value.position.y, light1.value.position.z);
   scene.add(light);
 
   const gui = new dat.gui.GUI();
@@ -173,13 +154,7 @@ loadShaders(paths).then(([fragment, vertex, v_moon, f_moon]) => {
 
     Object.keys(u.value).forEach((k) => {
       const opt = opto[k];
-      if (opt.min !== null)
-        folder
-          .add(u.value, k)
-          .min(opt.min)
-          .max(opt.max)
-          .step(opt.step)
-          .name(opt.name);
+      if (opt.min !== null) folder.add(u.value, k).min(opt.min).max(opt.max).step(opt.step).name(opt.name);
       else folder.add(u.value, k).name(k);
     });
   });

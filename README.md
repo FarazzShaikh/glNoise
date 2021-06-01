@@ -48,6 +48,11 @@
         <a href="#usage---javascript">Usage - JavaScript</a>
         <ul>
             <li><a href="#shader-chunks">Shader Chunks</a></li>
+            <ul>
+                <li><a href="#loadshadersraw">`loadShadersRaw`</a></li>
+                <li><a href="#loadshaders">`loadShaders`</a></li>
+                <li><a href="#loadshaderscsm">`loadShadersCSM`</a></li>
+            </ul>
             <li><a href="#loaders">Loaders</a></li>
         </ul>
         </li>
@@ -162,18 +167,70 @@ You can load these chunks along with shaders as you will see in the next section
 
 gl-Noise provides three types of loaders. You can read about them in the [API Reference](https://farazzshaikh.github.io/glNoise/global.html#loadShaders) but here is a summary.
 
+#### `loadShadersRaw`
+
+This function loads shaders without any processing. Like loading a text file.
+
 ```js
-const paths = ["./s1.glsl", "./s2.glsl", "./s3.glsl"];
-const chunks = [
-    [Perlin],           // 👈 Chunks to include with s1
-    [Perlin, Simplex],  // 👈 Chunks to include with s2
-    []                  // 👈 Chunks to include with s3
+// Paths must be an array of strings
+const paths = [
+    "path/to/s1.glsl",
+    "path/to/s2.glsl",
+    "path/to/s3.glsl",
 ]
 
-// Loads shaders and appends chunks to them.
-loadShaders(paths, chunks).then(([s1, s2, s3]) => {
+
+loadShadersRaw(paths).then(([s1, s2, s3]) => {
     // whatever
 })
+    
+```
+
+#### `loadShaders`
+This function loads shaders and appends the provided chunks to them. The chunks can be imported from gl-Noise and are just strings that will be appended to each shader.
+
+```js
+import { Perlin, Simplex, Common } from "gl-noise"
+import { CustomChunk } from "custom/path.glsl"
+
+// Paths must be an array of strings
+const paths = [
+    "path/to/s1.glsl",
+    "path/to/s2.glsl",
+    "path/to/s3.glsl",
+];
+
+// Chunks are optional. If undefined or NULL, 
+// all available inbuilt chunks will be appened
+const chunks = [
+    [Perlin, Simplex],      // 👈 Chunks to include with s1
+    [CustomChunk],          // 👈 Chunks to include with s2
+    null                    // 👈 Chunks to include with s3
+]
+
+// Headers are optional. If undefined or NULL, 
+// only the "Common" shader chunk will be appened
+const headers = [
+    `precision highp float;`,   👈 Header to include with s1
+    `
+    precision highp float;      👈 Header to include with s2
+    ${Common}
+    `,
+    null,                       👈 Header to include with s3
+    
+]
+
+loadShaders(paths, chunks, headers).then(([s1, s2, s3]) => {
+    // whatever
+})
+
+```
+
+#### `loadShadersCSM`
+
+**This function is to be used with [THREE-CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**. It appends shader chunks to the `header` section of the provided inputs.
+
+```js
 
 const CSMpaths = {
   defines: "./shaders/defines.glsl",
@@ -188,12 +245,6 @@ loadShadersCSM(CSMpaths, CSMchunks).then(({defines, header, main}) => {
     // whatever
 })
 
-// Note: Leaving out the "chunks" parameter results in all available chunks being added.
-
-// Loads shaders without any post processing.
-loadShadersRaw(paths).then(([s1, s2, s3]) => {
-    // whatever
-})
 
 ```
 
@@ -208,17 +259,15 @@ float n = gln_normalize(p);
 
 **See the full list of available functions in the [API Reference](https://farazzshaikh.github.io/glNoise/module-Common.html).**
 
-**Note: CSM = My [CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**
-
 ## Development
 
-The concept is prerrty simple. You can fork it and write your GLSL funcitons in a file with the `.glsl` in the `src` directory. The funciton must be shader independant so no use of `gl_FragCoord` or any shader specific variables. 
+The concept is pretty simple. You can fork it and write your GLSL functions in a file with the `.glsl` extension in the `src` directory. **The function must be shader independent so no use of `gl_FragCoord` or any shader-specific variables.** 
 
-You can document your code using [JSDoc](https://jsdoc.app/about-getting-started.html) style comment blocks. The documentation is auto generated so you **MUST** include a `@name` with the name of your function. See the preexisting functions for refrence. This is because 
+You can document your code using [JSDoc](https://jsdoc.app/about-getting-started.html) style comment blocks. The documentation is auto-generated so you **MUST** include a `@name` with the name of your function. See the preexisting functions for reference. This is because 
 
 Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the `_all` array.
 
-Thats it. You can see if it builds by running
+That's it. You can see if it builds by running
 
 ```bash
 npm run build

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Breaking
 
 - Renamed `gln_voronoi -> gln_worley`
+- Changed implementation of `loadShadersRaw()`. Now you must specify precision if your WebGL library does not already.
 
 ### Changed
 
