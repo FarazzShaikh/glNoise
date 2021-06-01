@@ -3,11 +3,11 @@
 set -e
 
 DISCS=(
-    "Blend Modes provider. All discriptions from <a href=\"https://docs.substance3d.com/sddoc/blending-modes-description-132120605.html\">Substance Desinger - Blending modes description.</a>"
-    "Utility functions required by gln other funcitons."
-    "Perlin Noise provider."
-    "Simplex Noise provider."
-    "Voronoi Noise provider."
+"Blend Modes provider. All discriptions from <a href=\"https://docs.substance3d.com/sddoc/blending-modes-description-132120605.html\">Substance Desinger - Blending modes description.</a>"
+"Utility functions required by gln other funcitons."
+"Perlin Noise provider."
+"Simplex Noise provider."
+"Voronoi Noise provider."
 )
 
 
