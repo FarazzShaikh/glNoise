@@ -6,7 +6,7 @@
     "scripts": {
         "build": "rollup -c",
         "test": "ava",
-        "doc": "chmod +x scripts/doc.sh && scripts/doc.sh"
+        "doc": "chmod +x scripts/doc.sh && sh scripts/doc.sh"
     },
     "keywords": [
         "glsl",
