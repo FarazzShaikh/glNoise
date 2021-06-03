@@ -19,7 +19,7 @@ uniform MaskOpts uMaskOpts;
 uniform WorldOpts uWorldOpts;
 
 varying float vHeight;
-varying vec3 vNormal;
+flat varying vec3 vNormal;
 
 vec3 displace(vec3 point) {
 
