@@ -9,7 +9,7 @@
   <p align="center">
     A collection of GLSL noise functions for use with WebGL with an easy to use API.
     <br />
-    <a href="https://farazzshaikh.github.io/glNoise/examples/index.html?src=Map/map.html">View Demo</a>
+    <a href="https://farazzshaikh.github.io/glNoise/examples/index.html">View Demo</a>
     ·
     <a href="https://github.com/FarazzShaikh/glNoise/issues/new">Report Bug</a>
     ·
@@ -285,5 +285,7 @@ I have not come up with these noise functions. Here's attribution to the creator
 | Perlin Noise | Hugh Kennedy | [GitHub](https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl) | MIT |
 | Simplex Noise | Ian McEwan | [GitHub](https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl) | MIT |
 | Worley Noise | Max Bittker | [GitHub](https://github.com/MaxBittker/glsl-voronoi-noise) | MIT |
+
+**Note:** Simplex Noise is patented. The one used here is just an approximation.
 
 **If you see your function being used in this library, please open an issue so I can credit you or remove the function ASAP.**

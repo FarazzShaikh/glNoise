@@ -6,16 +6,15 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-          
+
       - name: Run Unit Tests
         run: |
           npm install
           npm run build
           npm run test
-          
+
       - name: Push build to branch
         uses: EndBug/add-and-commit@v7
         with:
           default_author: github_actions
           add: "build/* -f"
-          
