@@ -17,27 +17,31 @@ export default function cloud(scene, position, scale) {
 
   const nCloud = 10;
   const clouds = [];
+
+  const dummy = new THREE.Object3D();
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshPhongMaterial({ color: 0xd8d0d1 });
   for (let j = 0; j < nCloud; j++) {
-    const cloud = new THREE.Group();
+    const cloud = new THREE.InstancedMesh(geometry, material, nTuff);
     cloud.position.set(rand(-2, 2), rand(1.5, 1.7), rand(-3, -10));
     cloud.scale.set(0.15, 0.15, 0.15);
 
     for (let i = 0; i < nTuff; i++) {
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshPhongMaterial({ color: 0xd8d0d1 });
-      const cube = new THREE.Mesh(geometry, material);
-
       const scale = rand(0.5, 1);
-      cube.scale.set(scale, scale, scale);
-      cube.rotation.set(scale, scale, scale);
+      dummy.scale.set(scale, scale, scale);
+      dummy.rotation.set(scale, scale, scale);
 
-      cube.position.x = rand(-1, 1);
-      cube.position.y = rand(-1, 1);
-      cube.position.z = rand(-1, 1);
+      dummy.position.x = rand(-1, 1);
+      dummy.position.y = rand(-1, 1);
+      dummy.position.z = rand(-1, 1);
 
-      cube.castShadow = true;
-      cloud.add(cube);
+      dummy.castShadow = true;
+
+      dummy.updateMatrix();
+      cloud.setMatrixAt(i, dummy.matrix);
     }
+
+    cloud.castShadow = true;
 
     if (position) cloud.position.set(position);
     if (scale) cloud.scale.set(position);

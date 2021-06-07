@@ -1,13 +1,19 @@
 
 // #define PI 3.14159265
 #include <common>
+//
 #include <packing>
+//
 #include <fog_pars_fragment>
+//
 #include <bsdfs>
+//
 #include <lights_pars_begin>
+//
 #include <shadowmap_pars_fragment>
+//
 #include <shadowmask_pars_fragment>
-
+//
 
 varying vec3 vViewPosition;
 varying vec2 vUv;
@@ -119,11 +125,9 @@ vec3 calcLight(Light light) {
 
 void main() {
 
-
   vec3 color1 = calcLight(ulight1);
   color1 *= getShadowMask() + ((1.0 - getShadowMask()) * 0.7);
 
   gl_FragColor.rgb = color1;
   gl_FragColor.a = 1.0;
-  
 }

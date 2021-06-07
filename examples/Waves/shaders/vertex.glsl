@@ -9,7 +9,9 @@ varying float vHeight;
 flat varying vec3 vNormal;
 
 #include <common>
+//
 #include <lights_pars_begin>
+//
 #include <shadowmap_pars_vertex>
 
 vec3 displace(vec3 point) {
@@ -20,10 +22,10 @@ vec3 displace(vec3 point) {
 
   gln_tFBMOpts fbmOpts = gln_tFBMOpts(1.0, 0.4, 2.5, 0.4, 1.0, 5, false, false);
 
-  vec4 A = vec4(0.0, -1.0, 0.5, 2.0);
-  vec4 B = vec4(0.0, 1.0, 0.25, 4.0);
-  vec4 C = vec4(1.0, 1.0, 0.15, 6.0);
-  vec4 D = vec4(1.0, 1.0, 0.4, 2.0);
+  gln_tGerstnerWaveOpts A = gln_tGerstnerWaveOpts(vec2(0.0, -1.0), 0.5, 2.0);
+  gln_tGerstnerWaveOpts B = gln_tGerstnerWaveOpts(vec2(0.0, 1.0), 0.25, 4.0);
+  gln_tGerstnerWaveOpts C = gln_tGerstnerWaveOpts(vec2(1.0, 1.0), 0.15, 6.0);
+  gln_tGerstnerWaveOpts D = gln_tGerstnerWaveOpts(vec2(1.0, 1.0), 0.4, 2.0);
 
   vec3 n = vec3(0.0);
   n.z += gln_normalize(gln_pfbm(p.xy + (uTime * 0.5), fbmOpts));
@@ -61,14 +63,12 @@ vec3 calcNormal(vec3 pos) {
 void main() {
 #include <begin_vertex>
 
-    
-
   vec3 pos = displace(position);
 
   vec3 norm = calcNormal(pos);
   vec3 objectNormal = norm;
 
-  #include <defaultnormal_vertex>
+#include <defaultnormal_vertex>
 
   // determine view space position
   mat4 modelViewMatrix = viewMatrix * modelMatrix;
@@ -82,7 +82,7 @@ void main() {
   // determine final 3D position
   gl_Position = projectionMatrix * viewModelPosition;
 
-
 #include <worldpos_vertex>
+//
 #include <shadowmap_vertex>
 }

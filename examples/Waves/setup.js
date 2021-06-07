@@ -41,7 +41,7 @@ export function initScene() {
   controls.enableDamping = true; // Enables inertia on the camera making it come to a more gradual stop.
   controls.dampingFactor = 0.25; // Inertia factor
 
-  return { scene, camera };
+  return { scene, renderer };
 }
 
 export function initHelpers() {

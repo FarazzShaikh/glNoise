@@ -1,18 +1,32 @@
 /**
- * Generats Voronoi Noise.
+ * @typedef {struct} gln_tWorleyOpts   Options for Voronoi Noise generators.
+ * @property {float} seed               Seed for PRNG generation.
+ * @property {float} distance           Size of each generated cell
+ * @property {float} scale              "Zoom level" of generated noise.
+ * @property {boolean} invert           Invert generated noise.
+ */
+struct gln_tWorleyOpts {
+  float seed;
+  float distance;
+  float scale;
+  bool invert;
+};
+
+/**
+ * Generates Voronoi Noise.
  *
  * @name gln_worley
  * @function
  * @param {vec2}  x                  Point to sample Voronoi Noise at.
- * @param {gln_tVoronoiOpts} opts    Options for generating Voronoi Noise.
+ * @param {gln_tWorleyOpts} opts    Options for generating Voronoi Noise.
  * @return {float}                   Value of Voronoi Noise at point "p".
  *
  * @example
- * gln_tVoronoiOpts opts = gln_tVoronoiOpts(uSeed, 0.0, 0.5, false);
+ * gln_tWorleyOpts opts = gln_tWorleyOpts(uSeed, 0.0, 0.5, false);
  *
  * float n = gln_worley(position.xy, opts);
  */
-float gln_worley(vec2 point, gln_tVoronoiOpts opts) {
+float gln_worley(vec2 point, gln_tWorleyOpts opts) {
   vec2 p = floor(point * opts.scale);
   vec2 f = fract(point * opts.scale);
   float res = 0.0;
@@ -31,7 +45,7 @@ float gln_worley(vec2 point, gln_tVoronoiOpts opts) {
 }
 
 /**
- * Generats 3D Fractional Brownian motion (fBm) from Worley Noise.
+ * Generates Fractional Brownian motion (fBm) from Worley Noise.
  *
  * @name gln_wfbm
  * @function
@@ -43,12 +57,12 @@ float gln_worley(vec2 point, gln_tVoronoiOpts opts) {
  * gln_tFBMOpts opts =
  *      gln_tFBMOpts(1.0, 0.3, 2.0, 0.5, 1.0, 5, false, false);
  *
- * gln_tVoronoiOpts voronoiOpts =
- *     gln_tVoronoiOpts(1.0, 1.0, 3.0, false);
+ * gln_tWorleyOpts voronoiOpts =
+ *     gln_tWorleyOpts(1.0, 1.0, 3.0, false);
  *
  * float n = gln_wfbm(position.xy, voronoiOpts, opts);
  */
-float gln_wfbm(vec2 v, gln_tFBMOpts opts, gln_tVoronoiOpts vopts) {
+float gln_wfbm(vec2 v, gln_tFBMOpts opts, gln_tWorleyOpts vopts) {
   v += (opts.seed * 100.0);
   float persistance = opts.persistance;
   float lacunarity = opts.lacunarity;

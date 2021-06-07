@@ -9,7 +9,7 @@ function rand(min, max) {
 }
 
 export default function particles(scene) {
-  const nparticles = 100;
+  const nparticles = 50;
   const dummy = new THREE.Object3D();
 
   const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.11);

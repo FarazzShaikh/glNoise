@@ -5,7 +5,8 @@ import cloud from "./cloud.js";
 import lights from "./lights.js";
 import plane from "./plane.js";
 
-const { scene, camera } = initScene();
+const { scene, renderer } = initScene();
+
 // initHelpers();
 
 lights(scene);
