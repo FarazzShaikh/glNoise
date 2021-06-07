@@ -1,7 +1,7 @@
 
 
 /**
- * Generats 2D Simplex Noise.
+ * Generates 2D Simplex Noise.
  *
  * @name gln_simplex
  * @function
@@ -39,7 +39,7 @@ float gln_simplex(vec2 v) {
 }
 
 /**
- * Generats 3D Simplex Noise.
+ * Generates 3D Simplex Noise.
  *
  * @name gln_simplex
  * @function
@@ -120,7 +120,7 @@ float gln_simplex(vec3 v) {
 }
 
 /**
- * Generats 2D Fractional Brownian motion (fBm) from Simplex Noise.
+ * Generates 2D Fractional Brownian motion (fBm) from Simplex Noise.
  *
  * @name gln_sfbm
  * @function
@@ -174,7 +174,7 @@ float gln_sfbm(vec2 v, gln_tFBMOpts opts) {
 }
 
 /**
- * Generats 3D Fractional Brownian motion (fBm) from Simplex Noise.
+ * Generates 3D Fractional Brownian motion (fBm) from Simplex Noise.
  *
  * @name gln_sfbm
  * @function

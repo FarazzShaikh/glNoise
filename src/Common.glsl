@@ -1,4 +1,5 @@
 #define MAX_FBM_ITERATIONS 30
+#define gln_PI 3.1415926538
 vec4 _permute(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
 vec4 _taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
 
@@ -16,8 +17,7 @@ vec4 _taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
  * @property {boolean} ridge        Convert the fBm to Ridge Noise. Only works
  * when "terbulance" is set to true.
  */
-struct gln_tFBMOpts // user defined structure.
-{
+struct gln_tFBMOpts {
   float seed;
   float persistance;
   float lacunarity;
@@ -26,21 +26,6 @@ struct gln_tFBMOpts // user defined structure.
   int octaves;
   bool terbulance;
   bool ridge;
-};
-
-/**
- * @typedef {struct} gln_tVoronoiOpts   Options for Voronoi Noise generators.
- * @property {float} seed               Seed for PRNG generation.
- * @property {float} distance           Size of each generated cell
- * @property {float} scale              "Zoom level" of generated noise.
- * @property {boolean} invert           Invert generated noise.
- */
-struct gln_tVoronoiOpts // user defined structure.
-{
-  float seed;
-  float distance;
-  float scale;
-  bool invert;
 };
 
 /**
@@ -78,7 +63,7 @@ float gln_map(float value, float min1, float max1, float min2, float max2) {
 float gln_normalize(float v) { return gln_map(v, -1.0, 1.0, 0.0, 1.0); }
 
 /**
- * Generats a random 2D Vector.
+ * Generates a random 2D Vector.
  *
  * @name gln_rand2
  * @function
@@ -95,7 +80,7 @@ vec2 gln_rand2(vec2 p) {
 }
 
 /**
- * Generats a random 3D Vector.
+ * Generates a random 3D Vector.
  *
  * @name gln_rand3
  * @function
@@ -108,7 +93,7 @@ vec2 gln_rand2(vec2 p) {
 vec3 gln_rand3(vec3 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }
 
 /**
- * Generats a random 4D Vector.
+ * Generates a random 4D Vector.
  *
  * @name gln_rand4
  * @function
@@ -121,7 +106,7 @@ vec3 gln_rand3(vec3 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }
 vec4 gln_rand4(vec4 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }
 
 /**
- * Generats a random number.
+ * Generates a random number.
  *
  * @name gln_rand
  * @function
@@ -134,7 +119,7 @@ vec4 gln_rand4(vec4 p) { return mod(((p * 34.0) + 1.0) * p, 289.0); }
 float gln_rand(float n) { return fract(sin(n) * 1e4); }
 
 /**
- * Generats a random number.
+ * Generates a random number.
  *
  * @name gln_rand
  * @function

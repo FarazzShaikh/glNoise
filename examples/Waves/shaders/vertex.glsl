@@ -3,56 +3,40 @@
 varying vec2 vUv;
 varying vec3 vViewPosition;
 
-struct MaskOpts {
-  float scale;
-};
-
-struct WorldOpts {
-  float height;
-  float seaLevel;
-  float simplexOpacity;
-};
-
-uniform gln_tFBMOpts uRidgeOpts;
-uniform gln_tFBMOpts uSimplexOpts;
-uniform MaskOpts uMaskOpts;
-uniform WorldOpts uWorldOpts;
+uniform float uTime;
 
 varying float vHeight;
 flat varying vec3 vNormal;
+
+#include <common>
+//
+#include <lights_pars_begin>
+//
+#include <shadowmap_pars_vertex>
 
 vec3 displace(vec3 point) {
 
   vec3 p = point;
 
-  float seed = uSimplexOpts.seed;
-  float mask = gln_normalize(gln_simplex(
-      (point + ((seed * 100.0) + (seed * 1000.0))) * uMaskOpts.scale));
+  p.y += uTime * 2.0;
 
-  gln_tFBMOpts opts1 = uSimplexOpts;
-  opts1.redistribution = 1.0;
-  float f_simplex = gln_normalize(gln_sfbm(point, opts1));
+  gln_tFBMOpts fbmOpts = gln_tFBMOpts(1.0, 0.4, 2.5, 0.4, 1.0, 5, false, false);
 
-  gln_tFBMOpts opts2 = uRidgeOpts;
-  opts2.redistribution = 1.0;
-  float f_ridge = gln_normalize(gln_sfbm(point, opts2));
+  gln_tGerstnerWaveOpts A = gln_tGerstnerWaveOpts(vec2(0.0, -1.0), 0.5, 2.0);
+  gln_tGerstnerWaveOpts B = gln_tGerstnerWaveOpts(vec2(0.0, 1.0), 0.25, 4.0);
+  gln_tGerstnerWaveOpts C = gln_tGerstnerWaveOpts(vec2(1.0, 1.0), 0.15, 6.0);
+  gln_tGerstnerWaveOpts D = gln_tGerstnerWaveOpts(vec2(1.0, 1.0), 0.4, 2.0);
 
-  float blend = gln_blend(vec4(f_ridge),
-                          vec4(f_simplex * uWorldOpts.simplexOpacity), gln_ADD)
-                    .x;
-  float f = blend;
+  vec3 n = vec3(0.0);
+  n.z += gln_normalize(gln_pfbm(p.xy + (uTime * 0.5), fbmOpts));
+  n += gln_GerstnerWave(p, A, uTime).xzy;
+  n += gln_GerstnerWave(p, B, uTime).xzy * 0.5;
+  n += gln_GerstnerWave(p, C, uTime).xzy * 0.25;
+  n += gln_GerstnerWave(p, D, uTime).xzy * 0.2;
 
-  blend = gln_blend(vec4(f), vec4(mask), gln_MULTIPLY).x;
-  f = blend;
+  vHeight = n.z;
 
-  if (f < uWorldOpts.seaLevel)
-    f = uWorldOpts.seaLevel;
-
-  f *= uWorldOpts.height;
-  vHeight = f;
-  p = point + (normal * (f));
-
-  return p;
+  return point + n;
 }
 
 vec3 orthogonal(vec3 v) {
@@ -77,10 +61,14 @@ vec3 calcNormal(vec3 pos) {
 }
 
 void main() {
+#include <begin_vertex>
 
   vec3 pos = displace(position);
 
   vec3 norm = calcNormal(pos);
+  vec3 objectNormal = norm;
+
+#include <defaultnormal_vertex>
 
   // determine view space position
   mat4 modelViewMatrix = viewMatrix * modelMatrix;
@@ -93,4 +81,8 @@ void main() {
 
   // determine final 3D position
   gl_Position = projectionMatrix * viewModelPosition;
+
+#include <worldpos_vertex>
+//
+#include <shadowmap_vertex>
 }

@@ -3,14 +3,16 @@ import _Simplex from "./src/Simplex.glsl";
 import _Worley from "./src/Worley.glsl";
 import _BlendModes from "./src/BlendModes.glsl";
 import _Common from "./src/Common.glsl";
+import _GerstnerWave from "./src/GerstnerWave.glsl";
 
 export const Perlin: string = _Perlin;
 export const Simplex: string = _Simplex;
 export const Worley: string = _Worley;
 export const BlendModes: string = _BlendModes;
 export const Common: string = _Common;
+export const GerstnerWave: string = _GerstnerWave;
 
-const _all = [Perlin, Simplex, Worley, BlendModes];
+const _all = [Perlin, Simplex, Worley, BlendModes, GerstnerWave];
 
 const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 

@@ -3,7 +3,7 @@ vec2 _fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 vec3 _fade(vec3 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
 /**
- * Generats 2D Perlin Noise.
+ * Generates 2D Perlin Noise.
  *
  * @name gln_perlin
  * @function
@@ -48,7 +48,7 @@ float gln_perlin(vec2 P) {
 }
 
 /**
- * Generats 3D Perlin Noise.
+ * Generates 3D Perlin Noise.
  *
  * @name gln_perlin
  * @function
@@ -130,7 +130,7 @@ float gln_perlin(vec3 P) {
 }
 
 /**
- * Generats 2D Fractional Brownian motion (fBm) from Perlin Noise.
+ * Generates 2D Fractional Brownian motion (fBm) from Perlin Noise.
  *
  * @name gln_pfbm
  * @function
@@ -184,7 +184,7 @@ float gln_pfbm(vec2 p, gln_tFBMOpts opts) {
 }
 
 /**
- * Generats 3D Fractional Brownian motion (fBm) from Perlin Noise.
+ * Generates 3D Fractional Brownian motion (fBm) from Perlin Noise.
  *
  * @name gln_pfbm
  * @function

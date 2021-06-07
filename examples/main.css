@@ -172,6 +172,7 @@ body {
 .Info a {
     color: rgb(39, 147, 235);
 }
+
 canvas {
     position: absolute;
     width: 100%;

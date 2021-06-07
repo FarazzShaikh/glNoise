@@ -26,8 +26,8 @@ void main() {
   gln_tFBMOpts fbmOpts2 = gln_tFBMOpts(uSeed, uPersistance, uLacunarity,
                                        uScale * 3.0, 1.0, uOctaves, true, true);
 
-  gln_tVoronoiOpts voronoiOpts =
-      gln_tVoronoiOpts(uSeed, uDistance, uScale * 3.0, uInvert);
+  gln_tWorleyOpts voronoiOpts =
+      gln_tWorleyOpts(uSeed, uDistance, uScale * 3.0, uInvert);
 
   float n;
 

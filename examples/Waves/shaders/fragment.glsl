@@ -1,5 +1,20 @@
 
-#define PI 3.14159265
+// #define PI 3.14159265
+#include <common>
+//
+#include <packing>
+//
+#include <fog_pars_fragment>
+//
+#include <bsdfs>
+//
+#include <lights_pars_begin>
+//
+#include <shadowmap_pars_fragment>
+//
+#include <shadowmask_pars_fragment>
+//
+
 varying vec3 vViewPosition;
 varying vec2 vUv;
 
@@ -61,7 +76,7 @@ struct Light {
 };
 
 uniform Light ulight1;
-float specularScale = 0.65;
+float specularScale = 0.0;
 float shininess = 0.0;
 float roughness = 1.0;
 float albedo = 1.0;
@@ -70,23 +85,8 @@ vec3 calcColor() {
 
   vec3 diffuseColor;
 
-  if (vHeight <= uWorldOpts.seaLevel)
-    diffuseColor = vec3(0.161, 0.443, 0.902);
-
-  else if (vHeight <= uWorldOpts.seaLevel + 0.01)
-    diffuseColor = vec3(0.294, 0.839, 0.804);
-
-  else if (vHeight <= uWorldOpts.seaLevel + 0.04)
-    diffuseColor = vec3(1., 0.827, 0.706);
-
-  else if (vHeight <= uWorldOpts.seaLevel + 0.09)
-    diffuseColor = vec3(0.741, 0.824, 0.714);
-
-  else if (vHeight <= uWorldOpts.seaLevel + 0.19)
-    diffuseColor = vec3(0.329, 0.369, 0.325);
-
-  else
-    diffuseColor = vec3(1.0);
+  diffuseColor =
+      mix(vec3(0., 0.514, 1.), vec3(0.549, 0.871, 1.), vHeight * 2.2);
 
   return diffuseColor;
 }
@@ -126,6 +126,7 @@ vec3 calcLight(Light light) {
 void main() {
 
   vec3 color1 = calcLight(ulight1);
+  color1 *= getShadowMask() + ((1.0 - getShadowMask()) * 0.7);
 
   gl_FragColor.rgb = color1;
   gl_FragColor.a = 1.0;
