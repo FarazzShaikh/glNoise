@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low-poly Propeller Plane
+* source:	https://sketchfab.com/3d-models/low-poly-propeller-plane-3ca91472b1b64072a0d3a64d86690df8
+* author:	RC-Studios (https://sketchfab.com/RC-Studios)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low-poly Propeller Plane" (https://sketchfab.com/3d-models/low-poly-propeller-plane-3ca91472b1b64072a0d3a64d86690df8) by RC-Studios (https://sketchfab.com/RC-Studios) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
