@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>gl-Noise |  Global</title>
+  <title>gl-Noise |  GerstnerWave</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -97,8 +97,8 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Title</p>
-                    <h1>Global</h1>
+                    <p>GLSL</p>
+                    <h1>GerstnerWave</h1>
                 </header>
                 
 
@@ -109,7 +109,8 @@
 
 <header>
     
-        <h2></h2>
+        
+            
         
     
 </header>
@@ -118,8 +119,23 @@
     <div class="container-overview">
     
         
+            <div class="description">Perlin Noise provider.</div>
+        
 
         
+            
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <dl class="details">
@@ -155,6 +171,26 @@
 
     
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         
@@ -184,16 +220,16 @@
 
 
     
-    <h4 class="name" id="loadShaders">
-        <a class="href-link" href="#loadShaders">#</a>
+    <h4 class="name" id="~gln_GerstnerWave">
+        <a class="href-link" href="#~gln_GerstnerWave">#</a>
         
             
-                <span class='tag'>async</span>
+                <span class='tag'>inner</span>
             
         
         <span class="code-name">
             
-                loadShaders<span class="signature">(paths, chunks, headers)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;string>>}</span>
+                gln_GerstnerWave<span class="signature">(p, opts, dt)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -202,8 +238,8 @@
     
     
     <div class="description">
-        Loads shaders with specified Shader Chunks.
-If chunks not specified, all chunks will be appended.
+        Implimentation of Gerstner Wave
+Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
     </div>
     
 
@@ -241,13 +277,13 @@ If chunks not specified, all chunks will be appended.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>paths</code></td>
+      <td class="name"><code>p</code></td>
   
 
   <td class="type">
   
       
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">vec3</span>
 
 
   
@@ -257,7 +293,7 @@ If chunks not specified, all chunks will be appended.
 
   
 
-  <td class="description last">Array of Paths to shaders.</td>
+  <td class="description last">Point to sample Gerstner Waves at.</td>
 </tr>
 
 
@@ -266,13 +302,13 @@ If chunks not specified, all chunks will be appended.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>chunks</code></td>
+      <td class="name"><code>opts</code></td>
   
 
   <td class="type">
   
       
-<span class="param-type">Array.&lt;Array.&lt;string>></span>
+<span class="param-type">gln_tGerstnerWaveOpts</span>
 
 
   
@@ -282,7 +318,7 @@ If chunks not specified, all chunks will be appended.
 
   
 
-  <td class="description last">Array of chunks to append to each shader</td>
+  <td class="description last"></td>
 </tr>
 
 
@@ -291,13 +327,13 @@ If chunks not specified, all chunks will be appended.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>headers</code></td>
+      <td class="name"><code>dt</code></td>
   
 
   <td class="type">
   
       
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">float</span>
 
 
   
@@ -307,7 +343,7 @@ If chunks not specified, all chunks will be appended.
 
   
 
-  <td class="description last">Array of headers to be appended to each shader. Can be used to provide precision;</td>
+  <td class="description last"></td>
 </tr>
 
 
@@ -371,440 +407,13 @@ If chunks not specified, all chunks will be appended.
 
 
 
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>Array of shaders corresponding to each path with respective chunks applied.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">Promise.&lt;Array.&lt;string>></span>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
 
 
 
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const head = `
-precision highp float;
-${Common}
-`;
-
-const chunks = [
-     [Perlin, Simplex],
-     []
-];
-const paths = [
-     "vert.glsl",
-     "frag.glsl",
-];
-const [vert, frag] = await loadShaders(paths, chunks, head);</code></pre>
-    
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="loadShadersCSM">
-        <a class="href-link" href="#loadShadersCSM">#</a>
-        
-            
-                <span class='tag'>async</span>
-            
-        
-        <span class="code-name">
-            
-                loadShadersCSM<span class="signature">(shaders, chunks)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Loads shaders with Shader Chunks for use with <a href="https://github.com/FarazzShaikh/THREE-CustomShaderMaterial">THREE-CustomShaderMaterial.</a>
-If chunks not specified, all chunks will be appended.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaders</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">Object</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Paths of shaders.
-* @param {string} shaders.defines        Path of definitions shader.
-* @param {string} shaders.header         Path of header shader.
-* @param {string} shaders.main           Path of main shader.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>chunks</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">Array.&lt;string></span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Array of chunks to append into the Header Section.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>CSM friendly shader.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">Promise.&lt;Object></span>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>const chunks =  [Perlin, Simplex];
-const paths = [
-     defines: "defines.glsl",
-     header: "header.glsl",
-     main: "main.glsl",
-];
-const {defines, header, main} = await loadShadersCSM(paths, chunks);</code></pre>
-    
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="loadShadersRaw">
-        <a class="href-link" href="#loadShadersRaw">#</a>
-        
-            
-                <span class='tag'>async</span>
-            
-        
-        <span class="code-name">
-            
-                loadShadersRaw<span class="signature">(shaders)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Loads Shaders without appeneding any Shader Chunks.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaders</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">Array.&lt;string></span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Array of paths to shaders.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>Array of shaders corresponding to each path.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">Promise.&lt;string></span>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>const [vert, frag] = await loadShadersRaw(["vert.glsl", "frag.glsl"]);</code></pre>
+        <pre class="prettyprint"><code>float n = gln_perlin(position.xy);</code></pre>
     
 
 
@@ -814,6 +423,182 @@ const {defines, header, main} = await loadShadersCSM(paths, chunks);</code></pre
         </div>
     
 
+    
+        <div class='vertical-section'>
+            <h1>Type Definitions</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">struct</span>
+
+
+    </span>
+
+<h4 class="name" id="~gln_tGerstnerWaveOpts">
+    <a class="href-link" href="#~gln_tGerstnerWaveOpts">#</a>
+    
+    <span class="code-name">
+        gln_tGerstnerWaveOpts
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Options for Gerstner Wave
+generators.
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>direction</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">vec2</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Direction of the wave</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>steepness</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">float</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Steepness of the peeks</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>wavelength</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">float</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Wavelength of the waves</td>
+</tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
     
 
     

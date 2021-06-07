@@ -90,7 +90,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-GerstnerWave.html">GerstnerWave</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
                 
             </nav>
         </div>
@@ -110,8 +110,6 @@
 <header>
     
         
-            
-        
     
 </header>
 
@@ -119,79 +117,6 @@
     <div class="container-overview">
     
         
-            <div class="description">Voronoi Noise provider.</div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
     
@@ -238,7 +163,7 @@
     
     
     <div class="description">
-        Generats 3D Fractional Brownian motion (fBm) from Worley Noise.
+        Generates Fractional Brownian motion (fBm) from Worley Noise.
     </div>
     
 
@@ -415,8 +340,8 @@
         <pre class="prettyprint"><code>gln_tFBMOpts opts =
      gln_tFBMOpts(1.0, 0.3, 2.0, 0.5, 1.0, 5, false, false);
 
-gln_tVoronoiOpts voronoiOpts =
-    gln_tVoronoiOpts(1.0, 1.0, 3.0, false);
+gln_tWorleyOpts voronoiOpts =
+    gln_tWorleyOpts(1.0, 1.0, 3.0, false);
 
 float n = gln_wfbm(position.xy, voronoiOpts, opts);</code></pre>
     
@@ -446,7 +371,7 @@ float n = gln_wfbm(position.xy, voronoiOpts, opts);</code></pre>
     
     
     <div class="description">
-        Generats Voronoi Noise.
+        Generates Voronoi Noise.
     </div>
     
 
@@ -515,7 +440,7 @@ float n = gln_wfbm(position.xy, voronoiOpts, opts);</code></pre>
   <td class="type">
   
       
-<span class="param-type">gln_tVoronoiOpts</span>
+<span class="param-type">gln_tWorleyOpts</span>
 
 
   
@@ -620,7 +545,7 @@ float n = gln_wfbm(position.xy, voronoiOpts, opts);</code></pre>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>gln_tVoronoiOpts opts = gln_tVoronoiOpts(uSeed, 0.0, 0.5, false);
+        <pre class="prettyprint"><code>gln_tWorleyOpts opts = gln_tWorleyOpts(uSeed, 0.0, 0.5, false);
 
 float n = gln_worley(position.xy, opts);</code></pre>
     
@@ -632,6 +557,204 @@ float n = gln_worley(position.xy, opts);</code></pre>
         </div>
     
 
+    
+        <div class='vertical-section'>
+            <h1>Type Definitions</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">struct</span>
+
+
+    </span>
+
+<h4 class="name" id="~gln_tWorleyOpts">
+    <a class="href-link" href="#~gln_tWorleyOpts">#</a>
+    
+    <span class="code-name">
+        gln_tWorleyOpts
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Options for Voronoi Noise generators.
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>seed</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">float</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Seed for PRNG generation.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>distance</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">float</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Size of each generated cell</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>scale</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">float</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">"Zoom level" of generated noise.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>invert</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">boolean</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Invert generated noise.</td>
+</tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
     
 
     
