@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "https://cdn.skypack.dev/three";
 
 export default function lights(scene) {
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5, 100);

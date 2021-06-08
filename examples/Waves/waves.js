@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "https://cdn.skypack.dev/three";
 import { loadShaders } from "../../build/glNoise.m.js";
 const paths = ["./shaders/fragment.glsl", "./shaders/vertex.glsl"];
 

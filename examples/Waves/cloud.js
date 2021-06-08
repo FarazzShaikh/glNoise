@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "https://cdn.skypack.dev/three";
 
 function rand(min, max) {
   return Math.random() * (max - min + 1) + min;
