@@ -39,7 +39,7 @@ export default function plane(scene) {
     }
   );
 
-  const targetPos = new THREE.Vector2(0, 0);
+  const targetPos = new THREE.Vector2(0, 1);
 
   const ele = document.querySelector("canvas");
   ele.addEventListener("mousemove", function (e) {
