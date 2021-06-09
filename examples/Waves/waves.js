@@ -41,7 +41,9 @@ export default function waves(scene) {
       fragmentShader: fragment,
       vertexShader: vertex,
       lights: true,
-      derivatives: true,
+      extensions: {
+        derivatives: true,
+      },
     });
 
     const geometry = new THREE.PlaneGeometry(5, 5, 32, 32);
