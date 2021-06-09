@@ -6,7 +6,7 @@ varying vec3 vViewPosition;
 uniform float uTime;
 
 varying float vHeight;
-flat varying vec3 vNormal;
+varying vec3 vNormal;
 
 #include <common>
 //
