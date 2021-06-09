@@ -102,7 +102,9 @@ loadShaders(paths).then(([fragment, vertex]) => {
     },
     fragmentShader: fragment,
     vertexShader: vertex,
-    derivatives: true,
+    extensions: {
+      derivatives: true,
+    },
   });
 
   const geometry = new THREE.IcosahedronGeometry(3, 80);
