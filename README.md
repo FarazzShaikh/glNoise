@@ -67,7 +67,12 @@
 
 <br />
 
+  <p align="center">
+    <img src="./Assets/demo.png" ></img>
+     Low-poly ocean generated using gl-Noise.
+  </p>
 
+<br />
 
 ## Why this?
 
