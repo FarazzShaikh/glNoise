@@ -224,7 +224,7 @@
     Voronoi
 } from &quot;gl-noise&quot;
 </code></pre>
-<p><strong>In browsers</strong>, if you'd like to use NPM and the Node syntax then you will have to add an <code>import-map</code> to your HTML. Simply place this code above your script.</p>
+<p><strong>In browsers (Chrome Desktop only)</strong>, if you'd like to use NPM and the Node syntax then you will have to add an <code>import-map</code> to your HTML. Simply place this code above your script.</p>
 <pre class="prettyprint source lang-html"><code>&lt;script type=&quot;importmap&quot;>
 {
     &quot;imports&quot;: {
@@ -240,7 +240,7 @@
 //                    If you don't use the import-map, then
 //                    you will have to specify the path.
 </code></pre>
-<p>You can download <code>build/glNoise.m.js</code> and import it from wherever you want to save it. Alternatively, you can also download the IIFE type module from <code>build/glNoise.js</code> and include it in a script tag like people have been doing forever.</p>
+<p><strong>In browsers</strong>, You can also download <code>build/glNoise.m.js</code> and import it from wherever you want to save it as an ES Module. Alternatively, you can also download the IIFE type module from <code>build/glNoise.js</code> and include it in a script tag like people have been doing forever.</p>
 <pre class="prettyprint source lang-html"><code>&lt;script src=&quot;lib/glNoise.js&quot;>&lt;/script>
 &lt;script src=&quot;./main.js&quot;>&lt;/script>
 </code></pre>
