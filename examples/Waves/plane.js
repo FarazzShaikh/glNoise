@@ -18,7 +18,7 @@ export default function plane(scene) {
     // called when the resource is loaded
     function (gltf) {
       plane = gltf.scene.children[0];
-      plane.scale.set(0.1, 0.1, 0.1);
+      plane.scale.set(0.9, 0.9, 0.9);
       plane.rotation.z = Math.PI;
 
       gltf.scene.traverse((o) => {
