@@ -21,6 +21,7 @@ var glNoise = (function (exports) {
   const GerstnerWave = _GerstnerWave;
   const _all = [Perlin, Simplex, Worley, BlendModes, GerstnerWave];
   const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
+  //~START~
   async function nodeFetch(s) {
       // @ts-ignore
       const fs = await import('fs');
@@ -33,6 +34,7 @@ var glNoise = (function (exports) {
           },
       };
   }
+  //~END~
   /**
    * Loads Shaders without appeneding any Shader Chunks.
    *
