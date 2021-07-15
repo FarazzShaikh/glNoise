@@ -14,6 +14,8 @@ jobs:
         run: |
           npm install
           npm run build
+          chmod +x scripts/patchModule.sh
+          scripts/patchModule.sh
 
       - name: Test
         run: |

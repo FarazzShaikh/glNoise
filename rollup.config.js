@@ -23,7 +23,7 @@ export default [
   {
     input: "index.ts",
     output: {
-      file: "build/glNoise.m.js",
+      file: "build/glNoise.m.node.js",
       format: "es",
     },
     external: ["fs", "path"],

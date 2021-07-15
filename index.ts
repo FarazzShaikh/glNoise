@@ -16,6 +16,7 @@ const _all = [Perlin, Simplex, Worley, BlendModes, GerstnerWave];
 
 const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 
+//~START~
 async function nodeFetch(s: string) {
   // @ts-ignore
   const fs = await import("fs");
@@ -30,6 +31,7 @@ async function nodeFetch(s: string) {
     },
   };
 }
+//~END~
 
 /**
  * Loads Shaders without appeneding any Shader Chunks.

@@ -11,6 +11,8 @@ jobs:
         run: |
           npm install
           npm run build
+          chmod +x scripts/patchModule.sh
+          scripts/patchModule.sh
           npm run test
 
       - name: Push build to branch
