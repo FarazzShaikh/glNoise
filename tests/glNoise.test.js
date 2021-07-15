@@ -1,25 +1,15 @@
 import ava from "ava";
 import fs from "fs/promises";
 import path from "path";
-import {
-  loadShadersRaw,
-  loadShaders,
-  loadShadersCSM,
-} from "../build/glNoise.m.js";
+import { loadShadersRaw, loadShaders, loadShadersCSM } from "../build/glNoise.m.node.js";
 
 let files;
 let expected;
 
 ava.before(async () => {
-  files = (await fs.readdir("src")).filter(
-    (file) => path.extname(file).toLowerCase() === ".glsl"
-  );
+  files = (await fs.readdir("src")).filter((file) => path.extname(file).toLowerCase() === ".glsl");
 
-  expected = await Promise.all(
-    files.map(async (f) =>
-      (await fs.readFile(path.resolve(`src/${f}`))).toString()
-    )
-  );
+  expected = await Promise.all(files.map(async (f) => (await fs.readFile(path.resolve(`src/${f}`))).toString()));
 });
 
 ava("Test file extensions", async (t) => {
@@ -29,16 +19,11 @@ ava("Test file extensions", async (t) => {
     }
   });
   const isTrue = files.every((f) => (f ? f === "glsl" : true));
-  t.true(
-    isTrue,
-    "File with extension other than .glsl found in 'src' directory"
-  );
+  t.true(isTrue, "File with extension other than .glsl found in 'src' directory");
 });
 
 ava("Test loadShadersRaw()", async (t) => {
-  const actual = await Promise.all(
-    files.map(async (f) => (await loadShadersRaw([`src/${f}`]))[0])
-  );
+  const actual = await Promise.all(files.map(async (f) => (await loadShadersRaw([`src/${f}`]))[0]));
 
   const isTrue = expected.every((f, i) => {
     return f === actual[i];

@@ -74,6 +74,10 @@
 
 <br />
 
+## Breaking
+
+In `1.3.0`, `build/glNoise.m.js` now stubs out NodeJS specific imports. Use `build/glNoise.m.node.js` instead.
+
 ## Why this?
 
 There already exist excellent resources that compile a list of algorithms such as:
