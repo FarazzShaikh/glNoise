@@ -4,7 +4,7 @@
     "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
     "main": "build/glNoise.m.node.js",
     "scripts": {
-        "build": "rollup -c",
+        "build": "rollup -c && chmod +x scripts/patchModule.sh && scripts/patchModule.sh",
         "test": "ava",
         "doc": "chmod +x scripts/doc.sh && scripts/doc.sh"
     },

@@ -1,6 +1,6 @@
 import { Renderer, Program, Color, Mesh, Triangle, Vec3 } from "https://cdn.skypack.dev/ogl";
 import * as dat from "../lib/dat.gui.module.js";
-import { loadShaders, Common } from "../../build/glNoise.m.js";
+import { loadShaders, Common, All } from "../../build/glNoise.m.js";
 
 const paths = ["./shader_f.glsl", "./shader_v.glsl"];
 
@@ -9,7 +9,9 @@ precision highp float;
 ${Common}
 `;
 
-loadShaders(paths, null, [head, head]).then(([fragment, vertex]) => {
+const chunks = [All, All];
+
+loadShaders(paths, chunks, [head, head]).then(([fragment, vertex]) => {
   const renderer = new Renderer();
   const gl = renderer.gl;
   document.body.appendChild(gl.canvas);
