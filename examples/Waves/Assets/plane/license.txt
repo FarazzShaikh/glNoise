@@ -1,11 +1,11 @@
 Model Information:
-* title:	Low-poly Propeller Plane
-* source:	https://sketchfab.com/3d-models/low-poly-propeller-plane-3ca91472b1b64072a0d3a64d86690df8
-* author:	RC-Studios (https://sketchfab.com/RC-Studios)
+* title:	Stylized Ww1 Plane
+* source:	https://sketchfab.com/3d-models/stylized-ww1-plane-9a9086c23a12481bbac58296d0d6e50e
+* author:	cyberdan (https://sketchfab.com/cyberdan)
 
 Model License:
-* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
-* requirements:	Author must be credited. No commercial use.
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Low-poly Propeller Plane" (https://sketchfab.com/3d-models/low-poly-propeller-plane-3ca91472b1b64072a0d3a64d86690df8) by RC-Studios (https://sketchfab.com/RC-Studios) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+This work is based on "Stylized Ww1 Plane" (https://sketchfab.com/3d-models/stylized-ww1-plane-9a9086c23a12481bbac58296d0d6e50e) by cyberdan (https://sketchfab.com/cyberdan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

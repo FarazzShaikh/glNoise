@@ -67,7 +67,16 @@
 
 <br />
 
+  <p align="center">
+    <img src="./Assets/demo.jpg" ></img>
+     Low-poly planet generated using gl-Noise.
+  </p>
 
+<br />
+
+## Breaking
+
+In `1.3.0`, `build/glNoise.m.js` now stubs out NodeJS specific imports. Use `build/glNoise.m.node.js` instead.
 
 ## Why this?
 
@@ -117,7 +126,7 @@ import {
 } from "gl-noise"
 ```
 
-**In browsers**, if you'd like to use NPM and the Node syntax then you will have to add an `import-map` to your HTML. Simply place this code above your script.
+**In browsers (Chrome Desktop only)**, if you'd like to use NPM and the Node syntax then you will have to add an `import-map` to your HTML. Simply place this code above your script.
 ```html
 <script type="importmap">
 {
@@ -137,7 +146,7 @@ import {} from "gl-noise"
 //                    you will have to specify the path.
 ```
 
-You can download `build/glNoise.m.js` and import it from wherever you want to save it. Alternatively, you can also download the IIFE type module from `build/glNoise.js` and include it in a script tag like people have been doing forever.
+**In browsers**, You can also download `build/glNoise.m.js` and import it from wherever you want to save it as an ES Module. Alternatively, you can also download the IIFE type module from `build/glNoise.js` and include it in a script tag like people have been doing forever.
 
 ```html
 <script src="lib/glNoise.js"></script>
@@ -285,6 +294,8 @@ I have not come up with these noise functions. Here's attribution to the creator
 | Perlin Noise | Hugh Kennedy | [GitHub](https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl) | MIT |
 | Simplex Noise | Ian McEwan | [GitHub](https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl) | MIT |
 | Worley Noise | Max Bittker | [GitHub](https://github.com/MaxBittker/glsl-voronoi-noise) | MIT |
+
+Every other function is by yours truly.
 
 **Note:** Simplex Noise is patented. The one used here is just an approximation.
 

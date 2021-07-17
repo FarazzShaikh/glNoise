@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "https://cdn.skypack.dev/three";
 import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js";
 import particles from "./particles.js";
 
@@ -18,7 +18,7 @@ export default function plane(scene) {
     // called when the resource is loaded
     function (gltf) {
       plane = gltf.scene.children[0];
-      plane.scale.set(0.1, 0.1, 0.1);
+      plane.scale.set(0.9, 0.9, 0.9);
       plane.rotation.z = Math.PI;
 
       gltf.scene.traverse((o) => {
@@ -39,7 +39,7 @@ export default function plane(scene) {
     }
   );
 
-  const targetPos = new THREE.Vector2(0, 0);
+  const targetPos = new THREE.Vector2(0, 1);
 
   const ele = document.querySelector("canvas");
   ele.addEventListener("mousemove", function (e) {
