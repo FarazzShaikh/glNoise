@@ -4,6 +4,7 @@ import _Worley from "./src/Worley.glsl";
 import _BlendModes from "./src/BlendModes.glsl";
 import _Common from "./src/Common.glsl";
 import _GerstnerWave from "./src/GerstnerWave.glsl";
+import _Curl from "./src/Curl.glsl";
 
 export const Perlin: string = _Perlin;
 export const Simplex: string = _Simplex;
@@ -11,8 +12,10 @@ export const Worley: string = _Worley;
 export const BlendModes: string = _BlendModes;
 export const Common: string = _Common;
 export const GerstnerWave: string = _GerstnerWave;
+export const Curl: string = _Curl;
 
-const _all = [Perlin, Simplex, Worley, BlendModes, GerstnerWave];
+const _all = [Perlin, Simplex, Worley, BlendModes, GerstnerWave, Curl];
+export const All: string[] = _all;
 
 const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 
@@ -33,12 +36,50 @@ async function nodeFetch(s: string) {
 }
 //~END~
 
+function getDeps(chunks: string[]) {
+  let names: string[] = [];
+  let deps: string[][] = [];
+
+  chunks.forEach((chunk: string) => {
+    const name = chunk.match(/#name: (.*)\n/);
+    const dep = chunk.match(/#deps: (.*)\n/);
+    names.push(name ? name[1] : undefined);
+    deps.push(dep ? dep[1].split(" ") : []);
+  });
+
+  return { names, deps };
+}
+
+function verifyDeps(chunks: string[]) {
+  const { names, deps } = getDeps(chunks);
+
+  let missing_dependancy: { [key: string]: number }[] = [];
+  let missing_dependant: string;
+  deps.forEach((dep, i) => {
+    dep.forEach((d, j) => {
+      if (!names.includes(d)) {
+        missing_dependancy.push({
+          outter: i,
+          inner: j,
+        });
+        missing_dependant = names[i];
+      }
+    });
+  });
+
+  if (missing_dependancy.length !== 0) {
+    const dependancies = missing_dependancy.map((e) => deps[e.outter][e.inner]);
+
+    throw new Error(`glNoise: Missing dependencies "${dependancies.join(", ")}" for "${missing_dependant}"`);
+  }
+}
+
 /**
  * Loads Shaders without appeneding any Shader Chunks.
  *
  * @async
  * @param {string[]} shaders Array of paths to shaders.
- * @returns {Promise<string>}         Array of shaders corresponding to each path.
+ * @returns {Promise<string[]>}         Array of shaders corresponding to each path.
  *
  * @example
  * const [vert, frag] = await loadShadersRaw(["vert.glsl", "frag.glsl"]);
@@ -80,7 +121,7 @@ export async function loadShadersRaw(shaders: string[]) {
  * const [vert, frag] = await loadShaders(paths, chunks, head);
  */
 export async function loadShaders(paths: string[], chunks?: string[][], headers?: string[]) {
-  if (!paths || paths.length <= 0) throw new Error("glNoise::loadShaders requires atleast one path.");
+  if (!paths || paths.length <= 0) throw new Error("glNoise: LoadShaders requires atleast one path.");
   if (!headers) headers = new Array(paths.length).fill(Common);
 
   let shaders: string[] = await loadShadersRaw(paths);
@@ -90,6 +131,8 @@ export async function loadShaders(paths: string[], chunks?: string[][], headers?
       let c: string[];
       if (chunks[i]) c = chunks[i];
       else c = _all;
+
+      verifyDeps(c);
 
       let h: string;
       if (headers[i]) h = headers[i];
@@ -153,6 +196,8 @@ export async function loadShadersCSM(
       header: _all.join("\n") + "\n" + _header,
       main: _main,
     };
+
+  verifyDeps(chunks);
 
   return {
     defines: _defines + Common,

@@ -1,3 +1,5 @@
+// #name: BlendModes
+
 #define gln_COPY 1
 #define gln_ADD 2
 #define gln_SUBSTRACT 3

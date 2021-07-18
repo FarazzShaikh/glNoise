@@ -6,9 +6,22 @@ import { loadShadersRaw, loadShaders, loadShadersCSM } from "../build/glNoise.m.
 let files;
 let expected;
 
+function getDeps(chunks) {
+  let names = [];
+  let deps = [];
+
+  chunks.forEach((chunk) => {
+    const name = chunk.match(/#name: (.*)\n/);
+    const dep = chunk.match(/#deps: (.*)\n/);
+    names.push(name ? name[1] : undefined);
+    deps.push(dep ? dep[1].split(" ") : []);
+  });
+
+  return { names, deps };
+}
+
 ava.before(async () => {
   files = (await fs.readdir("src")).filter((file) => path.extname(file).toLowerCase() === ".glsl");
-
   expected = await Promise.all(files.map(async (f) => (await fs.readFile(path.resolve(`src/${f}`))).toString()));
 });
 
@@ -39,7 +52,16 @@ ava("Test loadShaders()", async (t) => {
   const actual = await Promise.all(
     files.map(async (f) => {
       const paths = [basePath];
-      const chunks = [await loadShadersRaw([`src/${f}`])];
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+      const chunks = [_chunks];
+
+      if (deps[0].length) {
+        deps[0].forEach(async (d) => {
+          chunks[0].unshift(...(await loadShadersRaw([`src/${d}.glsl`])));
+        });
+      }
+
       return (await loadShaders(paths, chunks))[0];
     })
   );
@@ -57,7 +79,18 @@ ava("Test loadShadersCSM()", async (t) => {
 
   const actual = await Promise.all(
     files.map(async (f) => {
-      const chunks = [await loadShadersRaw([`src/${f}`])];
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+
+      const chunks = _chunks;
+
+      if (deps[0].length) {
+        deps[0].forEach(async (d) => {
+          const dep = await loadShadersRaw([`src/${d}.glsl`]);
+          chunks.unshift(...dep);
+        });
+      }
+
       const csm = {
         defines: basePath,
         header: basePath,

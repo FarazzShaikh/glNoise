@@ -1,4 +1,4 @@
-
+// #name: Simplex
 
 /**
  * Generates 2D Simplex Noise.

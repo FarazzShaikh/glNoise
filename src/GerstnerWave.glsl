@@ -1,3 +1,4 @@
+// #name: GerstnerWave
 
 /**
  * @typedef {struct} gln_tGerstnerWaveOpts   Options for Gerstner Wave

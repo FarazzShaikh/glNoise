@@ -272,6 +272,18 @@ float n = gln_normalize(p);
 
 The concept is pretty simple. You can fork it and write your GLSL functions in a file with the `.glsl` extension in the `src` directory. **The function must be shader independent so no use of `gl_FragCoord` or any shader-specific variables.** 
 
+Each new file must begin with the `name` directive like so:
+
+```
+// #name: <File Name without extension>
+```
+
+If your function requires functions from other files in this library, include the `deps` directive like so:
+```
+// #name: <File Name without extension>
+// #deps: <Dependancy Name 1> <Dependancy Name 2> ... <Dependancy Name n>
+```
+
 You can document your code using [JSDoc](https://jsdoc.app/about-getting-started.html) style comment blocks. The documentation is auto-generated so you **MUST** include a `@name` with the name of your function. See the preexisting functions for reference. This is because 
 
 Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the `_all` array.
@@ -294,6 +306,7 @@ I have not come up with these noise functions. Here's attribution to the creator
 | Perlin Noise | Hugh Kennedy | [GitHub](https://github.com/hughsk/glsl-noise/blob/master/periodic/2d.glsl) | MIT |
 | Simplex Noise | Ian McEwan | [GitHub](https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl) | MIT |
 | Worley Noise | Max Bittker | [GitHub](https://github.com/MaxBittker/glsl-voronoi-noise) | MIT |
+| Curl Noise | Isaac Cohen | [GitHub](https://github.com/cabbibo/glsl-curl-noise) | ??? |
 
 Every other function is by yours truly.
 

@@ -1,3 +1,5 @@
+// #name: Worley
+
 /**
  * @typedef {struct} gln_tWorleyOpts   Options for Voronoi Noise generators.
  * @property {float} seed               Seed for PRNG generation.
