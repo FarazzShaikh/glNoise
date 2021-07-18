@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### New
 
-- Curl Noise
+- [Curl Noise](https://farazzshaikh.github.io/glNoise/examples/index.html?src=Curl/index.html)
 - Introduced dependency system
   - This will allow for more complex, compound noise functions.
 
