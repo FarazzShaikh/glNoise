@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>gl-Noise |  GerstnerWave</title>
+  <title>gl-Noise |  Curl</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -98,7 +98,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>GLSL</p>
-                    <h1>GerstnerWave</h1>
+                    <h1>Curl</h1>
                 </header>
                 
 
@@ -119,7 +119,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Simplex Noise provider.</div>
+            <div class="description">Perlin Noise provider.</div>
         
 
         
@@ -220,8 +220,8 @@
 
 
     
-    <h4 class="name" id="~gln_GerstnerWave">
-        <a class="href-link" href="#~gln_GerstnerWave">#</a>
+    <h4 class="name" id="~gln_curl">
+        <a class="href-link" href="#~gln_curl">#</a>
         
             
                 <span class='tag'>inner</span>
@@ -229,7 +229,7 @@
         
         <span class="code-name">
             
-                gln_GerstnerWave<span class="signature">(p, opts, dt)</span><span class="type-signature"></span>
+                gln_curl<span class="signature">(p)</span><span class="type-signature"> &rarr; {float}</span>
             
         </span>
     </h4>
@@ -238,8 +238,7 @@
     
     
     <div class="description">
-        Implimentation of Gerstner Wave
-Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
+        Generates 3D Curl Noise.
     </div>
     
 
@@ -283,7 +282,7 @@ Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
   <td class="type">
   
       
-<span class="param-type">vec3</span>
+<span class="param-type">vec2</span>
 
 
   
@@ -293,57 +292,7 @@ Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
 
   
 
-  <td class="description last">Point to sample Gerstner Waves at.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>opts</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">gln_tGerstnerWaveOpts</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>dt</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">float</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
+  <td class="description last">Point to sample Curl Noise at.</td>
 </tr>
 
 
@@ -406,6 +355,31 @@ Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
 
 
 
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Value of Curl Noise at point "p".</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">float</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
 
 
 
@@ -413,7 +387,7 @@ Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>float n = gln_perlin(position.xy);</code></pre>
+        <pre class="prettyprint"><code>vec3 n = gln_curl(position);</code></pre>
     
 
 
@@ -423,182 +397,6 @@ Based on: https://catlikecoding.com/unity/tutorials/flow/waves/
         </div>
     
 
-    
-        <div class='vertical-section'>
-            <h1>Type Definitions</h1>
-            <div class="members">
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<span class="param-type">struct</span>
-
-
-    </span>
-
-<h4 class="name" id="~gln_tGerstnerWaveOpts">
-    <a class="href-link" href="#~gln_tGerstnerWaveOpts">#</a>
-    
-    <span class="code-name">
-        gln_tGerstnerWaveOpts
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Options for Gerstner Wave
-generators.
-</div>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-<div class="table-container">
-    <table class="props table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>direction</code></td>
-    
-
-    <td class="type">
-    
-        
-<span class="param-type">vec2</span>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Direction of the wave</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>steepness</code></td>
-    
-
-    <td class="type">
-    
-        
-<span class="param-type">float</span>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Steepness of the peeks</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>wavelength</code></td>
-    
-
-    <td class="type">
-    
-        
-<span class="param-type">float</span>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Wavelength of the waves</td>
-</tr>
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-</div>
-            
-            </div>
-        </div>
     
 
     

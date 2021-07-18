@@ -90,7 +90,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-GerstnerWave.html">GerstnerWave</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>GLSL</h3><ul><li><a href="module-BlendModes.html">BlendModes</a></li><li><a href="module-Common.html">Common</a></li><li><a href="module-Curl.html">Curl</a></li><li><a href="module-GerstnerWave.html">GerstnerWave</a></li><li><a href="module-Perlin.html">Perlin</a></li><li><a href="module-Simplex.html">Simplex</a></li><li><a href="module-Worley.html">Worley</a></li></ul><h3>Loaders</h3><ul><li><a href="global.html#loadShaders">loadShaders</a></li><li><a href="global.html#loadShadersCSM">loadShadersCSM</a></li><li><a href="global.html#loadShadersRaw">loadShadersRaw</a></li></ul></div>
                 
             </nav>
         </div>
@@ -337,6 +337,13 @@ float n = gln_normalize(p);
 <p><strong>See the full list of available functions in the <a href="https://farazzshaikh.github.io/glNoise/module-Common.html">API Reference</a>.</strong></p>
 <h2>Development</h2>
 <p>The concept is pretty simple. You can fork it and write your GLSL functions in a file with the <code>.glsl</code> extension in the <code>src</code> directory. <strong>The function must be shader independent so no use of <code>gl_FragCoord</code> or any shader-specific variables.</strong></p>
+<p>Each new file must begin with the <code>name</code> directive like so:</p>
+<pre class="prettyprint source"><code>// #name: &lt;File Name without extension>
+</code></pre>
+<p>If your function requires functions from other files in this library, include the <code>deps</code> directive like so:</p>
+<pre class="prettyprint source"><code>// #name: &lt;File Name without extension>
+// #deps: &lt;Dependancy Name 1> &lt;Dependancy Name 2> ... &lt;Dependancy Name n>
+</code></pre>
 <p>You can document your code using <a href="https://jsdoc.app/about-getting-started.html">JSDoc</a> style comment blocks. The documentation is auto-generated so you <strong>MUST</strong> include a <code>@name</code> with the name of your function. See the preexisting functions for reference. This is because</p>
 <p>Include your file in index.ts by importing it and exporting it like all the preexisting files. Make sure to include your new file in the <code>_all</code> array.</p>
 <p>That's it. You can see if it builds by running</p>
@@ -372,6 +379,12 @@ float n = gln_normalize(p);
 <td>Max Bittker</td>
 <td><a href="https://github.com/MaxBittker/glsl-voronoi-noise">GitHub</a></td>
 <td>MIT</td>
+</tr>
+<tr>
+<td>Curl Noise</td>
+<td>Isaac Cohen</td>
+<td><a href="https://github.com/cabbibo/glsl-curl-noise">GitHub</a></td>
+<td>???</td>
 </tr>
 </tbody>
 </table>
