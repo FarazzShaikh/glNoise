@@ -68,7 +68,7 @@ function verifyDeps(chunks) {
  * const [vert, frag] = await loadShadersRaw(["vert.glsl", "frag.glsl"]);
  */
 async function loadShadersRaw(shaders) {
-    const _fetch = isNode ? false : window.fetch;
+    const _fetch = isNode ? window.fetch : window.fetch;
     return Promise.all(shaders.map(async (s) => {
         return (await _fetch(s)).text();
     }));
@@ -155,7 +155,7 @@ async function loadShaders(paths, chunks, headers) {
  * const {defines, header, main} = await loadShadersCSM(paths, chunks);
  */
 async function loadShadersCSM(shaders, chunks) {
-    const _fetch = isNode ? false : window.fetch;
+    const _fetch = isNode ? window.fetch : window.fetch;
     let _defines = "", _header = "", _main = "";
     if (shaders.defines)
         _defines = await (await _fetch(shaders.defines)).text();
