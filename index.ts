@@ -192,16 +192,16 @@ export async function loadShadersCSM(
 
   if (!chunks)
     return {
-      defines: _defines + Common,
-      header: _all.join("\n") + "\n" + _header,
-      main: _main,
+      defines: "\n" + _defines + "\n" + Common,
+      header: "\n" + _all.join("\n") + "\n // ABCD \n" + _header,
+      main: "\n" + _main,
     };
 
   verifyDeps(chunks);
 
   return {
-    defines: _defines + Common,
-    header: chunks.join("\n") + "\n" + _header,
-    main: _main,
+    defines: "\n" + _defines + "\n" + Common,
+    header: "\n" + chunks.join("\n") + "\n" + _header,
+    main: "\n" + _main,
   };
 }

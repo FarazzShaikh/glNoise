@@ -9,7 +9,7 @@ const glslOpts = {
   exclude: "node_modules/**",
 
   // Compress shader by default using logic from rollup-plugin-glsl
-  compress: false,
+  //   compress: false,
 };
 
 const tscOpts = {
