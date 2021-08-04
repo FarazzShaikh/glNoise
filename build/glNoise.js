@@ -45,7 +45,7 @@ var glNoise = (function (exports) {
       chunks.forEach((chunk) => {
           const name = chunk.match(/#name: (.*)\n/);
           const dep = chunk.match(/#deps: (.*)\n/);
-          names.push(name ? name[1] : undefined);
+          names.push(name ? name[1] : "");
           deps.push(dep ? dep[1].split(" ") : []);
       });
       return { names, deps };
@@ -131,7 +131,7 @@ var glNoise = (function (exports) {
                   h = headers[i];
               else
                   h = Common;
-              return h + c.join("\n") + "\n" + s;
+              return "\n" + h + "\n" + c.join("\n") + "\n" + s;
           });
       }
       else {
@@ -141,7 +141,7 @@ var glNoise = (function (exports) {
                   h = headers[i];
               else
                   h = Common;
-              return h + _all.join("\n") + "\n" + s;
+              return "\n" + h + "\n" + _all.join("\n") + "\n" + s;
           });
       }
       return shaders;

@@ -43,7 +43,7 @@ function getDeps(chunks: string[]) {
   chunks.forEach((chunk: string) => {
     const name = chunk.match(/#name: (.*)\n/);
     const dep = chunk.match(/#deps: (.*)\n/);
-    names.push(name ? name[1] : undefined);
+    names.push(name ? name[1] : "");
     deps.push(dep ? dep[1].split(" ") : []);
   });
 
@@ -138,14 +138,14 @@ export async function loadShaders(paths: string[], chunks?: string[][], headers?
       if (headers[i]) h = headers[i];
       else h = Common;
 
-      return h + c.join("\n") + "\n" + s;
+      return "\n" + h + "\n" + c.join("\n") + "\n" + s;
     });
   } else {
     shaders = shaders.map((s, i) => {
       let h: string;
       if (headers[i]) h = headers[i];
       else h = Common;
-      return h + _all.join("\n") + "\n" + s;
+      return "\n" + h + "\n" + _all.join("\n") + "\n" + s;
     });
   }
 

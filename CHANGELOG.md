@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Version 1.5.0
+
+### Changed
+
+- Remove UMD modules in favor of ES Modules
+- Build tools 
+
+### Fix
+
+- Patched more bugs with newlines 
+- Redirect examples to [FarazzShaikh/Experiemnts](https://github.com/FarazzShaikh/experiments)
 
 ## Version 1.4.2
 

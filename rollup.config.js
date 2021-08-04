@@ -1,22 +1,14 @@
 import glslify from "rollup-plugin-glslify";
-import typescript from "@rollup/plugin-typescript";
+import typescript from "rollup-plugin-typescript2";
+import dts from "rollup-plugin-dts";
 
 const glslOpts = {
-  // Default
   include: ["**/*.vs", "**/*.fs", "**/*.vert", "**/*.frag", "**/*.glsl"],
-
-  // Undefined by default
   exclude: "node_modules/**",
-
-  // Compress shader by default using logic from rollup-plugin-glsl
-  //   compress: false,
 };
 
 const tscOpts = {
-  lib: ["es5", "es6", "dom"],
-  target: "ESNext",
-  tsconfig: false,
-  moduleResolution: "node",
+  useTsconfigDeclarationDir: true,
 };
 
 export default [
@@ -38,5 +30,10 @@ export default [
     },
     external: ["fs", "path"],
     plugins: [glslify(glslOpts), typescript(tscOpts)],
+  },
+  {
+    input: "build/types/index.d.ts",
+    output: [{ file: "build/three-csm.d.ts", format: "es" }],
+    plugins: [dts()],
   },
 ];
