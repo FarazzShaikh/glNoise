@@ -33,7 +33,7 @@ export default [
   },
   {
     input: "build/types/index.d.ts",
-    output: [{ file: "build/three-csm.d.ts", format: "es" }],
+    output: [{ file: "build/glNoise.d.ts", format: "es" }],
     plugins: [dts()],
   },
 ];
