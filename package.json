@@ -3,6 +3,7 @@
     "version": "1.5.0",
     "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
     "main": "build/glNoise.m.node.js",
+    "type": "module",
     "scripts": {
         "build": "rollup -c && rm -rf build/types && chmod +x scripts/patchModule.sh && scripts/patchModule.sh",
         "test": "ava",
