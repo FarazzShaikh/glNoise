@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Version 1.6.0
+
+### New
+
+- Added patch functions that take in shaders as strings directly. 
+  - These functions do not load shaders from file.
+
+### NOTE
+
+- **Loader functions will be depricated in a future release**. Instead getting their own package.
+  - These include:
+    - `loadShaders`
+    - `loadShadersRaw`
+    - `loadShadersCSM`
+  - This is to remove [`CSM`](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)'s dependance on `gl-noise` to easy load shaders.
+
+
 ## Version 1.5.1
 
 ### Changed

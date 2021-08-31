@@ -82,9 +82,11 @@ var glNoise = (function (exports) {
    */
   async function loadShadersRaw(shaders) {
       const _fetch = isNode ? nodeFetch : window.fetch;
-      return Promise.all(shaders.map(async (s) => {
+      const _shaders = Array.isArray(shaders) ? shaders : [shaders];
+      const output = await Promise.all(_shaders.map(async (s) => {
           return (await _fetch(s)).text();
       }));
+      return Array.isArray(shaders) ? output : output[0];
   }
   /**
    * Loads shaders with specified Shader Chunks.
@@ -114,10 +116,17 @@ var glNoise = (function (exports) {
    */
   async function loadShaders(paths, chunks, headers) {
       if (!paths || paths.length <= 0)
-          throw new Error("glNoise: LoadShaders requires atleast one path.");
+          throw new Error("glNoise: 'loadShaders' requires atleast one path.");
+      let _paths;
+      if (!Array.isArray(paths)) {
+          _paths = [paths];
+      }
+      else {
+          _paths = paths;
+      }
       if (!headers)
-          headers = new Array(paths.length).fill(Common);
-      let shaders = await loadShadersRaw(paths);
+          headers = new Array(_paths.length).fill(Common);
+      let shaders = (await loadShadersRaw(_paths));
       if (chunks) {
           shaders = shaders.map((s, i) => {
               let c;
@@ -144,7 +153,87 @@ var glNoise = (function (exports) {
               return "\n" + h + "\n" + _all.join("\n") + "\n" + s;
           });
       }
-      return shaders;
+      if (!Array.isArray(paths)) {
+          return shaders[0];
+      }
+      else {
+          return shaders;
+      }
+  }
+  /**
+   * Patches shaders with specified Shader Chunks.
+   * If chunks not specified, all chunks will be appended.
+   *
+   * @async
+   * @param {string[]} paths      Array of Shaders as strings.
+   * @param {string[][]} chunks   Array of chunks to append to each shader
+   * @param {string[]} headers    Array of headers to be appended to each shader. Can be used to provide precision;
+   * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
+   *
+   * @example
+   * const head = `
+   * precision highp float;
+   * ${Common}
+   * `;
+   *
+   * const chunks = [
+   *      [Perlin, Simplex],
+   *      []
+   * ];
+   * const shaders = [
+   *      `
+   *         gl_Posiiton = ...
+   *      `,
+   *         gl_FragColor = ...
+   *      `,
+   * ];
+   * const [vert, frag] = await loadShaders(shaders, chunks, head);
+   */
+  async function patchShaders(shader, chunks, headers) {
+      if (!shader || shader.length <= 0)
+          throw new Error("glNoise: 'loadShaders' requires atleast one path.");
+      let _shader;
+      if (!Array.isArray(shader)) {
+          _shader = [shader];
+      }
+      else {
+          _shader = shader;
+      }
+      if (!headers)
+          headers = new Array(_shader.length).fill(Common);
+      let output = _shader;
+      if (chunks) {
+          output = output.map((s, i) => {
+              let c;
+              if (chunks[i])
+                  c = chunks[i];
+              else
+                  c = _all;
+              verifyDeps(c);
+              let h;
+              if (headers[i])
+                  h = headers[i];
+              else
+                  h = Common;
+              return "\n" + h + "\n" + c.join("\n") + "\n" + s;
+          });
+      }
+      else {
+          output = output.map((s, i) => {
+              let h;
+              if (headers[i])
+                  h = headers[i];
+              else
+                  h = Common;
+              return "\n" + h + "\n" + _all.join("\n") + "\n" + s;
+          });
+      }
+      if (!Array.isArray(shader)) {
+          return output[0];
+      }
+      else {
+          return output;
+      }
   }
   /**
    * Loads shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
@@ -189,6 +278,48 @@ var glNoise = (function (exports) {
           main: "\n" + _main,
       };
   }
+  /**
+   * Loads shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
+   * If chunks not specified, all chunks will be appended.
+   *
+   * @async
+   * @param {Object} shaders              Paths of shaders.
+   * * @param {string} shaders.defines        Path of definitions shader.
+   * * @param {string} shaders.header         Path of header shader.
+   * * @param {string} shaders.main           Path of main shader.
+   * @param {string[]} chunks             Array of chunks to append into the Header Section.
+   * @returns {Promise<Object>}                    CSM friendly shader.
+   *
+   * @example
+   * const chunks =  [Perlin, Simplex];
+   * const paths = [
+   *      defines: "defines.glsl",
+   *      header: "header.glsl",
+   *      main: "main.glsl",
+   * ];
+   * const {defines, header, main} = await loadShadersCSM(paths, chunks);
+   */
+  async function patchShadersCSM(shaders, chunks) {
+      let _defines = "", _header = "", _main = "";
+      if (shaders.defines)
+          _defines = shaders.defines;
+      if (shaders.header)
+          _header = shaders.header;
+      if (shaders.main)
+          _main = shaders.main;
+      if (!chunks)
+          return {
+              defines: "\n" + _defines + "\n" + Common,
+              header: "\n" + _all.join("\n") + "\n // ABCD \n" + _header,
+              main: "\n" + _main,
+          };
+      verifyDeps(chunks);
+      return {
+          defines: "\n" + _defines + "\n" + Common,
+          header: "\n" + chunks.join("\n") + "\n" + _header,
+          main: "\n" + _main,
+      };
+  }
 
   exports.All = All;
   exports.BlendModes = BlendModes;
@@ -201,6 +332,8 @@ var glNoise = (function (exports) {
   exports.loadShaders = loadShaders;
   exports.loadShadersCSM = loadShadersCSM;
   exports.loadShadersRaw = loadShadersRaw;
+  exports.patchShaders = patchShaders;
+  exports.patchShadersCSM = patchShadersCSM;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

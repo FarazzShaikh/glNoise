@@ -1,7 +1,7 @@
 import ava from "ava";
 import fs from "fs/promises";
 import path from "path";
-import { loadShadersRaw, loadShaders, loadShadersCSM } from "../build/glNoise.m.node.js";
+import { loadShadersRaw, loadShaders, loadShadersCSM, patchShaders, patchShadersCSM } from "../build/glNoise.m.node.js";
 
 let files;
 let expected;
@@ -36,7 +36,7 @@ ava("Test file extensions", async (t) => {
 });
 
 ava("Test loadShadersRaw()", async (t) => {
-  const actual = await Promise.all(files.map(async (f) => (await loadShadersRaw([`src/${f}`]))[0]));
+  const actual = await Promise.all(files.map(async (f) => await loadShadersRaw(`src/${f}`)));
 
   const isTrue = expected.every((f, i) => {
     return f === actual[i];
@@ -51,18 +51,58 @@ ava("Test loadShaders()", async (t) => {
 
   const actual = await Promise.all(
     files.map(async (f) => {
-      const paths = [basePath];
+      const paths = basePath;
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+      const chunks = [_chunks];
+
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
+            res();
+          });
+        })
+      );
+
+      return await loadShaders(paths, chunks);
+    })
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return actual[i].includes(f) && actual[i].includes(base);
+  });
+
+  t.true(isTrue);
+});
+
+ava("Test patchShaders()", async (t) => {
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
+
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const paths = await fs.readFile(basePath, "utf-8");
       const _chunks = await loadShadersRaw([`src/${f}`]);
       const { deps } = getDeps(_chunks);
       const chunks = [_chunks];
 
       if (deps[0].length) {
         deps[0].forEach(async (d) => {
-          chunks[0].unshift(...(await loadShadersRaw([`src/${d}.glsl`])));
+          chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
         });
       }
 
-      return (await loadShaders(paths, chunks))[0];
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
+            res();
+          });
+        })
+      );
+
+      return await patchShaders(paths, chunks);
     })
   );
 
@@ -84,12 +124,15 @@ ava("Test loadShadersCSM()", async (t) => {
 
       const chunks = _chunks;
 
-      if (deps[0].length) {
-        deps[0].forEach(async (d) => {
-          const dep = await loadShadersRaw([`src/${d}.glsl`]);
-          chunks.unshift(...dep);
-        });
-      }
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            const dep = await loadShadersRaw([`src/${d}.glsl`]);
+            chunks.unshift(...dep);
+            res();
+          });
+        })
+      );
 
       const csm = {
         defines: basePath,
@@ -103,6 +146,122 @@ ava("Test loadShadersCSM()", async (t) => {
 
   const isTrue = expected.every((f, i) => {
     return actual[i].header.includes(f) && actual[i].main.includes(base);
+  });
+
+  t.true(isTrue);
+});
+
+ava("Test patchShadersCSM()", async (t) => {
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
+
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+
+      const chunks = _chunks;
+
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            const dep = await loadShadersRaw([`src/${d}.glsl`]);
+            chunks.unshift(...dep);
+            res();
+          });
+        })
+      );
+
+      const csm = {
+        defines: await fs.readFile(basePath, "utf-8"),
+        header: await fs.readFile(basePath, "utf-8"),
+        main: await fs.readFile(basePath, "utf-8"),
+      };
+
+      return await patchShadersCSM(csm, chunks);
+    })
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return actual[i].header.includes(f) && actual[i].main.includes(base);
+  });
+
+  t.true(isTrue);
+});
+
+ava("[Array] Test loadShadersRaw()", async (t) => {
+  const actual = await Promise.all(files.map(async (f) => (await loadShadersRaw([`src/${f}`]))[0]));
+
+  const isTrue = expected.every((f, i) => {
+    return f === actual[i];
+  });
+
+  t.true(isTrue);
+});
+
+ava("[Array] Test loadShaders()", async (t) => {
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
+
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const paths = [basePath];
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+      const chunks = [_chunks];
+
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
+            res();
+          });
+        })
+      );
+
+      return (await loadShaders(paths, chunks))[0];
+    })
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return actual[i].includes(f) && actual[i].includes(base);
+  });
+
+  t.true(isTrue);
+});
+
+ava("[Array] Test patchShaders()", async (t) => {
+  const basePath = "tests/test.glsl";
+  const base = (await fs.readFile(path.resolve(basePath))).toString();
+
+  const actual = await Promise.all(
+    files.map(async (f) => {
+      const paths = [await fs.readFile(basePath, "utf-8")];
+      const _chunks = await loadShadersRaw([`src/${f}`]);
+      const { deps } = getDeps(_chunks);
+      const chunks = [_chunks];
+
+      if (deps[0].length) {
+        deps[0].forEach(async (d) => {
+          chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
+        });
+      }
+
+      await Promise.all(
+        deps[0].map((d) => {
+          return new Promise(async (res, rej) => {
+            chunks[0].unshift(await loadShadersRaw(`src/${d}.glsl`));
+            res();
+          });
+        })
+      );
+
+      return (await patchShaders(paths, chunks))[0];
+    })
+  );
+
+  const isTrue = expected.every((f, i) => {
+    return actual[i].includes(f) && actual[i].includes(base);
   });
 
   t.true(isTrue);

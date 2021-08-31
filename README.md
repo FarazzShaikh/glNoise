@@ -49,9 +49,8 @@
         <ul>
             <li><a href="#shader-chunks">Shader Chunks</a></li>
             <ul>
-                <li><a href="#loadshadersraw">`loadShadersRaw`</a></li>
-                <li><a href="#loadshaders">`loadShaders`</a></li>
-                <li><a href="#loadshaderscsm">`loadShadersCSM`</a></li>
+                <li><a href="#patchshaders">`patchShaders`</a></li>
+                <li><a href="#patchshaderscsm">`patchhadersCSM`</a></li>
             </ul>
             <li><a href="#loaders">Loaders</a></li>
         </ul>
@@ -67,16 +66,15 @@
 
 <br />
 
-  <p align="center">
-    <img src="./Assets/demo.jpg" ></img>
-     Low-poly planet generated using gl-Noise.
-  </p>
-
+<p align="center">
+  <a href="https://farazzshaikh.github.io/experiments/?src=/experiments/Particles/1M%20Particles/index.html" target="_blank"><img height="214" src="./Assets/banners/1M.jpg" alt="Bubbles" /></a>
+  <a href="https://farazzshaikh.github.io/experiments/?src=/experiments/3D/Stylized%20Ocean/index.html" target="_blank"><img height="214" src="./Assets/banners/ocean.jpg" alt="Take Control" /></a>
+  <a href="https://farazzshaikh.github.io/experiments/?src=/experiments/3D/Planet/index.html" target="_blank"><img height="214" src="./Assets/banners/planet.jpg" alt="Take Control" /></a>
+</p>
+<p align="middle">
+  <i>These demos are real, you can click them! They contain the full code, too. 📦</i>
+</p>
 <br />
-
-## Breaking
-
-In `1.3.0`, `build/glNoise.m.js` now stubs out NodeJS specific imports. Use `build/glNoise.m.node.js` instead.
 
 ## Why this?
 
@@ -174,86 +172,63 @@ You can load these chunks along with shaders as you will see in the next section
 
 ### Loaders
 
-gl-Noise provides three types of loaders. You can read about them in the [API Reference](https://farazzshaikh.github.io/glNoise/global.html#loadShaders) but here is a summary.
+Loaders are being deprecated in this package and being moved to a new one. Sorry.
 
-#### `loadShadersRaw`
+### Patching
 
-This function loads shaders without any processing. Like loading a text file.
-
-```js
-// Paths must be an array of strings
-const paths = [
-    "path/to/s1.glsl",
-    "path/to/s2.glsl",
-    "path/to/s3.glsl",
-]
-
-
-loadShadersRaw(paths).then(([s1, s2, s3]) => {
-    // whatever
-})
-    
-```
-
-#### `loadShaders`
-This function loads shaders and appends the provided chunks to them. The chunks can be imported from gl-Noise and are just strings that will be appended to each shader.
+#### `patchShaders`
+This function patches shaders with the provided chunks. The chunks can be imported from gl-Noise and are just strings that will be appended to each shader.
 
 ```js
 import { Perlin, Simplex, Common } from "gl-noise"
 import { CustomChunk } from "custom/path.glsl"
 
-// Paths must be an array of strings
-const paths = [
-    "path/to/s1.glsl",
-    "path/to/s2.glsl",
-    "path/to/s3.glsl",
-];
+const _vertexShader = `
+    void main() {
+        gl_Position = ...
+    }
+`
 
-// Chunks are optional. If undefined or NULL, 
-// all available inbuilt chunks will be appened
-const chunks = [
-    [Perlin, Simplex],      // 👈 Chunks to include with s1
-    [CustomChunk],          // 👈 Chunks to include with s2
-    null                    // 👈 Chunks to include with s3
-]
+const _fragmentShader = `
+    void main() {
+        gl_FragColor = ...
+    }
+`
 
-// Headers are optional. If undefined or NULL, 
+// Patch a shader...
+const vertexShader = await patchShaders(_vertexShader);
+
+// ...or many at once
+const [vertexShader, fragmentShader] = await patchShaders([_vertexShader, _fragmentShader]);
+
+
+// Load specific chunks. If undefined or NULL, 
 // only the "Common" shader chunk will be appened
-const headers = [
-    `precision highp float;`,   👈 Header to include with s1
-    `
-    precision highp float;      👈 Header to include with s2
-    ${Common}
-    `,
-    null,                       👈 Header to include with s3
-    
+const chunks = [
+    [Perlin, Simplex],  // 👈 Chunks to include with vertexShader
+    null,                       // 👈 Chunks to include with fragmentSha
 ]
 
-loadShaders(paths, chunks, headers).then(([s1, s2, s3]) => {
-    // whatever
-})
-
+const vertexShader = await patchShaders(_vertexShader, chunks);
 ```
 
-#### `loadShadersCSM`
+#### `patchShadersCSM`
 
 **This function is to be used with [THREE-CustomShaderMaterial](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)**. It appends shader chunks to the `header` section of the provided inputs.
 
 ```js
 
-const CSMpaths = {
-  defines: "./shaders/defines.glsl",
-  header: "./shaders/header.glsl",
-  main: "./shaders/main.glsl",
+const CSM_Shaders_= {
+  defines: `...`,
+  header: `...`,
+  main: `...`,
 };
 
-const CSMchunks = [Perlin, Simplex]
+const CSM_Chunks = [Perlin, Simplex]
 
 // Loads shaders with CSM Friendly format
-loadShadersCSM(CSMpaths, CSMchunks).then(({defines, header, main}) => {
-    // whatever
-})
-
+const CSM_Patched = await loadShadersCSM(CSM_Shaders_, CSM_Chunks)
+const { defines, header, main } = CSM_Patched;
 
 ```
 
