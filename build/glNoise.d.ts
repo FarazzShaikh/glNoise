@@ -8,6 +8,7 @@ declare const Curl: string;
 declare const All: string[];
 /**
  * Loads Shaders without appeneding any Shader Chunks.
+ * @deprecated
  *
  * @async
  * @param {string[]} shaders Array of paths to shaders.
@@ -20,6 +21,7 @@ declare function loadShadersRaw(shaders: string | string[]): Promise<string | st
 /**
  * Loads shaders with specified Shader Chunks.
  * If chunks not specified, all chunks will be appended.
+ * @deprecated
  *
  * @async
  * @param {string[]} paths      Array of Paths to shaders.
@@ -52,7 +54,7 @@ declare function loadShaders(paths: string | string[], chunks?: string[][], head
  * @param {string[]} paths      Array of Shaders as strings.
  * @param {string[][]} chunks   Array of chunks to append to each shader
  * @param {string[]} headers    Array of headers to be appended to each shader. Can be used to provide precision;
- * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
+ * @returns {string[]}          Array of shaders corresponding to each path with respective chunks applied.
  *
  * @example
  * const head = `
@@ -73,10 +75,11 @@ declare function loadShaders(paths: string | string[], chunks?: string[][], head
  * ];
  * const [vert, frag] = await loadShaders(shaders, chunks, head);
  */
-declare function patchShaders(shader: string | string[], chunks?: string[][], headers?: string[]): Promise<string | string[]>;
+declare function patchShaders(shader: string | string[], chunks?: string[][], headers?: string[]): string | string[];
 /**
  * Loads shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
  * If chunks not specified, all chunks will be appended.
+ * @deprecated
  *
  * @async
  * @param {Object} shaders              Paths of shaders.
@@ -105,7 +108,7 @@ declare function loadShadersCSM(shaders: {
     main: string;
 }>;
 /**
- * Loads shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
+ * Patches shaders with Shader Chunks for use with [THREE-CustomShaderMaterial.]{@link https://github.com/FarazzShaikh/THREE-CustomShaderMaterial}
  * If chunks not specified, all chunks will be appended.
  *
  * @async
@@ -114,25 +117,25 @@ declare function loadShadersCSM(shaders: {
  * * @param {string} shaders.header         Path of header shader.
  * * @param {string} shaders.main           Path of main shader.
  * @param {string[]} chunks             Array of chunks to append into the Header Section.
- * @returns {Promise<Object>}                    CSM friendly shader.
+ * @returns {Object}                    CSM friendly shader.
  *
  * @example
  * const chunks =  [Perlin, Simplex];
- * const paths = [
- *      defines: "defines.glsl",
- *      header: "header.glsl",
- *      main: "main.glsl",
+ * const shaders = [
+ *      defines: "...",
+ *      header: "...",
+ *      main: "...",
  * ];
- * const {defines, header, main} = await loadShadersCSM(paths, chunks);
+ * const {defines, header, main} = await loadShadersCSM(shaders, chunks);
  */
 declare function patchShadersCSM(shaders: {
     defines: string;
     header: string;
     main: string;
-}, chunks?: string[]): Promise<{
+}, chunks?: string[]): {
     defines: string;
     header: string;
     main: string;
-}>;
+};
 
 export { All, BlendModes, Common, Curl, GerstnerWave, Perlin, Simplex, Worley, loadShaders, loadShadersCSM, loadShadersRaw, patchShaders, patchShadersCSM };

@@ -102,7 +102,7 @@ ava("Test patchShaders()", async (t) => {
         })
       );
 
-      return await patchShaders(paths, chunks);
+      return patchShaders(paths, chunks);
     })
   );
 
@@ -178,7 +178,7 @@ ava("Test patchShadersCSM()", async (t) => {
         main: await fs.readFile(basePath, "utf-8"),
       };
 
-      return await patchShadersCSM(csm, chunks);
+      return patchShadersCSM(csm, chunks);
     })
   );
 
@@ -256,7 +256,7 @@ ava("[Array] Test patchShaders()", async (t) => {
         })
       );
 
-      return (await patchShaders(paths, chunks))[0];
+      return patchShaders(paths, chunks)[0];
     })
   );
 
