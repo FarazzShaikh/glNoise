@@ -167,7 +167,7 @@ async function loadShaders(paths, chunks, headers) {
  * @param {string[]} paths      Array of Shaders as strings.
  * @param {string[][]} chunks   Array of chunks to append to each shader
  * @param {string[]} headers    Array of headers to be appended to each shader. Can be used to provide precision;
- * @returns {Promise<string[]>}          Array of shaders corresponding to each path with respective chunks applied.
+ * @returns {string[]}          Array of shaders corresponding to each path with respective chunks applied.
  *
  * @example
  * const head = `
@@ -188,7 +188,7 @@ async function loadShaders(paths, chunks, headers) {
  * ];
  * const [vert, frag] = await loadShaders(shaders, chunks, head);
  */
-async function patchShaders(shader, chunks, headers) {
+function patchShaders(shader, chunks, headers) {
     if (!shader || shader.length <= 0)
         throw new Error("glNoise: 'loadShaders' requires atleast one path.");
     let _shader;
@@ -288,7 +288,7 @@ async function loadShadersCSM(shaders, chunks) {
  * * @param {string} shaders.header         Path of header shader.
  * * @param {string} shaders.main           Path of main shader.
  * @param {string[]} chunks             Array of chunks to append into the Header Section.
- * @returns {Promise<Object>}                    CSM friendly shader.
+ * @returns {Object}                    CSM friendly shader.
  *
  * @example
  * const chunks =  [Perlin, Simplex];
@@ -299,7 +299,7 @@ async function loadShadersCSM(shaders, chunks) {
  * ];
  * const {defines, header, main} = await loadShadersCSM(shaders, chunks);
  */
-async function patchShadersCSM(shaders, chunks) {
+function patchShadersCSM(shaders, chunks) {
     let _defines = "", _header = "", _main = "";
     if (shaders.defines)
         _defines = shaders.defines;
