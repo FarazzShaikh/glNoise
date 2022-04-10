@@ -1,24 +1,17 @@
 {
-    "compilerOptions": {
-      // project options
-      "lib":["es5", "es6", "dom"],
-      "outDir": "build",
-      "module": "esnext",
-      "target": "ES2018",
-      "declaration": true,
-      "declarationDir": "build/types",
-  
-      // Strict Checks
-      "alwaysStrict": true,
-      "allowUnreachableCode": false,
-      "noImplicitAny": true,
-      "noImplicitReturns": true,
-      "noUncheckedIndexedAccess": true, 
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-    },
-    "include": ["src/**/*"],
-    "exclude": [
-      "node_modules/**/*"
-    ]
-  }
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "preserveSymlinks": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "skipLibCheck": true,
+    "removeComments": false,
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}
