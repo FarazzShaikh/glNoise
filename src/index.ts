@@ -1,4 +1,5 @@
-import demoWebGLShader from './shaders/webgl/Demo.glsl'
-import demoWebGPUShader from './shaders/webgpu/Demo.wgsl'
+import commonShader from './shaders/glsl/Common.glsl'
+import perlinShader from './shaders/glsl/Perlin.glsl'
 
-console.log(demoWebGLShader, demoWebGPUShader)
+export const Common = commonShader
+export const Perlin = perlinShader
