@@ -3,6 +3,7 @@
     "module": "esnext",
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
+    "jsx": "react",
     "strict": true,
     "preserveSymlinks": true,
     "moduleResolution": "Node",

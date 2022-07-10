@@ -1,91 +1,97 @@
 import { Canvas } from '@react-three/fiber'
-import { Box, OrbitControls, PerspectiveCamera, Plane } from '@react-three/drei'
+import { Box, Html, OrbitControls, PerspectiveCamera, Plane, Sphere, Stats, Text } from '@react-three/drei'
 import { Floor } from './components/Floor'
 import Lights from './components/Lights'
+import { button, useControls } from 'leva'
+import Material from './Material'
+import { useState } from 'react'
 
-import CustomShaderMaterial from 'three-custom-shader-material'
-import { MeshPhysicalMaterial } from 'three'
-import { DoubleSide } from 'three'
+const map = {
+  Perlin: 0,
+  Simplex: 1,
+  Cell1: 2,
+  Cell2: 3,
+  PSRD: 4,
+}
 
-import { Common, Perlin } from 'gl-noise'
-
-function TwoD() {
+function TwoD(props) {
   return (
     <Plane args={[2, 2]} position={[-2, 1, 0]} castShadow>
-      <CustomShaderMaterial
-        side={DoubleSide}
-        vertexShader={
-          /* glsl */ `
-        varying vec2 vUv;
-
-        void main() {
-          vUv = uv;
-        }
-
-        `
-        }
-        fragmentShader={
-          /* glsl */ `
-          ${Common}
-          ${Perlin}
-
-          varying vec2 vUv;
-
-          void main() {
-            float n = gln_perlin(vUv * 4.);
-            csm_FragColor = vec4(vec3(n), 1.);
-          }
-        `
-        }
-        baseMaterial={MeshPhysicalMaterial}
-      />
+      <Material {...props} type={map[props.type]} />
     </Plane>
   )
 }
 
-function ThreeD() {
+function ThreeD(props) {
   return (
     <Box args={[2, 2, 2]} position={[2, 1, 0]} castShadow>
-      <CustomShaderMaterial
-        side={DoubleSide}
-        vertexShader={
-          /* glsl */ `
-        varying vec3 vUv;
-        void main() { vUv = position; }
-        `
-        }
-        fragmentShader={
-          /* glsl */ `
-          ${Common}
-          ${Perlin}
-
-          varying vec3 vUv;
-
-          void main() {
-            float n = gln_perlin(vUv * 4.);
-            csm_FragColor = vec4(vec3(n), 1.);
-          }
-        `
-        }
-        baseMaterial={MeshPhysicalMaterial}
-      />
+      <Material {...props} type={map[props.type]} threeD />
     </Box>
   )
 }
 
+function Displacement(props) {
+  return (
+    <>
+      <Sphere args={[1, 128, 128]} position={[6, 1, 0]} castShadow>
+        <Material {...props} type={map[props.type]} threeD disp />
+      </Sphere>
+      <Plane args={[2, 2, 128, 128]} position={[-6, 1, 0]} rotation-x={-Math.PI / 2} castShadow>
+        <Material {...props} type={map[props.type]} threeD disp />
+      </Plane>
+    </>
+  )
+}
+
 export default function App() {
+  const [seed, setSeed] = useState(Math.random())
+  const { scale, type, fbm } = useControls({
+    type: {
+      options: Object.keys(map),
+      value: Object.keys(map)[0],
+    },
+    scale: {
+      min: 0.1,
+      max: 10,
+      step: 0.01,
+      value: 3,
+    },
+    fbm: {
+      value: false,
+    },
+    randomize: button(() => {
+      setSeed(Math.random())
+    }),
+  })
+
   return (
     <Canvas shadows>
-      {/* <fog attach="fog" args={[0xffffff, 10, 90]} /> */}
+      <fog attach="fog" args={[0xffffff, 10, 90]} />
 
       <OrbitControls makeDefault />
-      <PerspectiveCamera position={[-5, 5, 5]} makeDefault />
+      <PerspectiveCamera position={[0, 7, 12]} makeDefault />
 
       <Lights />
       <Floor />
 
-      <TwoD />
-      <ThreeD />
+      <TwoD {...{ type, seed, scale, fbm }} />
+      <ThreeD {...{ type, seed, scale, fbm }} />
+      <Displacement {...{ type, seed, scale, fbm }} />
+
+      <Html transform scale={3} position={[0, 0, 2]} rotation-x={-Math.PI / 2}>
+        <p
+          style={{
+            fontFamily: 'monospace',
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
+        >
+          gln_{type.toLowerCase()}
+          {fbm ? '_fbm' : ''}
+        </p>
+      </Html>
+
+      <Stats />
     </Canvas>
   )
 }

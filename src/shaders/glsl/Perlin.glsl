@@ -15,7 +15,9 @@
 
 
 // Classic Perlin noise 2D
-float gln_perlin(vec2 P) {
+float gln_perlin(vec2 P, float seed) {
+  P += (_gln_permute(seed * 0.01) + _gln_permute(seed * 0.1)) * 10.;
+
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
   vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
   Pi = _gln_mod289(Pi); // To avoid truncation effects in permutation
@@ -53,8 +55,14 @@ float gln_perlin(vec2 P) {
   return gln_normalize(2.3 * n_xy);
 }
 
+float gln_perlin(vec2 P) {
+  return gln_perlin(P, 0.);
+}
+
 // Classic Perlin noise, periodic variant 2D
-float gln_perlin(vec2 P, vec2 rep) {
+float gln_perlin(vec2 P, vec2 rep, float seed) {
+  P += (_gln_permute(seed * 0.01) + _gln_permute(seed * 0.1)) * 10.;
+
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
   vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
   Pi = mod(Pi, rep.xyxy); // To create noise with explicit period
@@ -93,8 +101,14 @@ float gln_perlin(vec2 P, vec2 rep) {
   return gln_normalize(2.3 * n_xy);
 }
 
+float gln_perlin(vec2 P, vec2 rep) {
+  return gln_perlin(P, rep, 0.);
+}
+
 // Classic Perlin noise 3D
-float gln_perlin(vec3 P) {
+float gln_perlin(vec3 P, float seed) {
+  P += (_gln_permute(seed * 0.01) + _gln_permute(seed * 0.1)) * 10.;
+
   vec3 Pi0 = floor(P); // Integer part for indexing
   vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
   Pi0 = _gln_mod289(Pi0);
@@ -162,8 +176,14 @@ float gln_perlin(vec3 P) {
   return gln_normalize(2.2 * n_xyz);
 }
 
+float gln_perlin(vec3 P) {
+  return gln_perlin(P, 0.);
+}
+
 // Classic Perlin noise, periodic variant 3D
-float gln_perlin(vec3 P, vec3 rep) {
+float gln_perlin(vec3 P, vec3 rep, float seed) {
+  P += (_gln_permute(seed * 0.01) + _gln_permute(seed * 0.1)) * 10.;
+
   vec3 Pi0 = mod(floor(P), rep); // Integer part, modulo period
   vec3 Pi1 = mod(Pi0 + vec3(1.0), rep); // Integer part + 1, mod period
   Pi0 = _gln_mod289(Pi0);
@@ -229,4 +249,8 @@ float gln_perlin(vec3 P, vec3 rep) {
   vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
   float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
   return gln_normalize(2.2 * n_xyz);
+}
+
+float gln_perlin(vec3 P, vec3 rep) {
+  return gln_perlin(P, rep, 0.);
 }
