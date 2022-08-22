@@ -1,0 +1,32 @@
+{
+  "name": "gl-noise-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Faraz Shaikh <farazzshaikh@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "preconstruct": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "build": "preconstruct build",
+    "dev": "preconstruct dev && yarn workspace basic start",
+    "postinstall": "preconstruct dev && manypkg check",
+    "ci": "preconstruct validate && manypkg check && yarn build",
+    "release": "yarn ci && yarn changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.24.3",
+    "@manypkg/cli": "^0.19.1",
+    "@preconstruct/cli": "^2.1.5"
+  },
+  "stackblitz": {
+    "startCommand": "cd examples/waves && yarn start"
+  }
+}
