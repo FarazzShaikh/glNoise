@@ -5,5 +5,7 @@
     "basic": "0.0.1",
     "gl-noise": "1.6.1"
   },
-  "changesets": []
+  "changesets": [
+    "tough-sheep-cry"
+  ]
 }

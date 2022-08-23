@@ -1,7 +1,7 @@
 {
   "name": "gl-noise",
   "private": false,
-  "version": "1.6.1",
+  "version": "2.0.0-next.0",
   "description": "A collection of GLSL noise functions for use with WebGL with an easy to use API.",
   "main": "dist/gl-noise.cjs.js",
   "module": "dist/gl-noise.esm.js",

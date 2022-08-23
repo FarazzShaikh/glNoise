@@ -8,7 +8,7 @@
     "@react-three/drei": "9.17.3",
     "@react-three/fiber": "8.2.1",
     "@react-three/postprocessing": "^2.3.2",
-    "gl-noise": "^1.6.1",
+    "gl-noise": "^2.0.0-next.0",
     "leva": "^0.9.27",
     "postprocessing": "^6.27.0",
     "r3f-perf": "^6.4.2",

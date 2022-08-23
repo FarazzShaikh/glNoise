@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-next.0
+
+### Major Changes
+
+- 8328945: Library rewrite
+
 ## 5.0.0-next.0
 
 ### Major Changes
