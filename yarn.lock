@@ -4188,6 +4188,13 @@ cosmiconfig@^7, cosmiconfig@^7.0.0, cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+craco-raw-loader@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/craco-raw-loader/-/craco-raw-loader-1.0.2.tgz#7b60861262ca9b34c08787199d42737da6df6b6e"
+  integrity sha512-ZIJO2K+/EiiYJA0RUQKPIPOMi3ZSwNKWGhKCePJqYZa4Rfh8tf0E6isHITJFRTnpzHDrcI7S0U/pem/GRkyPQw==
+  dependencies:
+    raw-loader "^4.0.2"
+
 create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
@@ -9180,6 +9187,14 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+raw-loader@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-4.0.2.tgz#1aac6b7d1ad1501e66efdac1522c73e59a584eb6"
+  integrity sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
+
 rc@1.2.8, rc@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
@@ -10780,6 +10795,13 @@ ts-node@^10.7.0:
     make-error "^1.1.1"
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
+
+ts-shader-loader@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ts-shader-loader/-/ts-shader-loader-2.0.1.tgz#075ab16435e97a0302bb2b36eb1c74ec1eccc563"
+  integrity sha512-nCXbIxxada8p8XrunZnkfQgA5n1EuVRW/0C4lIGjDMo7kkYoLjjaf6I8I4+ZpneOi1oSVaXvJmDuv/7nfheB3w==
+  dependencies:
+    loader-utils "^3.2.0"
 
 tsconfig-paths@^3.14.1:
   version "3.14.1"

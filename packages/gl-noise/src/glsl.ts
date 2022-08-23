@@ -4,9 +4,7 @@ import simplexShader from './shaders/glsl/Simplex.glsl'
 import cellShader from './shaders/glsl/Cell.glsl'
 import waveShader from './shaders/glsl/Wave.glsl'
 import PSRDShader from './shaders/glsl/PSRD.glsl'
-// @ts-ignore
-// removing .ts extension crashes the build
-import FBM from './shaders/glsl/FBM.ts'
+import FBM from './shaders/glsl/FBM'
 
 export const Common = commonShader
 export const Perlin = perlinShader + FBM('perlin')

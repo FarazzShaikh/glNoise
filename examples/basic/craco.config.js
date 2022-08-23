@@ -1,5 +1,3 @@
-const path = require('path')
-
 module.exports = {
   webpack: {
     configure: webpackConfig => {
@@ -12,6 +10,11 @@ module.exports = {
           transpileOnly: true,
           configFile: 'tsconfig.json',
         },
+      })
+
+      webpackConfig.module.rules.push({
+        test: /\.glsl$/,
+        type: 'asset/source',
       })
 
       return webpackConfig

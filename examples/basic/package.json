@@ -43,5 +43,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "craco-raw-loader": "^1.0.2",
+    "raw-loader": "^4.0.2",
+    "ts-shader-loader": "^2.0.1"
   }
 }

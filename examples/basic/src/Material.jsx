@@ -1,4 +1,4 @@
-import { gln } from 'gl-noise'
+import { gln } from 'gl-noise/glsl'
 import { useEffect, useMemo } from 'react'
 import { DoubleSide, MeshDepthMaterial, MeshPhysicalMaterial, RGBADepthPacking, ShadowMaterial } from 'three'
 import CustomShaderMaterial from 'three-custom-shader-material'

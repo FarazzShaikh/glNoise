@@ -8,13 +8,14 @@
   "types": "dist/gl-noise.cjs.d.ts",
   "files": [
     "dist/**",
+    "glsl/**",
     "README.md",
     "CHANGELOG.md",
     "LICENSE.md"
   ],
   "preconstruct": {
     "entrypoints": [
-      "index.ts"
+      "glsl.ts"
     ]
   },
   "repository": {
