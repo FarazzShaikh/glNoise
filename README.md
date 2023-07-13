@@ -20,6 +20,9 @@
   </p>
 </p>
 
+> NOTE: gl-noise is being rebuilt. The current API sucks but it does work. Keep and eye out for the new release. You can support [my sponsors page](https://github.com/sponsors/FarazzShaikh) to accelerate its progress.
+
+<br />
 
 <details open>
   <summary>Table of Contents</summary>
