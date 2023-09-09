@@ -21,6 +21,7 @@
 </p>
 
 > NOTE: gl-noise is being rebuilt. The current API sucks but it does work. Keep and eye out for the new release. You can support [my sponsors page](https://github.com/sponsors/FarazzShaikh) to accelerate its progress.
+> For now, please import from `gl-noise/build/glNoise.m` on browsers
 
 <br />
 
