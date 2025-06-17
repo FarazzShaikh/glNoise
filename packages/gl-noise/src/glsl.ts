@@ -1,10 +1,10 @@
-import commonShader from './shaders/glsl/Common.glsl'
-import perlinShader from './shaders/glsl/Perlin.glsl'
-import simplexShader from './shaders/glsl/Simplex.glsl'
-import cellShader from './shaders/glsl/Cell.glsl'
-import waveShader from './shaders/glsl/Wave.glsl'
-import PSRDShader from './shaders/glsl/PSRD.glsl'
-import FBM from './shaders/glsl/FBM'
+import commonShader from './glsl/Common.glsl'
+import perlinShader from './glsl/Perlin.glsl'
+import simplexShader from './glsl/Simplex.glsl'
+import cellShader from './glsl/Cell.glsl'
+import waveShader from './glsl/Wave.glsl'
+import PSRDShader from './glsl/PSRD.glsl'
+import FBM from './glsl/FBM'
 
 export const Common = commonShader
 export const Perlin = perlinShader + FBM('perlin')

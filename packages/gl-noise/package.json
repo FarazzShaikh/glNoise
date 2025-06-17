@@ -9,13 +9,15 @@
   "files": [
     "dist/**",
     "glsl/**",
+    "vanilla/**",
     "README.md",
     "CHANGELOG.md",
     "LICENSE.md"
   ],
   "preconstruct": {
     "entrypoints": [
-      "glsl.ts"
+      "glsl.ts",
+      "vanilla.ts"
     ]
   },
   "repository": {
@@ -54,5 +56,8 @@
   },
   "peerDependencies": {
     "three": ">=0.140"
+  },
+  "dependencies": {
+    "alea": "^1.0.1"
   }
 }
